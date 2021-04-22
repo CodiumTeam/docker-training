@@ -11,13 +11,9 @@
 - `run-command.sh`
   - Example showing the Python version inside a Python container.
 
-### Exercise 1: run command
+### Exercise 1: basic commands
 
-- `docker run python python --version`
-- `docker run -it ubuntu`
-- `docker run -it python`
-- `docker run --name my-mongo -d mongo`
-  - It will run a _mongo_ container _detached_.
+See file ./exercise-1-basic-commands.md
 
 ### Exercise 2: ps command
 
@@ -68,6 +64,7 @@ TBD
 ### Exercise N: volumes
 
 - Ejemplo de Raúl o preparar uno (visibilidad de cambios desde fuera)
+- Ejemplo que había antes: `docker run -v ${PWD}:/home/vicomtech -w /home/vicomtech python python hello.py`
 
 ### Exercise N: check containers are ephemeral
 
