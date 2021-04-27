@@ -6,3 +6,9 @@ Practice time:
 2. Plantear un objetivo:
    - montar un X
    - o que cambien cosas del primero: e.g. puerto, versión de la imagen, etc.
+
+
+
+docker network ls
+
+ docker-compose down -v
