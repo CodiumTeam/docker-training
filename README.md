@@ -7,6 +7,7 @@
 - [Exercise 3: ports, envs and volumes](exercise-3-ports-envs-volumes.md)
 - [Exercise 4: Docker Compose](exercise-4-docker-compose.md)
 - [Exercise N: clean up the system](exercise-n-clean-up.md)
+- [Exercise N: build your own image](exercise-n-dockerfile.md)
 
 ## Interesting resources
 

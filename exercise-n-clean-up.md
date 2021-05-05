@@ -5,3 +5,6 @@
 - `docker volume prune`
 - `docker network prune`
 - `docker system prune -a`
+
+- Stop and remove all containers, networks, images, and volumes:
+  docker-compose down --rmi all --volumes
