@@ -1,17 +1,59 @@
-# TBD
+# Exercise 2 Basic commands
 
-docker run -it ubuntu bash
+```bash
+docker run -d --name my-mongo mongo
 
-docker run -it python python --version
+docker ps
 
-- `hello-world.sh`
-  - Read the message shown
-  - https://hub.docker.com/_/hello-world
-- `interactive-ubuntu.sh`
-  - https://hub.docker.com/_/ubuntu
-  - See how the processes seen inside the container differ from the host.
-- `run-command.sh`
-  - Example showing the Python version inside a Python container.
+docker logs my-mongo
+
+docker run -d --name another-mongo mongo
+
+docker ps
+
+docker stop another-mongo
+
+docker ps
+
+docker ps -a
+
+docker start another-mongo
+
+docker ps -q 
+
+docker ps -q | xargs docker stop
+
+docker ps -a
+
+docker ps -q | xargs docker rm
+```
+
+### Running a commands inside the container
+
+A container is designed to execute a single binary. It is possible to change the command that will get executed by passing parameters to the run docker command.
+
+```bash
+docker run --rm alpine pwd
+docker run --rm alpine pwd; ls
+docker run --rm alpine sh -c 'pwd; ls'
+```
+
+
+```bash
+docker run -d --rm --name mg mongo
+docker exec mg mongo --help
+docker exec mg mongo --eval 'db.getCollectionNames()'
+docker exec mg mongo --eval 'db.users.insertOne({name: "jonas"})'
+docker exec mg mongo --eval 'db.getCollectionNames()'
+docker exec mg mongo --eval 'db.users.count()'
+docker exec mg mongo --eval 'db.users.find()'
+docker exec mg -ti mongo
+   db.users.find()
+   exit
+docker logs -n 3 mg
+docker stop mg
+```
+
 
 ### Exercise 2: ps command
 
