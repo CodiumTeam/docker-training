@@ -17,6 +17,6 @@
 
 ## More simple examples that you can try
 
-- Run a Python container and show the Python version: `docker run python python --version`
+- Run a Python container and show the Python version: `docker run python:alpine python --version`
 - Run an Ubuntu container and list the directory contents: `docker run ubuntu ls`
-- Run a REPL for Python (latest version): `docker run -it python`
+- Run a REPL for Python (latest version): `docker run -it python:alpine`
