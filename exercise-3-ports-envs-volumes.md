@@ -1,7 +1,15 @@
 # Exercise 3: ports, volumes and environment variables
 
 ```bash
+docker run --rm alpine ls /codium
+docker run --rm -v ${PWD}:/codium alpine ls /codium
+```
+
+```bash
 docker run --rm -d -P nginx
+docker ps
+
+docker run --rm -d -p 8888:80 nginx
 docker ps
 ```
 
@@ -28,11 +36,16 @@ docker run --rm -e POSTGRESS_PASSWORD postgres
 
 ```bash
 cd ./exercise-3
-docker run --rm -p 8888:8080 -e NGINX_PORT=8080 -v ${PWD}/conf:/etc/nginx/templates nginx
+docker run --rm -p 8888:8080 -e NGINX_PORT=8080 -v ${PWD}/index.html:/usr/share/nginx/html/index.html -v ${PWD}/conf:/etc/nginx/templates nginx
 ```
 
 Verify the nginx server is up and running on http://localhost:8888/
 
-## Working directory
+## Bonus track
 
-- Ejemplo que había antes: `docker run -v ${PWD}:/home/vicomtech -w /home/vicomtech python python hello.py`
+- Ejemplo que había antes: `docker run -v ${PWD}:/home/codium -w /home/codium python python hello.py`
+
+docker run -v ${PWD}:/home/codium python python /hello.py
+
+si tienen un script suyo con Python, que prueben a ejecutarlo con un contenedor de Python
+TODO: pensar en algún bonus track adicional

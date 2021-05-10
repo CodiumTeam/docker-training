@@ -7,15 +7,13 @@ A container is designed to execute a single binary. It is possible to change the
 - Return the working directory inside an alpine container.
 
   ```bash
-  docker run --rm alpine pwd
+  docker run alpine pwd
   ```
-
-  Because of the flag `--rm`, the container will be removed after running the desired command (you won't see it with `docker ps -a`).
 
 - Try to run several commands inside the container (it will fail):
 
   ```bash
-  docker run --rm alpine pwd; ls
+  docker run alpine pwd; ls
   ```
 
   The reason why it fails is that Docker only takes as a command what you wrote up to the semicolon. The `ls` will be a command in your own local machine, it is not passed to the alpine container.
@@ -23,65 +21,80 @@ A container is designed to execute a single binary. It is possible to change the
 - In order to run several commands in a container, you can pass them after `sh -c` (it's a common way of running a command with `sh`, very popular in Docker containers).
 
   ```bash
-  docker run --rm alpine sh -c 'pwd; ls'
+  docker run alpine sh -c 'pwd; ls'
   ```
 
-## Exercise 2.2: practice with run, logs, ps, start and stop
+## Exercise 2.2: check containers are ephemeral
 
-1. Create a MongoDB container in detached mode, with name `my-mongo`:
+The filesystem inside a container is ephemeral.
+
+1. Run a new container and put it to sleep (we just want it to exist for a while)
    ```bash
-   docker run -d --name my-mongo mongo
+   docker run --rm alpine sh -c 'touch hola.txt && ls'
    ```
-2. Show the running container. Remark the info shown.
+2. Check that the container appears with the right name and command being executed
    ```bash
-   docker ps
+   docker run --rm alpine sh -c 'ls'
    ```
-3. Show the logs generated for the running Mongo container
-   ```bash
-   docker logs my-mongo
-   ```
-4. Run another Mongo container with a different name
-   ```bash
-   docker run -d --name another-mongo mongo
-   ```
-5. Now you should see both Mongo containers running
-   ```bash
-   docker ps
-   ```
-6. Stop the container which name is `another-mongo`
-   ```bash
-   docker stop another-mongo
-   ```
-7. Now you should see only one Mongo container running
+
+## Exercise 2.3: practice with run, logs, ps
+
+TODO: Los contenedores a veces pueden pararse por algún fallo. En este ejercicio simularemos el fallo con el stop para a continuación blablabla.
+
+1. Vemos que no hay nada
    ```bash
    docker ps
    ```
-8. But you see also the stopped container when showing all the existing ones (not only those which ar running)
+2. Vemos que aparecen los contenedores ejecutados antes blablab
    ```bash
    docker ps -a
    ```
-9. You can start again the previously stopped container
+   Fijarse en que tienen un nombre aleatorio
+3. Borrar uno solo (seleccionar el nombre blabla)
    ```bash
-   docker start another-mongo
+   docker rm [container-name]
    ```
-10. Show only the container ids (`quite` mode)
+   Como alternativa, podríamos haber arrancado el contenedor con the flag `--rm`, the container will be removed after running the desired command (you won't see it with `docker ps -a`).
+4. Create a MongoDB container in detached mode, with name `my-mongo`:
+   ```bash
+   docker run -d --name my-mongo mongo
+   ```
+5. Show the running container. Remark the info shown.
+   ```bash
+   docker ps
+   ```
+6. Show the logs generated for the running Mongo container
+   ```bash
+   docker logs my-mongo
+   ```
+7. xxxx
+   ```bash
+   docker run --name my-hello-world -d hello-world
+   ```
+8. Now you should see both Mongo containers running
+   ```bash
+   docker logs my-hello-world
+   ```
+9. Show only the container ids (`quiet` mode)
+   ```bash
+   docker ps -aq
+   ```
+10. Finally, you can delete all the existing containers, no matter their status
     ```bash
-    docker ps -q
+    docker ps -aq | xargs docker rm -f
     ```
-11. Stop all the running containers
+    Windows version:
     ```bash
-    docker ps -q | xargs docker stop
+    docker ps -aq | % {docker rm -f $_}
     ```
-12. Check that both Mongo containers appear as stopped (Status `exited` with exit code `0`)
+11. Mostrar que ha borrado todos, no queda nada
     ```bash
     docker ps -a
     ```
-13. Finally, you can delete all the existing containers, no matter their status
-    ```bash
-    docker ps -q | xargs docker rm
-    ```
 
-## Exercise 2.3: Run commands in an already running container
+## Exercise 2.4: Run commands in an already running container
+
+TODO: poner en contexto el ejercicio. Vamos a arrancar un contenedor de una base de datos Mongo en segundo plano e interactuaremos usando su CLI, que es el binario "mongo".
 
 1. Run a new Mongo container in detached mode
    ```bash
@@ -91,91 +104,34 @@ A container is designed to execute a single binary. It is possible to change the
    ```bash
    docker exec my-mongo mongo --help
    ```
-3. Show which Mongo collections exist (it should show none)
-   ```bash
-   docker exec my-mongo mongo --eval 'db.getCollectionNames()'
-   ```
-4. Insert a new document inside a new `users` collection
+3. Insert a new document inside a new `users` collection
    ```bash
    docker exec my-mongo mongo --eval 'db.users.insertOne({name: "jonas"})'
    ```
-5. Check the collection that you just created
-   ```bash
-   docker exec my-mongo mongo --eval 'db.getCollectionNames()'
-   ```
-6. Check the number of documents contained in that collection
-   ```bash
-   docker exec my-mongo mongo --eval 'db.users.count()'
-   ```
-7. Show all the existing documents inside the `users` collection
+4. Show all the existing documents inside the `users` collection
    ```bash
    docker exec my-mongo mongo --eval 'db.users.find()'
    ```
-8. Connect to the Mongo container in an interactive way
+5. Connect to the Mongo container in an interactive way
    ```bash
    docker exec -ti my-mongo mongo
    ```
-   8.1. Inside the container, show all the existing documents
+   5.1. Inside the container, show all the existing documents
    ```bash
    db.users.find()
    ```
-   8.2. Exit the container
+   5.2. Exit the container
    ```bash
    exit
    ```
-9. Show the last 3 logs generated by the Mongo container
+6. Show the last 3 logs generated by the Mongo container
    ```bash
    docker logs -n 3 my-mongo
    ```
-10. Stop the running container
-    ```bash
-    docker stop my-mongo
-    ```
-
-## Exercise 2.4: check containers are ephemeral
-
-The filesystem inside a container is ephemeral.
-
-1. Run a new container and put it to sleep (we just want it to exist for a while)
+7. Stop the running container
    ```bash
-   docker run -d --name long-running alpine sleep 1000
+   docker stop my-mongo
    ```
-2. Check that the container appears with the right name and command being executed
-   ```bash
-   docker ps
-   ```
-3. Create a file inside the running container
-   ```bash
-   docker exec long-running touch foobar
-   ```
-4. Check that the file was correctly created
-   ```bash
-   docker exec long-running ls foobar
-   ```
-5. Stop the container
-   ```bash
-   docker stop long-running
-   ```
-6. Start again the container
-   ```bash
-   docker start long-running
-   ```
-7. Since we are running the same container, we should still see the created file
-   ```bash
-   docker exec long-running ls foobar
-   ```
-8. Force the removal of the container (it stops it immediately, without grace period)
-   ```bash
-   docker rm -f long-running
-   ```
-9. Create a new container exactly the same way than before
-   ```bash
-   docker run -d --name long-running alpine sleep 1000
-   ```
-10. Check that the file does not exist in this new container
-    ```bash
-    docker exec long-running ls foobar
-    ```
 
 ## Bonus track
 
