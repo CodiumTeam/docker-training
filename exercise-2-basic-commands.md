@@ -132,22 +132,50 @@ A container is designed to execute a single binary. It is possible to change the
     docker stop my-mongo
     ```
 
-## Exercise N: check containers are ephemeral
+## Exercise 2.4: check containers are ephemeral
 
 The filesystem inside a container is ephemeral.
 
-```bash
-docker run -d --name long-running alpine sleep 1000
-docker ps
-docker exec long-running touch foobar
-docker exec long-running ls foobar
-docker stop long-running
-docker start long-running
-docker exec long-running ls foobar
-docker kill long-running
-docker run -d --name long-running alpine sleep 1000
-docker exec long-running ls foobar
-```
+1. Run a new container and put it to sleep (we just want it to exist for a while)
+   ```bash
+   docker run -d --name long-running alpine sleep 1000
+   ```
+2. Check that the container appears with the right name and command being executed
+   ```bash
+   docker ps
+   ```
+3. Create a file inside the running container
+   ```bash
+   docker exec long-running touch foobar
+   ```
+4. Check that the file was correctly created
+   ```bash
+   docker exec long-running ls foobar
+   ```
+5. Stop the container
+   ```bash
+   docker stop long-running
+   ```
+6. Start again the container
+   ```bash
+   docker start long-running
+   ```
+7. Since we are running the same container, we should still see the created file
+   ```bash
+   docker exec long-running ls foobar
+   ```
+8. Force the removal of the container (it stops it immediately, without grace period)
+   ```bash
+   docker rm -f long-running
+   ```
+9. Create a new container exactly the same way than before
+   ```bash
+   docker run -d --name long-running alpine sleep 1000
+   ```
+10. Check that the file does not exist in this new container
+    ```bash
+    docker exec long-running ls foobar
+    ```
 
 ## Bonus track
 
