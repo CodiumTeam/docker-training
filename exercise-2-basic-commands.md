@@ -1,4 +1,4 @@
-# Exercise 2 Basic commands
+# Exercise 2: Basic commands
 
 ```bash
 docker run -d --name my-mongo mongo
@@ -19,7 +19,7 @@ docker ps -a
 
 docker start another-mongo
 
-docker ps -q 
+docker ps -q
 
 docker ps -q | xargs docker stop
 
@@ -38,7 +38,6 @@ docker run --rm alpine pwd; ls
 docker run --rm alpine sh -c 'pwd; ls'
 ```
 
-
 ```bash
 docker run -d --rm --name mg mongo
 docker exec mg mongo --help
@@ -53,7 +52,6 @@ docker exec mg -ti mongo
 docker logs -n 3 mg
 docker stop mg
 ```
-
 
 ### Exercise 2: ps command
 
