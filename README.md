@@ -34,6 +34,11 @@ You need Docker and Docker Compose. For that, you have several options:
 
 ## Interesting resources
 
+### General
+
+- https://github.com/GoogleContainerTools/distroless
+- https://github.com/docker/awesome-compose
+
 ### Docker Compose
 
 - https://github.com/docker/awesome-compose
@@ -46,4 +51,11 @@ You need Docker and Docker Compose. For that, you have several options:
 
 ### Best practices
 
-- TBD
+- https://docs.docker.com/develop/develop-images/dockerfile_best-practices/
+- https://yodralopez.dev/docker-cheatsheet-v2.pdf
+- https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html
+
+### Other interesting learning resources
+
+- [KataCoda](https://www.katacoda.com/?q=docker&hPP=12&idx=scenarios&p=0&is_v=1)
+- https://training.play-with-docker.com/
