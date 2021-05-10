@@ -1,20 +1,5 @@
 # Exercise 3: ports, volumes and environment variables
 
-The filesystem inside a container is ephemeral.
-
-```bash
-docker run -d --name long-running alpine sleep 1000
-docker ps
-docker exec long-running touch foobar
-docker exec long-running ls foobar
-docker stop long-running
-docker start long-running
-docker exec long-running ls foobar
-docker kill long-running
-docker run -d --name long-running alpine sleep 1000
-docker exec long-running ls foobar
-```
-
 ```bash
 docker run --rm -d -P nginx
 docker ps
