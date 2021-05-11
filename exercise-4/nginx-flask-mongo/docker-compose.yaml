@@ -18,7 +18,8 @@ services:
     volumes:
       - ./flask:/src
     depends_on:
-      - mongo
+      - my-mongo
 
-  mongo:
+  my-mongo:
     image: mongo
+    container_name: my-mongo
