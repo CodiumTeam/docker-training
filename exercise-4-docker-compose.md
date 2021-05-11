@@ -20,18 +20,52 @@
 - Access the URL http://localhost:80 and check that it works (you should see xxx)
 - `docker-compose logs`
 
-## Create your own docker-compose.yml to run a single service
+##  Create your own docker-compose.yml to run two docker services
 
-- The goal of this exercise is to convert the `docker run` for nginx that we used in the [exercise-3](./exercise-3-ports-envs-volumes.md) to a simple docker-compose.
-- Important: we usually use docker-compose.yml for defining more complex scenarios, usually with 2 or more services (not just one like this example). This exercise with a single service docker-compose.yml is intended for pedagogical goals. La sintaxis es más beneficiosa que xxx
-- Please, transform the next docker run into a docker-compose.yml and verify that it works as expected:
-  ```bash
-  docker run --rm -p 8888:8080 -e NGINX_PORT=8080 -v ${PWD}/index.html:/usr/share/nginx/html/index.html -v ${PWD}/conf:/etc/nginx/templates nginx
-  ```
+The goal of this exercise is to define a`docker-compose.yml` that would allow us to run a copy of wordpress using mysql database to persist the data.
 
-## Transform two complex docker run into a docker-compose.yml
+### Add wordpress service
+1. Let's start by create a `docker-compose.yml` file which defines a single service for wordpress. You can use the official image `wordpress:5.7.1-apache`. By default this image runs wordpress in port 80, expose it to a local port in your machine so you can browse to it with your own browser.
 
-The goal of this exercise is to first run two dependent services using `docker run` and then transform it to a `docker-compose.yml` containing the definition of both services.
+2. You can verify the syntax of your docker-compose by running `docker-compose config`. If all is well, it should output a copy of your docker-compose.
+3. You can then use `docker-compose run -d` to start up the service. You should be able to open wordpress in your browser.
+
+### Add database service
+1. Next add another service named `db` to run MySQL - again, use the official image mysql:8.0.19. You don't need to expose any ports in this case.
+2. Execute again `docker-compose up -d` to start up this new service. Notice that as you have not modified the wordpress service, it has not been recreated.
+3. Verify that MySQL is running by running `docker-compose ps`. You will see that the `db` service has exited. In order to find out why, execute `docker-compose logs db`. You should see that MySQL tried to start up but it requires some environment variables defining some initial configuration like the Admin password. Add the following variable to the docker compose:
+  - MYSQL_ROOT_PASSWORD=someDifficultPassword 
+  
+4. Try to bring the service back up again. 
+5. Inspect the logs and verify that mysql is running successfully
+
+### Link the two services
+1. Lets define a user and an initial database for wordpress. You do this by creating extra environment variables in the `db` service:
+  - MYSQL_DATABASE=wordpress_db
+  - MYSQL_USER=wordpress_user
+  - MYSQL_PASSWORD=wordpress_password
+
+2. You need to configure wordpress to leverage the `db` service to persist information. This is done by defining the following variables which tell wordpress how to connect to the database:
+  - WORDPRESS_DB_HOST=db 
+  - WORDPRESS_DB_USER=wordpress_user
+  - WORDPRESS_DB_PASSWORD=wordpress_password
+  - WORDPRESS_DB_NAME=wordpress_db
+
+Notice how we use the name of the database service as defined in the docker-compose file to indicate the host name of the database to the wordpress service.
+
+3. Finally, you should add `depends_on` as an extra key to the `wordpress` service to express the dependency, since `wordpress` now requires the `db` service to function correctly.
+4. Invoke `docker-compose run -d` again and verify that it is still displayed in your browser.
+
+### Add persistence to avoid losing data
+xxxx
+
+```
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+db_data:
+```
 
 - Create a volume (it will be used by the database for persisting the data)
   ```bash
@@ -47,7 +81,8 @@ The goal of this exercise is to first run two dependent services using `docker r
   ```
 - Run a Wordpress server using the previous database
   ```bash
-  docker run -d -p 80:80 --network wp-app-network -e NGINX_PORT=8080 -e WORDPRESS_DB_HOST=db -e WORDPRESS_DB_USER=wordpress -e WORDPRESS_DB_PASSWORD=wordpress -e WORDPRESS_DB_NAME=wordpress wordpress
+  docker run -d -p 80:80 --network wp-app-network -e NGINX_PORT=8080 -e WORDPRESS_DB_HOST=db -e WORDPRESS_DB_USER=wordpress -e WORDPRESS_DB_PASSWORD=wordpress -e 
+   wordpress
   ```
 - Access http://localhost:80 and check that it works.
 - Now the fun part: transform the previous docker commands into a `docker-compose.yml` containing all the required configuration.
@@ -64,6 +99,16 @@ The goal of this exercise is to first run two dependent services using `docker r
 - Change several things in the exercises and see its impact, e.g.:
   - Change the port numbers for the host
   - Change Python code
+
+### Create your own docker-compose.yml to run a single service
+
+- The goal of this exercise is to convert the `docker run` for nginx that we used in the [exercise-3](exercise-3-ports-envs-volumes.md) to a simple docker-compose.
+- Important: we usually use docker-compose.yml for defining more complex scenarios, usually with 2 or more services (not just one like this example). This exercise with a single service docker-compose.yml is intended for pedagogical goals. La sintaxis es más beneficiosa que xxx
+- Please, transform the next docker run into a docker-compose.yml and verify that it works as expected:
+  ```bash
+  docker run --rm -p 8888:8080 -e NGINX_PORT=8080 -v ${PWD}/index.html:/usr/share/nginx/html/index.html -v ${PWD}/conf:/etc/nginx/templates nginx
+  ```
+
 
 ## Resources
 
