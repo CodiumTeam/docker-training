@@ -15,13 +15,12 @@ You need Docker and Docker Compose. For that, you have several options:
    - Click on "Start"
    - Click on "Add new instance" (the instance will be alive for 4 hours)
    - There you can write any Docker or Docker Compose command as you would do it from you local machine.
-   - You can upload any file or folder from your local machine to your playground instance:
+   - We would recommend you to upload this repository to you playground instance:
+     - From the playground instance terminal: `wget https://github.com/CodiumTeam/docker-training/archive/refs/heads/master.zip && unzip master.zip`
+     - The previous command creates a folder named `docker-training-master` that contains all the resources of this repository.
+   - In case you need it, you can upload any file or folder from your local machine to your playground instance:
      - To copy a file: `scp [your-filename] [your-instance-id]@direct.labs.play-with-docker.com:/root`
      - To copy a folder recursively: `scp -r [your-folder] [your-instance-id]@direct.labs.play-with-docker.com:/root`
-   - We would recommend you to upload this repository to you playground instance as a zip file and then unzip it:
-     - On the GitHub website (https://github.com/CodiumTeam/docker-training), click on the green "Code" button and then click on "Download ZIP"
-     - `scp docker-training-master.zip [your-instance-id]@direct.labs.play-with-docker.com:/root`
-     - From the playground instance: `unzip docker-training-master.zip`
 
 ## Exercises
 
@@ -29,8 +28,11 @@ You need Docker and Docker Compose. For that, you have several options:
 - [Exercise 2: basic commands](exercise-2-basic-commands.md)
 - [Exercise 3: ports, envs and volumes](exercise-3-ports-envs-volumes.md)
 - [Exercise 4: Docker Compose](exercise-4-docker-compose.md)
-- [Exercise N: clean up the system](exercise-n-clean-up.md)
-- [Exercise N: build your own image](exercise-n-dockerfile.md)
+- [Exercise 5: build your own image](exercise-5-dockerfile.md)
+- [Exercise 6: multistage build](exercise-6-multistage.md)
+- [Exercise 7: publish your own image](exercise-7-publish-image.md)
+- [Exercise 8: clean up the system](exercise-8-clean-up.md)
+- [Exercise 9: troubleshooting](exercise-9-troubleshooting.md)
 
 ## Interesting resources
 
