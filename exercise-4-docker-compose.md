@@ -4,7 +4,10 @@
 
 - The goal of this exercise is to xxx
 - Go to the folder `exercise-4` move into the folder `nginx-flask-mongo`
-- There, run `docker-compose up`
+- xxxxx
+  ```bash
+  docker-compose up
+  ```
 - In a different terminal, check that two services are up and running:
   ```bash
   docker ps
@@ -12,14 +15,10 @@
 - Access the URL http://localhost:80 and check that it works (you should see xxx)
 - xxx
 
-```bash
-docker exec my-mongo mongo --eval 'db.users.insertOne({name: "mary"})'
-```
-
 ## Convert a docker run to a single-service docker-compose.yml
 
 - The goal of this exercise is to convert the `docker run` for nginx that we used in the [exercise-3](./exercise-3-ports-envs-volumes.md) to a simple docker-compose.
-- Important: we usually use docker-compose.yml for definining more complex scenarios, usually with 2 or more services (not just one like this example). This exercise with a single service docker-compose.yml is intended for pedagogycal goals.
+- Important: we usually use docker-compose.yml for definining more complex scenarios, usually with 2 or more services (not just one like this example). This exercise with a single service docker-compose.yml is intended for pedagogical goals. La sintaxis es más beneficiosa que xxx
 - Please, transform the next docker run into a docker-compose.yml and verify that it works as expected:
   ```bash
   docker run --rm -p 8888:8080 -e NGINX_PORT=8080 -v ${PWD}/index.html:/usr/share/nginx/html/index.html -v ${PWD}/conf:/etc/nginx/templates nginx
@@ -46,7 +45,10 @@ The goal of this exercise is to first run two dependent services using `docker r
   docker run -d -p 80:80 --network wp-app-network -e NGINX_PORT=8080 -e WORDPRESS_DB_HOST=db -e WORDPRESS_DB_USER=wordpress -e WORDPRESS_DB_PASSWORD=wordpress -e WORDPRESS_DB_NAME=wordpress wordpress
   ```
 - Access http://localhost:80 and check that it works.
-- Now the funny part: transform the previous docker commands into a `docker-compose.yml` containing all the required configuration.
+- Now the fun part: transform the previous docker commands into a `docker-compose.yml` containing all the required configuration.
+  - Hints:
+    - Each container should be a separate service.
+    - You don't need to create a network. Since they both are in the same xxxx
 
 ## Bonus track
 

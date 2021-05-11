@@ -43,9 +43,24 @@ Verify the nginx server is up and running and showing our index.html on http://l
 
 ## Bonus track
 
-- Ejemplo que había antes: `docker run -v ${PWD}:/home/codium -w /home/codium python python hello.py`
+### Understand the working directory
 
-docker run -v ${PWD}:/home/codium python python /hello.py
+- From inside the folder `exercise-3`, try and run the next command:
+  ```bash
+  docker run -v ${PWD}:/home/codium python python hello.py
+  ```
+  What happened? Why didn't it work?
+- Now run:
+  ```bash
+  docker run -v ${PWD}:/home/codium python python /hello.py
+  ```
+  Why did it work?
+- Now let's run the python script from a specific folder:
+  ```bash
+  docker run -v ${PWD}:/home/codium -w /home/codium python python hello.py
+  ```
+  What is happening?
 
-si tienen un script suyo con Python, que prueben a ejecutarlo con un contenedor de Python
-TODO: pensar en algún bonus track adicional
+### Extra
+
+If you have any Python script, you can try and run it with Docker. - Did it work? In case it didn't, why?

@@ -2,23 +2,20 @@
 import os, logging
 
 from flask import Flask
-from pymongo import MongoClient
 
 app = Flask(__name__)
 
 logging.basicConfig(level=logging.DEBUG)
 
-client = MongoClient("my-mongo:27017")
 
 @app.route('/')
 def todo():
     try:
         app.logger.info('Processing request...')
-        client.admin.command('ismaster')
     except Exception as ex:
         app.logger.error(ex)
         return "Server not available"
-    return "Hello from the MongoDB client!\n"
+    return "Hello from your brand new container!\n"
 
 
 if __name__ == "__main__":

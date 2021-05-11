@@ -1,4 +1,4 @@
-# Hello world
+# Basic commands
 
 ## Example 1: run an ephemeral container
 
@@ -15,7 +15,7 @@
    - It run a new Mongo server (you can see the logs in the standard output)
 1. You can stop it just with Control+C
 
-## More simple examples that you can try
+## Bonus track
 
 - Run a Python container and show the Python version: `docker run python:alpine python --version`
 - Run an Ubuntu container and list the directory contents: `docker run ubuntu ls`
