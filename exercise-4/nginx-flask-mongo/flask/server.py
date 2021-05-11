@@ -25,7 +25,7 @@ def todo():
         one_user = test_collection.find_one()
         app.logger.info('One user: {}'.format(one_user))
         all_users = test_collection.find()
-        app.logger.info('All users: {}'.format(all_users))
+        app.logger.info('All users: {}'.format(list(all_users)))
 
         client.admin.command('ismaster')
     except Exception as ex:
