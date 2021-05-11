@@ -21,9 +21,20 @@ El objetivo es poder correr el programa con `docker run -d -p 9091:9091 my-pytho
 
 xxxx
 
+## Parámetros del docker run
+
+E.g. con FLASK_DEBUG o FLASK_ENV https://flask.palletsprojects.com/en/1.1.x/cli/
+
 ## Bonus track
 
 - Working directory.
+
+### ENTRYPOINT vs CMD
+
+- For better understanding the difference between ENTRYPOINT and CMD, you can build and run the image under the folder `entrypoint-cmd`:
+  - `docker build -t entrypoint-cmd-example .`
+  - `docker run entrypoint-cmd-example`
+  - Remark how CMD is the argument passed to the binary command defined as ENTRYPOINT
 
 ## Resources
 
