@@ -1,16 +1,19 @@
 #!/usr/bin/env python
-import os
+import os, logging
 
 from flask import Flask
 from pymongo import MongoClient
 
 app = Flask(__name__)
 
+logging.basicConfig(level=logging.DEBUG)
+
 client = MongoClient("mongo:27017")
 
 @app.route('/')
 def todo():
     try:
+        app.logger.info('Processing request...')
         client.admin.command('ismaster')
     except:
         return "Server not available"

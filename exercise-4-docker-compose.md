@@ -13,15 +13,14 @@ https://github.com/docker/awesome-compose/blob/master/nginx-flask-mongo/docker-c
 Poner los docker run independientes y pedir que generen un docker compose
 https://github.com/docker/awesome-compose/blob/master/wordpress-mysql/docker-compose.yaml
 
-https://docs.docker.com/compose/gettingstarted/
+-
 
-Practice time:
+## Bonus track
 
-1. Una de copy-paste: que hagan docker-compose up y miren (e.g. WP+DB)
-2. Plantear un objetivo:
-   - montar un X
-   - o que cambien cosas del primero: e.g. puerto, versión de la imagen, etc.
+- Cambiar configuraciones: versiones de la imagen, puertos, código Python, etc.
+- `docker network ls`
+- `docker-compose down -v`
 
-docker network ls
+## Resources
 
-docker-compose down -v
+- https://docs.docker.com/compose/gettingstarted/

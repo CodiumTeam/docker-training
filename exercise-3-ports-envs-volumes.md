@@ -39,7 +39,7 @@ cd ./exercise-3
 docker run --rm -p 8888:8080 -e NGINX_PORT=8080 -v ${PWD}/index.html:/usr/share/nginx/html/index.html -v ${PWD}/conf:/etc/nginx/templates nginx
 ```
 
-Verify the nginx server is up and running on http://localhost:8888/
+Verify the nginx server is up and running and showing our index.html on http://localhost:8888/
 
 ## Bonus track
 
