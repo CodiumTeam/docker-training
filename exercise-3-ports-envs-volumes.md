@@ -1,19 +1,38 @@
 # Exercise 3: ports, volumes and environment variables
 
-```bash
-docker run --rm alpine ls /codium
-docker run --rm -v ${PWD}:/codium alpine ls /codium
-```
+## Bind mount volume
 
-```bash
-docker run --rm -d -P nginx
-docker ps
+- Run the next command. Verify how it fails and think why:
+  ```bash
+  docker run --rm alpine ls /codium
+  ```
+- Now run it mapping a volume:
+  ```bash
+  docker run --rm -v ${PWD}:/codium alpine ls /codium
+  ```
+  What happened here?
 
-docker run --rm -d -p 8888:80 nginx
-docker ps
-```
+## TBD
 
-Open localhost:xxxx in browser
+- TBD
+  ```bash
+  docker run --rm -d -P nginx
+  ```
+- TBD
+  ```bash
+  docker ps
+  ```
+- TBD
+  ```bash
+  docker run --rm -d -p 8888:80 nginx
+  ```
+- TBD
+  ```bash
+  docker ps
+  ```
+- Finally, open http://localhost:8888 in the browser and check that it works
+
+## TBD
 
 ```bash
 cd ./exercise-3
