@@ -78,7 +78,7 @@ Most of the steps for this exercise are similar to the previous ones
 1. The rest of the exercise would be the same as the previous one, just changing `localhost:5000` with `[your-docker-hub-username]`
 1. You should be able to see your images published under https://hub.docker.com/
 
-### How to publish in GitLab
+## How to publish in GitLab
 
 Again, all the steps would be the same except the way to login, which might be something like:
 
