@@ -24,15 +24,15 @@ You need Docker and Docker Compose. For that, you have several options:
 
 ## Exercises
 
-- [Exercise 1: hello world](exercise-1-hello-world.md)
-- [Exercise 2: basic commands](exercise-2-basic-commands.md)
-- [Exercise 3: ports, envs and volumes](exercise-3-ports-envs-volumes.md)
-- [Exercise 4: Docker Compose](exercise-4-docker-compose.md)
-- [Exercise 5: build your own image](exercise-5-dockerfile.md)
-- [Exercise 6: multistage build](exercise-6-multistage.md)
-- [Exercise 7: publish your own image](exercise-7-publish-image.md)
-- [Exercise 8: clean up the system](exercise-8-clean-up.md)
-- [Exercise 9: troubleshooting](exercise-9-troubleshooting.md)
+- [Exercise 1: hello world](exercise-1)
+- [Exercise 2: basic commands](exercise-2)
+- [Exercise 3: ports, envs and volumes](exercise-3)
+- [Exercise 4: Docker Compose](exercise-4)
+- [Exercise 5: build your own image](exercise-5)
+- [Exercise 6: multistage build](exercise-6)
+- [Exercise 7: publish your own image](exercise-7)
+- [Exercise 8: clean up the system](exercise-8)
+- [Exercise 9: troubleshooting](exercise-9)
 
 ## Interesting resources
 
