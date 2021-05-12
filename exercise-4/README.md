@@ -125,7 +125,7 @@ services:
 ### Create your own docker-compose.yml to run a single service
 
 - The goal of this exercise is to convert the `docker run` for nginx that we used in the [exercise-3](exercise-3-ports-envs-volumes.md) to a simple docker-compose.
-- Important: we usually use docker-compose.yml for defining more complex scenarios, usually with 2 or more services (not just one like this example). This exercise with a single service docker-compose.yml is intended for pedagogical goals. La sintaxis es más beneficiosa que xxx
+- Important: we usually use docker-compose.yml for defining more complex scenarios, usually with 2 or more services (not just one like this example). This exercise with a single service docker-compose.yml is intended for pedagogical goals. Even for a single service, the clearer syntax of the docker-compose.yml would be beneficial. Another advantage is that the file could be committed to source control.
 - Please, transform the next docker run into a docker-compose.yml and verify that it works as expected:
   ```bash
   docker run --rm -p 8888:8080 -e NGINX_PORT=8080 -v ${PWD}/index.html:/usr/share/nginx/html/index.html -v ${PWD}/conf:/etc/nginx/templates nginx
