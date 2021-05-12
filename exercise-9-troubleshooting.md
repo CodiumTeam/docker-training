@@ -24,6 +24,7 @@ Try to practice these commands with any of the previous containers.
   ```bash
   docker logs [your-container-id-or-name]
   ```
+- Eventually you might see a `running out of disk space` error message. You could run `docker system df` to check what resources are taking space.
 
 ### Getting inside the container
 
