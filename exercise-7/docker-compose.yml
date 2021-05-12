@@ -1,0 +1,24 @@
+version: "3.7"
+services: 
+    registry:
+      image: registry:2
+      ports: 
+        - 5000:5000
+      volumes:
+        - registry_data:/var/lib/registry
+        - ./registry-config/credentials.yml:/etc/docker/registry/config.yml
+        - ./registry-config/htpasswd:/etc/docker/registry/htpasswd
+    ui:
+      image: joxit/docker-registry-ui:main
+      ports:
+        - 80:80
+      environment: 
+        - SINGLE_REGISTRY=true
+        - REGISTRY_URL=http://localhost:5000
+        - REGISTRY_TITLE=Local
+        - DELETE_IMAGES=true
+      depends_on: 
+        - registry
+
+volumes: 
+  registry_data:
