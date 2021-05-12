@@ -12,15 +12,15 @@ Try to practice these commands with any of the previous containers.
   ```bash
   docker image inspect my-alpine-cat:v1
   ```
-- TBD
+- Display a live stream of container(s) resource usage statistics
   ```bash
   docker stats
   ```
-- TBD
+- Display the running processes for the docker compose services
   ```bash
   docker-compose top
   ```
-- TBD
+- Fetch the logs of a container
   ```bash
   docker logs [your-container-id-or-name]
   ```
@@ -48,3 +48,6 @@ Try to practice these commands with any of the previous containers.
 
 - https://docs.docker.com/compose/reference/top/
 - https://docs.docker.com/engine/reference/commandline/inspect/
+- https://docs.docker.com/engine/reference/commandline/stats/
+- https://docs.docker.com/engine/reference/commandline/logs/
+- https://docs.docker.com/compose/reference/top/
