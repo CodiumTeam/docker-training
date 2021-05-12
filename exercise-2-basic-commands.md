@@ -26,75 +26,93 @@ A container is designed to execute a single binary. It is possible to change the
 
 ## Exercise 2.2: check containers are ephemeral
 
-The filesystem inside a container is ephemeral.
+The filesystem inside a container is ephemeral, any changes to the files are lost when the container exits and is removed.
 
-1. Run a new container and put it to sleep (we just want it to exist for a while)
+1. Let's try to create a new file inside a container. 
    ```bash
    docker run --rm alpine sh -c 'touch hola.txt && ls'
    ```
-2. Check that the container appears with the right name and command being executed
+   Remember that the container will terminate when the command exits, in this case after creating `hola.txt` and listing the files.
+
+1. Starting a new container based on the same image, notice that `hola.txt` is no longer there, as it disappeared when the previous container terminated.
    ```bash
    docker run --rm alpine sh -c 'ls'
    ```
 
 ## Exercise 2.3: practice with run, logs, ps
 
-TODO: Los contenedores a veces pueden pararse por algún fallo. En este ejercicio simularemos el fallo con el stop para a continuación blablabla.
+It is very useful to see what containers you have running at any one time. This is done with the `docker ps` command.
 
-1. Vemos que no hay nada
+1. Let's start by checking the running containers. If you follow the previous exercises, you should now not have any container running.
    ```bash
    docker ps
    ```
-2. Vemos que aparecen los contenedores ejecutados antes blablab
+2. However if you pass the `-a` flag, it will also return the containers that are not running right nwo, but have not been removed. 
    ```bash
    docker ps -a
    ```
-   Fijarse en que tienen un nombre aleatorio
-3. Borrar uno solo (seleccionar el nombre blabla)
+   Notice that some of the containers you executed before are listed there. Each was given a random name.
+3. You can individually remove each of those containers using their name, their ID, or even the first few characters of their ID
    ```bash
    docker rm [container-name]
    ```
-   Como alternativa, podríamos haber arrancado el contenedor con the flag `--rm`, the container will be removed after running the desired command (you won't see it with `docker ps -a`).
-4. Create a MongoDB container in detached mode, with name `my-mongo`:
+   Alternatively, you could use the flag `--rm` in the `docker run` command. The container is then automatically removed as soon as it stops, so you will not see it listed when doing `docker ps -a`.
+
+You can access the logs of a container while it is running, or even after it has stopped; but never after it is removed removed. The one downside of using the `--rm` flag is that if something goes wrong inside the container and it terminates unexpectedly you will not be able to see the logs and find out what happened.
+
+As an example:
+
+1. Create a MongoDB container in detached mode, with name `my-mongo`:
    ```bash
    docker run -d --name my-mongo mongo
    ```
-5. Show the running container. Remark the info shown.
+2. Show the running container. Remark the info shown.
    ```bash
    docker ps
    ```
-6. Show the logs generated for the running Mongo container
+3. Show the logs generated for the running Mongo container
    ```bash
    docker logs my-mongo
    ```
-7. xxxx
+4. If you kill the container (we are simulating there was an error), you can see the logs are still accessible.
    ```bash
-   docker run --name my-hello-world -d hello-world
+   docker kill my-mongo
+   docker ps -a
+   docker logs my-mongo
    ```
-8. Now you should see both Mongo containers running
+
+5. If you then remove the container, the logs are no longer visible.
    ```bash
-   docker logs my-hello-world
+   docker rm my-mongo
+   docker ps -a
+   docker logs my-mongo
    ```
-9. Show only the container ids (`quiet` mode)
+
+If you want to stop or remove many running containers you can leverage the `-q` flag (`quiet` mode) of the `ps` command
    ```bash
    docker ps -aq
    ```
-10. Finally, you can delete all the existing containers, no matter their status
-    ```bash
-    docker ps -aq | xargs docker rm -f
-    ```
-    Windows version:
-    ```bash
-    docker ps -aq | % {docker rm -f $_}
-    ```
-11. Mostrar que ha borrado todos, no queda nada
+1. For example, you can delete all the existing containers, no matter their status:
+```bash
+docker ps -aq | xargs docker rm -f
+```
+
+Windows Powershell version:
+```powershell
+docker ps -aq | % {docker rm -f $_}
+```
+2. Verify there are no containers left
     ```bash
     docker ps -a
     ```
 
 ## Exercise 2.4: Run commands in an already running container
 
-TODO: poner en contexto el ejercicio. Vamos a arrancar un contenedor de una base de datos Mongo en segundo plano e interactuaremos usando su CLI, que es el binario "mongo".
+You can execute extra commands in a running container. However this is not normally necessary, except for debugging, or sometimes to leverage an existing tool in the container. You should never modify your running container as if it was a VM, as it is ephemeral and it will disappear when it terminates. Any extra tools or changes need to be added to the image, never to the container.
+
+That said, executing commands in a running container is a vital debugging tool when the container is not behaving as expected.
+
+In this exercise we will try to use the `mongo CLI` tool which is installed inside the mongo container.
 
 1. Run a new Mongo container in detached mode
    ```bash
@@ -128,30 +146,33 @@ TODO: poner en contexto el ejercicio. Vamos a arrancar un contenedor de una base
    ```bash
    docker logs -n 3 my-mongo
    ```
-7. Stop the running container
+7. Stop and remove the running container
    ```bash
-   docker stop my-mongo
+   docker rm -f my-mongo
    ```
 
 ## Bonus track
 
 ### Filter the existing containers
 
-- `docker ps -a`: to see all containers in any state (not only running)
+You can also filter the output of the `docker ps` command for example to show: 
 - `docker ps --filter "name=mongo"`: filter and show only the containers which name contains the word _mongo_
 - `docker ps -a --filter 'exited=0'`: show only the containers which exit code was `0`.
 - `docker ps --filter status=running`: show only the containers which are in a specific status (e.g. running, created, exited, restarting, etc.).
 
+You can combine this with with `-q` to show all containers that exited succesfully. Try to create a command that will rm all such containers. 
+
 ### Stopping containers
 
-- Another way of stopping all the containers: `docker stop $(docker ps -qa)`
+- Another way of stopping all containers: `docker stop $(docker ps -qa)`
 - Remove all stopped containers: `docker rm $(docker ps --filter status=exited -q)`
 
 ### Play with the logs command
+You can see the `logs` command has some useful flags `docker logs --help`.
 
-- Run a new Mongo container in detached mode: `docker run -d --name my-mongo mongo`
+Start a new new Mongo container in detached mode and:
 - Show the current logs: `docker logs my-mongo`
-- Follow the logs (it will be shown in real time): `docker logs my-mongo -f`
+- Follow the logs (shown in real time): `docker logs my-mongo -f`
   - You can exit just typing Control+C
 - Show the logs with a timestamp at the beginning of each line: `docker logs my-mongo --timestamps`
 - Show the logs generated during the last 5 minutes: `docker logs --since 5m my-mongo`
