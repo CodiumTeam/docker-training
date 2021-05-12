@@ -2,56 +2,82 @@
 
 ## Bind mount volume
 
-- Run the next command. Verify how it fails and think why:
+Run the following command. It should fail. Why?
   ```bash
   docker run --rm alpine ls /codium
   ```
-- Now run it mapping a volume:
-  ```bash
-  docker run --rm -v ${PWD}:/codium alpine ls /codium
-  ```
-  What happened here?
 
-## TBD
+Be default the `alpine` does not have a `/codium` folder.
 
-- TBD
+Now run it mapping a volume:
+```bash
+docker run --rm -v ${PWD}:/codium alpine ls /codium
+```
+Why is this working?
+
+You have mapped a folder from the local computer into the `/codium` folder inside the image. As it is a bind mount volume, any changes to your local files are immediately available inside the container (like a soft link).
+
+## Exposing volumes
+
+By default a container is isolated, it cannot be accessed from the outside (inbound), even though it has outbound network access.
+
+As an example let's start a container running [NGINX](https://www.nginx.com/) the popular web server.
+
+1. Start the container in dettached mode. Notice the `-P` parameter, this will allow inbound access to the container
   ```bash
-  docker run --rm -d -P nginx
+  docker run --rm -d -P --name my-server nginx
   ```
-- TBD
+1. The `-P` option automatically allocated a local port to access the container. In order to see the port number you can run
   ```bash
   docker ps
   ```
-- TBD
+1. Try accessing this localhost port in your browser.
+1. Stop the container.
+1. Alternatively you can define your own port
   ```bash
-  docker run --rm -d -p 8888:80 nginx
+  docker run --rm -d -p 8888:80 --name my-server nginx
   ```
-- TBD
-  ```bash
-  docker ps
-  ```
-- Finally, open http://localhost:8888 in the browser and check that it works
+1. Open http://localhost:8888 in the browser and check that it works
+1. Remove the container
 
-## TBD
+## Combining volumes and ports
+Running an `nginx` server is useful, but ideally you want to serve your own HTML file. One way to do this would be to use a bind volume as shown earlier:
 
 ```bash
 cd ./exercise-3
-docker run --rm -d -P -v ${PWD}/index.html:/usr/share/nginx/html/index.html nginx
+docker run --rm -d -p 8888:80 -v ${PWD}/index.html:/usr/share/nginx/html/index.html nginx
 ```
-
-Modify the index.html file in the host
-Observe the changes in the image, since the file was not copied, it is mounted.
+1. Navigate to [http://localhost:8888](http://localhost:8888) and see the content of the `index.html` file.
+1. Modify the index.html file in the host
+1. Refresh the browser and observe the changes. 
 
 ### Environment variables
+Very often you need to configure the behaviour of the executable program running inside the container. The most widely used way to do this is injecting environment variables which then the executable reads.
 
-```bash
-docker run --rm postgres
+As an example, let's see use a `postgers` container.
 
-docker run --rm -e POSTGRES_PASSWORD=b postgres
+1. Run a container with the `postgres` image
+  ```bash
+  docker run --rm postgres
+  ```
 
-export POSTGRES_PASSWORD=b
-docker run --rm -e POSTGRESS_PASSWORD postgres
-```
+1. Notice how the container fails because it requires setting the Admin password. In the `postgres` image you can specify this password via the `POSTGRES_PASSWORD` variable.
+
+1. Run the container again but specifying a password (remember you can use CTRL+C to stop the container as we have not started it in dettached mode)
+  ```bash
+  docker run --rm -e POSTGRES_PASSWORD=b postgres
+  ``` 
+
+1. In many instances instead of defining the value of the variable you may want to use the value of the same variable as defined in the local computer:
+  ```bash
+  export POSTGRES_PASSWORD=b
+  docker run --rm -e POSTGRESS_PASSWORD postgres
+  ```
+
+## Bonus track
+### Combining it all together
+
+In other cases you can also mount files to modify the configuration. In the following example we use a configuration file to modify the default port of NGINX. In this particularl case this configuration file is also referring to an environment variable we are passing through the `docker run` command:
 
 ```bash
 cd ./exercise-3
@@ -60,8 +86,6 @@ docker run --rm -p 8888:8080 -e NGINX_PORT=8080 -v ${PWD}/index.html:/usr/share/
 
 Verify the nginx server is up and running and showing our index.html on http://localhost:8888/
 
-## Bonus track
-
 ### Understand the working directory
 
 - From inside the folder `exercise-3`, try and run the next command:
@@ -69,11 +93,13 @@ Verify the nginx server is up and running and showing our index.html on http://l
   docker run -v ${PWD}:/home/codium python python hello.py
   ```
   What happened? Why didn't it work?
+
 - Now run:
   ```bash
   docker run -v ${PWD}:/home/codium python python /hello.py
   ```
   Why did it work?
+  
 - Now let's run the python script from a specific folder:
   ```bash
   docker run -v ${PWD}:/home/codium -w /home/codium python python hello.py
