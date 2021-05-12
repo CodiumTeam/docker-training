@@ -82,10 +82,11 @@ Most of the steps for this exercise are similar to the previous ones
 
 Again, all the steps would be the same except the way to login, which might be something like:
 
-    ```bash
-    docker login [your-gitlab-registry] -u [your-gitlab-user] -p [your-access-token-or-password]
-    ```
-    , where `[your-gitlab-registry]` could be something like `registry.gitlab.com`
+```bash
+docker login [your-gitlab-registry] -u your-gitlab-user] -p [your-access-token-or-password]
+```
+
+where `[your-gitlab-registry]` could be something like `registry.gitlab.com`
 
 ## More information
 
