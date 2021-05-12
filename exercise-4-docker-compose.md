@@ -2,23 +2,39 @@
 
 ## How to use an existing docker compose
 
-- The goal of this exercise is to xxx
-- https://github.com/docker/awesome-compose/blob/master/nginx-flask-mongo/README.md
-- Go to the folder `exercise-4` move into the folder `nginx-flask-mongo`
-- xxxxx
+In this first exercise we will use a provided `docker-compose` to start and stop a collection of containers (services). In this case it is a python container that is exposed in an nginx server and talks to a mongo database. It is important to realise how you can compose complex applications using individual simple components, containers, which fulfill a single function.
+
+
+1. Go to the folder `exercise-4` move into the folder `nginx-flask-mongo`
+1. To start the application all we need to do is 
   ```bash
   docker-compose up
   ```
-- In a different terminal, check that two services are up and running:
+  The application runs in the foreground, so we see the logs of all the different containers. 
+1. In a different terminal, check that three services are up and running:
   ```bash
   docker ps
   ```
-  Con foco xxxxx:
+1. Ensure you are in the same folder where the `docker-compose` file is, and run
   ```bash
   docker-compose ps
   ```
-- Access the URL http://localhost:80 and check that it works (you should see xxx)
-- `docker-compose logs`
+  Notice how this only lists the containers defined in that docker-compose.
+1. Access the URL http://localhost:80 and check that it works (you should see _Hello from the MongoDB client!_).
+1. Go back to the original terminal and press `Ctrl+C` to stop.
+1. Usually it is preferrable to start in dettached mode:
+  ```bash
+  docker-compose up -d
+  ```
+1. You can still see the logs of the containers:
+  ```bash
+  docker-compose logs web
+  ```
+1. Many of the commands we explored in the earlier module also work here. For example you can do 
+  ```
+  docker-compose exec my-mongo --eval 'db.users.insertOne({name: "jonas"})'
+  ```
+1. To remove everything use the `docker-compose down` command.
 
 ##  Create your own docker-compose.yml to run two docker services
 
