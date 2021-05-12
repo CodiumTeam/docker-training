@@ -1,16 +1,16 @@
 # Exercise 9: troubleshooting
 
-Try to practice these commands with any of the previous containers.
+Try to practise these commands with any of the previous containers.
 
-## Docker native tools
+## Docker built-in tools
 
-- Show low-level information on Docker objects
+- Show low-level information on any Docker object
   ```bash
   docker inspect my-alpine-cat:v1
   ```
-- Show low-level information on a Docker image
+- Show low-level information for a specific object type. This is useful when there is more than one resource with the same name. E.g. for volumes:
   ```bash
-  docker image inspect my-alpine-cat:v1
+  docker volume inspect db_data
   ```
 - Display a live stream of container(s) resource usage statistics
   ```bash
@@ -24,7 +24,6 @@ Try to practice these commands with any of the previous containers.
   ```bash
   docker logs [your-container-id-or-name]
   ```
-- Eventually you might see a `running out of disk space` error message. You could run `docker system df` to check what resources are taking space.
 
 ### Getting inside the container
 
@@ -45,8 +44,19 @@ Try to practice these commands with any of the previous containers.
 - With both previous tools you can even execute a shell (if the image allows it)
 - Some IDEs, like VS Code or IntelliJ, offer extensions that you can use to interact and inspect your Docker resources
 
+## Common errors
+
+- `running out of disk space`
+  - You could run `docker system df` to check what resources are taking space.
+- `failed: port is already allocated`
+  - This would happen when trying to run a container in a port already in use. Either use another port or you can find out what process is using it in order to free it.
+- `If you intended to pass a host directory, use absolute path`
+  - You would get that error message when trying to mount a volume using a relative path, e.g. `docker run --rm -d -v ./FOOBAR:/foobar nginx`
+  - You need to use an absolute path, e.g. `docker run --rm -d -v ${PWD}/FOOBAR:/foobar nginx`
+
 ## Resources
 
+- https://www.digitalocean.com/community/tutorials/how-to-debug-and-fix-common-docker-issues
 - https://docs.docker.com/compose/reference/top/
 - https://docs.docker.com/engine/reference/commandline/inspect/
 - https://docs.docker.com/engine/reference/commandline/stats/
