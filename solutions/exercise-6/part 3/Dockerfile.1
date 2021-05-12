@@ -1,0 +1,13 @@
+FROM ruby:alpine as base
+
+RUN apk add --no-cache \
+  alpine-sdk \
+  libpq \
+  postgresql-dev \
+  ruby-dev
+
+RUN gem install pgsync
+
+WORKDIR /sync
+
+ENTRYPOINT [ "pgsync" ]
