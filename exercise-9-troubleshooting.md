@@ -1,0 +1,50 @@
+# Exercise 9: troubleshooting
+
+Try to practice these commands with any of the previous containers.
+
+## Docker native tools
+
+- Show low-level information on Docker objects
+  ```bash
+  docker inspect my-alpine-cat:v1
+  ```
+- Show low-level information on a Docker image
+  ```bash
+  docker image inspect my-alpine-cat:v1
+  ```
+- TBD
+  ```bash
+  docker stats
+  ```
+- TBD
+  ```bash
+  docker-compose top
+  ```
+- TBD
+  ```bash
+  docker logs [your-container-id-or-name]
+  ```
+
+### Getting inside the container
+
+- Only for troubleshooting or exploratory reasons, sometimes it is convenient to get into the container:
+  ```bash
+  docker exec -ti [your-container-id-or-name] [command]
+  ```
+  , where the command could be something like `sh` or `bash` (it depends on what is available inside the container)
+- In the context of a docker compose, you could run:
+  ```bash
+  docker-compose exec [your-service] [command]
+  ```
+
+## Using external tools
+
+- Top-like interface for container metrics: [ctop](https://github.com/bcicen/ctop)
+- A simple terminal UI for both docker and docker-compose: [lazydocker](https://github.com/jesseduffield/lazydocker)
+- With both previous tools you can even execute a shell (if the image allows it)
+- Some IDEs, like VS Code or IntelliJ, offer extensions that you can use to interact and inspect your Docker resources
+
+## Resources
+
+- https://docs.docker.com/compose/reference/top/
+- https://docs.docker.com/engine/reference/commandline/inspect/
