@@ -1,8 +1,8 @@
-# How to publish your own images
+# Exercise 7: How to publish your own images
 
 Here you will practice how to publish your own images in order to share them with other people. We will show several examples: using your own local registry, Docker Hub or the GitLab registry.
 
-## Publishing in your own Registry
+## 7.1 Publishing in your own Registry
 
 In this exercise we are going to publish our own image into a Registry running in our local machine (this way you don't need to create any account externally).
 
@@ -31,14 +31,14 @@ In this exercise we are going to publish our own image into a Registry running i
    ```bash
    docker push localhost:5000/my-alpine-cat:v1
    ```
-   If you access http://localhost:5000 you will see your image with the corresponding tag.
-1. Notice that you have locally the built image `my-alpine-cat:v1`
+   If you access http://localhost you will see your image with the corresponding tag.
+1. Notice that you have locally the built image `localhost:5000/my-alpine-cat:v1`
    ```bash
    docker images
    ```
 1. Now delete it and check that it disappeared from your local images
    ```bash
-   docker rmi my-alpine-cat:v1
+   docker rmi localhost:5000/my-alpine-cat:v1
    ```
 1. Pull the image from the Registry (this is what anyone would need to do in order to use it, either like that or in the `FROM` instruction of a Dockerfile):
    ```bash
@@ -50,14 +50,14 @@ In this exercise we are going to publish our own image into a Registry running i
    ```
 1. If you want, you can logout from the registry
    ```bash
-   docker logout
+   docker logout localhost:5000
    ```
 1. Finally stop your registry and remove all data
    ```bash
    docker-compose down
    ```
 
-## How to publish in Docker Hub
+## 7.2 How to publish in Docker Hub
 
 Most of the steps for this exercise are similar to the previous ones
 
