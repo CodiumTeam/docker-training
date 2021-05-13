@@ -10,18 +10,18 @@ A container is designed to execute a single binary. It is possible to change the
   docker run alpine pwd
   ```
 
-- Try to run several commands inside the container (it will fail):
+- Try to run several commands inside the container:
 
   ```bash
-  docker run alpine pwd; ls
+  docker run alpine pwd ; ls
   ```
-
-  The reason why it fails is that Docker only takes as a command what you wrote up to the semicolon. The `ls` will be a command in your own local machine, it is not passed to the alpine container.
+  Did it work as expected?
+  Docker only takes as a command what you wrote up to the semicolon. The `ls` will be a command in your own local machine, it is not passed to the alpine container.
 
 - In order to run several commands in a container, you can pass them after `sh -c` (it's a common way of running a command with `sh`, very popular in Docker containers).
 
   ```bash
-  docker run alpine sh -c 'pwd; ls'
+  docker run alpine sh -c "pwd ; ls"
   ```
 
 ## Exercise 2.2: check containers are ephemeral
@@ -30,24 +30,25 @@ The filesystem inside a container is ephemeral, any changes to the files are los
 
 1. Let's try to create a new file inside a container. 
    ```bash
-   docker run --rm alpine sh -c 'touch hola.txt && ls'
+   docker run --rm alpine sh -c "touch hola.txt && ls"
    ```
    Remember that the container will terminate when the command exits, in this case after creating `hola.txt` and listing the files.
 
 1. Starting a new container based on the same image, notice that `hola.txt` is no longer there, as it disappeared when the previous container terminated.
    ```bash
-   docker run --rm alpine sh -c 'ls'
+   docker run --rm alpine sh -c "ls"
    ```
 
 ## Exercise 2.3: practice with run, logs, ps
 
+#### docker ps
 It is very useful to see what containers you have running at any one time. This is done with the `docker ps` command.
 
-1. Let's start by checking the running containers. If you follow the previous exercises, you should now not have any container running.
+1. Let's start by checking the running containers. If you followed the previous exercises, you should not have any containers running (if you are using Windows you may see Mongo still running).
    ```bash
    docker ps
    ```
-2. However if you pass the `-a` flag, it will also return the containers that are not running right nwo, but have not been removed. 
+2. However if you pass the `-a` flag, it will also return the containers that are no longer running, but have not yet been removed. 
    ```bash
    docker ps -a
    ```
@@ -58,6 +59,8 @@ It is very useful to see what containers you have running at any one time. This 
    ```
    Alternatively, you could use the flag `--rm` in the `docker run` command. The container is then automatically removed as soon as it stops, so you will not see it listed when doing `docker ps -a`.
 
+### docker logs
+
 You can access the logs of a container while it is running, or even after it has stopped; but never after it is removed removed. The one downside of using the `--rm` flag is that if something goes wrong inside the container and it terminates unexpectedly you will not be able to see the logs and find out what happened.
 
 As an example:
@@ -66,7 +69,7 @@ As an example:
    ```bash
    docker run -d --name my-mongo mongo
    ```
-2. Show the running container. Remark the info shown.
+2. Show the running container. Notice the info shown.
    ```bash
    docker ps
    ```
@@ -124,11 +127,11 @@ In this exercise we will try to use the `mongo CLI` tool which is installed insi
    ```
 3. Insert a new document inside a new `users` collection
    ```bash
-   docker exec my-mongo mongo --eval 'db.users.insertOne({name: "jonas"})'
+   docker exec my-mongo mongo --eval "db.users.insertOne({name: 'jonas'})"
    ```
 4. Show all the existing documents inside the `users` collection
    ```bash
-   docker exec my-mongo mongo --eval 'db.users.find()'
+   docker exec my-mongo mongo --eval "db.users.find()"
    ```
 5. Connect to the Mongo container in an interactive way
    ```bash
@@ -156,24 +159,53 @@ In this exercise we will try to use the `mongo CLI` tool which is installed insi
 ### Filter the existing containers
 
 You can also filter the output of the `docker ps` command for example to show: 
-- `docker ps --filter "name=mongo"`: filter and show only the containers which name contains the word _mongo_
-- `docker ps -a --filter 'exited=0'`: show only the containers which exit code was `0`.
-- `docker ps --filter status=running`: show only the containers which are in a specific status (e.g. running, created, exited, restarting, etc.).
+- Filter and show only the containers which name contains the word _mongo_.
+   ```bash
+   docker ps --filter name=mongo
+   ```
+- Show only the containers with an exit code `0`.
+   ```bash
+   docker ps -a --filter exited=0
+   ```
+- Show only the containers which are in a specific status (e.g. running, created, 
+   ```bash
+   docker ps --filter status=running #exited, restarting, etc.
+   ```
 
-You can combine this with with `-q` to show all containers that exited succesfully. Try to create a command that will rm all such containers. 
+You can combine this with with `-q` to show all containers that exited successfully. Try to create a command that will remove all such containers. 
 
 ### Stopping containers
 
-- Another way of stopping all containers: `docker stop $(docker ps -qa)`
-- Remove all stopped containers: `docker rm $(docker ps --filter status=exited -q)`
-
+- Another way of stopping all containers (does not work in Windows DOS).
+  ```bash
+  docker stop $(docker ps -qa)
+  ```
+- Remove all stopped containers (does not work in Windows DOS).
+   ```bash
+   docker rm $(docker ps --filter status=exited -q)
+   ```
 ### Play with the logs command
 You can see the `logs` command has some useful flags `docker logs --help`.
 
 Start a new new Mongo container in detached mode and:
-- Show the current logs: `docker logs my-mongo`
-- Follow the logs (shown in real time): `docker logs my-mongo -f`
+- Show the current logs.
+  ```bash
+  docker logs my-mongo
+  ```
+- Follow the logs (shown in real time).
+  ```bash
+  docker logs my-mongo -f
+  ```
   - You can exit just typing Control+C
-- Show the logs with a timestamp at the beginning of each line: `docker logs my-mongo --timestamps`
-- Show the logs generated during the last 5 minutes: `docker logs --since 5m my-mongo`
-- Show the last 10 lines of logs: `docker logs --tail 10 my-mongo`
+- Show the logs with a timestamp at the beginning of each line.
+  ```bash
+  docker logs my-mongo --timestamps
+  ```
+- Show the logs generated during the last 5 minutes.
+  ```bash
+  docker logs --since 5m my-mongo
+  ```
+- Show the last 10 lines of logs.
+  ```bash
+  docker logs --tail 10 my-mongo
+  ```
