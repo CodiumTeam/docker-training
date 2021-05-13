@@ -32,7 +32,7 @@ For this exercise, you are given a very simple Python application, which runs a 
 
 1. Build and run the image again. 
 1. Check the logs to see if it is working correctly now.
-1. Access localhost:9090 in your browser and verify the app responds correctly.
+1. Access http://localhost:9090 in your browser and verify the app responds correctly.
 
 ### Further improvements
 
@@ -70,23 +70,29 @@ docker run --rm -d -P my-python-app
 ```
 you will see despite using `-P` no ports have been exposed locally. This is because the `-P` option automatically exposes any ports as long as they have been **declared** in the `Dockerfile`. Try modifying the `Dockerfile` to expose the port of the python application automatically when using `-P`.
 
-## Exponer volumen donde escribimos los logs
-
-
-## Parámetros del docker run
-
-E.g. con FLASK_DEBUG o FLASK_ENV https://flask.palletsprojects.com/en/1.1.x/cli/
-
 ## Bonus track
-
-- Working directory.
 
 ### ENTRYPOINT vs CMD
 
-- For better understanding the difference between ENTRYPOINT and CMD, you can build and run the image under the folder `entrypoint-cmd`:
-  - `docker build -t entrypoint-cmd-example .`
-  - `docker run entrypoint-cmd-example`
-  - Notice how CMD is the argument passed to the binary command defined as ENTRYPOINT
+The binary to be executed when the container starts is defined by the concatenation of both `ENTRYPOINT` and `CMD` properties. When you execute the `docker run` command you are able to change the value of the `CMD` part. 
+1. Switch to the `entrypoint-cmd` folder.
+1. Build the sample `Dockerfile`:
+   ```bash
+   docker build -t entrypoint-cmd-example .
+   ```
+1. Start the container:
+   ```bash
+   docker run entrypoint-cmd-example
+   ```
+   Notice how `CMD` is the argument passed to the binary command defined as `ENTRYPOINT` in this case is executing `/bin/cat /etc/os-release`.
+1. You can override the command adding an extra argument:
+   ```bash
+   docker run entrypoint-cmd-example /etc/passwd
+   ```
+1. You can also override the entrypoint in the following way:
+   ```bash
+   docker run --entrypoint ls entrypoint-cmd-example /etc/passwd
+   ```
 
 ## Resources
 
