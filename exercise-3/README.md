@@ -1,6 +1,6 @@
 # Exercise 3: ports, volumes and environment variables
 
-## Bind mount volume
+## 3.1 Bind mount volume
 
 Run the following command. It should fail. Why?
   ```bash
@@ -19,7 +19,7 @@ Why is this working?
 
 You have mapped a folder from the local computer into the `/codium` folder inside the image. As it is a bind mount volume, any changes to your local files are immediately available inside the container (like a soft link). Notice you need to specify an absolute path, hence why we are using the `$PWD` variable.
 
-## Exposing network ports
+## 3.2 Exposing network ports
 
 By default a container is isolated, it cannot be accessed from the outside (inbound), even though it has outbound network access.
 
@@ -39,7 +39,7 @@ As an example let's start a container running [NGINX](https://www.nginx.com/) th
 1. Open http://localhost:8888 in the browser and check that it works
 1. Remove the container
 
-## Combining volumes and ports
+## 3.3 Combining volumes and ports
 Running an `nginx` server is useful, but ideally you want to serve your own HTML file. One way to do this would be to use a bind volume as shown earlier:
 
 ```bash
@@ -51,7 +51,7 @@ docker run --rm -d -p 8888:80 -v ${PWD}/index.html:/usr/share/nginx/html/index.h
 1. Modify the index.html file in the host
 1. Refresh the browser and observe the changes. 
 
-## Environment variables
+## 3.4 Environment variables
 Very often you need to configure the behaviour of the executable program running inside the container. The most widely used way to do this is injecting environment variables which then the executable reads.
 
 As an example, let's see use a `postgres` container.

@@ -1,6 +1,6 @@
-# Basic commands
+# Exercise 1: Basic commands
 
-## Example 1: run an ephemeral container
+## 1.1 Run an ephemeral container
 
 1. On a terminal, run 
    ```bash
@@ -11,7 +11,7 @@
    - Printed some text messages in the terminal
    - It stopped
 
-## Example 2: run a long-lived container
+## 1.2 Run a long-lived container
 
 1. On a terminal, run 
    ```bash

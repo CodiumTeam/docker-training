@@ -1,6 +1,6 @@
 # Exercise 2: Basic commands
 
-## Exercise 2.1: Running a command inside an ephemeral container
+## 2.1 Running a command inside an ephemeral container
 
 A container is designed to execute a single binary. It is possible to change the command that will get executed by passing parameters to the run docker command.
 
@@ -24,7 +24,7 @@ A container is designed to execute a single binary. It is possible to change the
   docker run alpine sh -c "pwd ; ls"
   ```
 
-## Exercise 2.2: check containers are ephemeral
+## 2.2 Check containers are ephemeral
 
 The filesystem inside a container is ephemeral, any changes to the files are lost when the container exits and is removed.
 
@@ -39,7 +39,7 @@ The filesystem inside a container is ephemeral, any changes to the files are los
    docker run --rm alpine sh -c "ls"
    ```
 
-## Exercise 2.3: practice with run, logs, ps
+## 2.3: practice with run, logs, ps
 
 #### docker ps
 It is very useful to see what containers you have running at any one time. This is done with the `docker ps` command.
@@ -109,7 +109,7 @@ If you want to stop or remove many running containers you can leverage the `-q` 
     docker ps -a
     ```
 
-## Exercise 2.4: Run commands in an already running container
+## 2.4: Run commands in an already running container
 
 You can execute extra commands in a running container. However this is not normally necessary, except for debugging, or sometimes to leverage an existing tool in the container. You should never modify your running container as if it was a VM, as it is ephemeral and it will disappear when it terminates. Any extra tools or changes need to be added to the image, never to the container.
 
