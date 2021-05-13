@@ -57,9 +57,11 @@ In this exercise we are going to publish our own image into a Registry running i
    docker-compose down
    ```
 
-## 7.2 How to publish in Docker Hub
+## 7.2 How to publish an image to a public repository
 
-Most of the steps for this exercise are similar to the previous ones
+You can use a public repository in exactly the same as the private one. You will need to create an account, login, and push the image as seen above. The prefix of the image tag (previously `localhost:5000`) is used by Docker to locate the registry. This is the only part the needs to change according to the registry you want to use. Docker Hub is the default and most common image repository. It also hosts the _official_ images. However, there are many others, like `quay.io`; GitLab also offers an image repository linked to each git repository. 
+### Docker Hub
+Most of the steps for this exercise are similar to the previous ones.
 
 1. First, you need to create a Docker Hub account: https://hub.docker.com/signup/
 1. Now, if you login without specifying a registry, it will use Docker Hub by default:
@@ -78,12 +80,12 @@ Most of the steps for this exercise are similar to the previous ones
 1. The rest of the exercise would be the same as the previous one, just changing `localhost:5000` with `[your-docker-hub-username]`
 1. You should be able to see your images published under https://hub.docker.com/
 
-## How to publish in GitLab
+### GitLab
 
 Again, all the steps would be the same except the way to login, which might be something like:
 
 ```bash
-docker login [your-gitlab-registry] -u your-gitlab-user] -p [your-access-token-or-password]
+docker login [your-gitlab-registry] -u [your-gitlab-user] -p [your-access-token-or-password]
 ```
 
 where `[your-gitlab-registry]` could be something like `registry.gitlab.com`
