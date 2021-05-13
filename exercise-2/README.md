@@ -59,7 +59,7 @@ It is very useful to see what containers you have running at any one time. This 
    ```
    Alternatively, you could use the flag `--rm` in the `docker run` command. The container is then automatically removed as soon as it stops, so you will not see it listed when doing `docker ps -a`.
 
-### docker logs
+#### docker logs
 
 You can access the logs of a container while it is running, or even after it has stopped; but never after it is removed removed. The one downside of using the `--rm` flag is that if something goes wrong inside the container and it terminates unexpectedly you will not be able to see the logs and find out what happened.
 
@@ -91,6 +91,7 @@ As an example:
    docker logs my-mongo
    ```
 
+#### stopping/removing several containers
 If you want to stop or remove many running containers you can leverage the `-q` flag (`quiet` mode) of the `ps` command
    ```bash
    docker ps -aq
