@@ -97,10 +97,9 @@ If you want to stop or remove many running containers you can leverage the `-q` 
    docker ps -aq
    ```
 1. For example, you can delete all the existing containers, no matter their status:
-```bash
-docker ps -aq | xargs docker rm -f
-```
-
+   ```bash
+   docker ps -aq | xargs docker rm -f
+   ```
    Windows Powershell version:
    ```powershell
    docker ps -aq | % {docker rm -f $_}
