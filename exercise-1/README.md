@@ -7,8 +7,9 @@
    docker run hello-world
    ```
 1. Carefully read and understand all the steps shown that have been executed
-   - Specially remark how it downloaded the image 'hello-world' from the [official Docker registry](https://hub.docker.com/_/hello-world)
-1. This container just printed those text messages in the terminal and then it stopped.
+   - It downloaded the image 'hello-world' from the [official Docker registry](https://hub.docker.com/_/hello-world)
+   - Printed some text messages in the terminal
+   - It stopped
 
 ## Example 2: run a long-lived container
 
@@ -17,9 +18,9 @@
    docker run mongo
    ```
 1. This command:
-   - It downloaded a [mongo image](https://hub.docker.com/_/mongo)
-   - It run a new Mongo server (you can see the logs in the standard output)
-1. You can stop it just with Control+C
+   - Downloaded a [mongo image](https://hub.docker.com/_/mongo)
+   - Ran a new Mongo server (you can see the logs in the standard output)
+1. You can stop it just with `Control+C`
 
 ## Bonus track
 
