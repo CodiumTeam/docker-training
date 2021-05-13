@@ -101,10 +101,10 @@ If you want to stop or remove many running containers you can leverage the `-q` 
 docker ps -aq | xargs docker rm -f
 ```
 
-Windows Powershell version:
-```powershell
-docker ps -aq | % {docker rm -f $_}
-```
+   Windows Powershell version:
+   ```powershell
+   docker ps -aq | % {docker rm -f $_}
+   ```
 2. Verify there are no containers left
     ```bash
     docker ps -a
