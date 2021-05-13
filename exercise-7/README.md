@@ -23,7 +23,9 @@ In this exercise we are going to publish our own image into a Registry running i
    ```bash
    docker push localhost:5000/my-alpine-cat:v1
    ```
-1. You will see that the push failed with a message `no basic auth credentials`. You need to login with username `registry` and password `ui`
+1. You will see that the push failed with a message `no basic auth credentials`.
+
+   You need to login with username `registry` and password `ui`
    ```bash
    docker login localhost:5000
    ```
