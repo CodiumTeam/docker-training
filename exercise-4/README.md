@@ -119,7 +119,7 @@ If you run `docker-compose down` and `up` again, the data would be lost. In orde
 
 ### Create your own docker-compose.yml to run a single service
 
-- The goal of this exercise is to convert the `docker run` for nginx that we used in the [exercise-3](../exercise-3#combining-volumes-and-ports) to a simple docker-compose.
+- The goal of this exercise is to convert the `docker run` for nginx that we used in the [exercise-3](../exercise-3#33-combining-volumes-and-ports) to a simple docker-compose.
 > We usually use docker-compose.yml for defining applications with 2 or more services (not just one like this example). This exercise with a single service docker-compose.yml is intended for pedagogical goals. However, even for a single service, the clearer syntax of the docker-compose.yml can be beneficial. Another advantage is that the file could be committed to source control.
 - Please, transform the next docker run into a docker-compose.yml and verify that it works as expected:
   ```console
