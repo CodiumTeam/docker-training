@@ -54,6 +54,19 @@ Try to practise these commands with any of the previous containers. If you have 
   - You would get that error message when trying to mount a volume using a relative path, e.g. `docker run --rm -d -v ./FOOBAR:/foobar nginx`
   - You need to use an absolute path, e.g. `docker run --rm -d -v ${PWD}/FOOBAR:/foobar nginx`
 
+## Bonus track
+
+### Fix a failing container
+
+From the folder `my-nano-app`:
+
+1. Build the image from the Dockerfile (name it `my-nano-app`)
+1. Run:
+   ```bash
+   docker run my-nano-app nano --help
+   ```
+1. Fix everything needed until the previous command works
+
 ## Resources
 
 - https://www.digitalocean.com/community/tutorials/how-to-debug-and-fix-common-docker-issues
