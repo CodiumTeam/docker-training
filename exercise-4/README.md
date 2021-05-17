@@ -27,7 +27,7 @@ docker-compose ps
 
 Notice how this only lists the containers defined in that docker-compose.
 
-1. Access the URL http://localhost:80 and check that it works (you should see _Hello from the MongoDB client!_).
+1. Access the URL [http://localhost:80](http://localhost:80) and check that it works (you should see _Hello from the MongoDB client!_).
 1. Go back to the original terminal and press `Ctrl+C` to stop.
 1. Usually it is preferable to start in detached mode:
    ```bash
