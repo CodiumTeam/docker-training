@@ -82,6 +82,7 @@ The goal of this exercise is to define a `docker-compose.yml` that would allow u
 - WORDPRESS_DB_USER=wordpress_user
 - WORDPRESS_DB_PASSWORD=wordpress_password
 - WORDPRESS_DB_NAME=wordpress_db
+- WORDPRESS_TABLE_PREFIX=wp_
 
   Notice how we use the name of the database service as defined in the docker-compose file to indicate the host name of the database to the wordpress service.
 
