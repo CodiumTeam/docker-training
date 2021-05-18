@@ -8,8 +8,8 @@ For this exercise, you are given a very simple Python application, which runs a 
 
 1. Start by creating a `Dockerfile` inside the folder `flask-example` of the given Python application.
 2. Add an instruction to base your image in the official Python image for version `3.9`. Remember it is a good practice to *pin* the base image to a particular version, to avoid unexpected version changes in the future.
-3. Copy the two files required for the application in to your image
-4. Add a command statement to specify what binary should be executed when the image is started as as container. The python application is started by running `python server.py`.
+3. This application only requires the files `requirements.txt` and `server.py` to run. Copy them into the image. 
+4. Add a command statement to specify what binary should be executed when the image is started as container. The python application is started by running `python server.py`.
 5. In order to try the image, you need to first build it:
    ```bash
    docker build -t my-python-app .
@@ -17,7 +17,7 @@ For this exercise, you are given a very simple Python application, which runs a 
    Note we are tagging the image with a name using the `-t` option.
 6. Start a container based on the image you just created: 
    ```bash
-   docker run -p 9090:9090 -d --name app my-python-app
+   docker run -p 9090:9090 -d my-python-app
    ```
    Check the logs to see if it works.
 
@@ -43,7 +43,7 @@ Modify the `Dockerfile` to leverage this feature.
 
 #### ENV
 
-This particular python app, is configured to respond on port 9090. However you could override this port via an environment variable. You could do this when running the container: `docker run --rm -d -p 9090:8080 -e FLASK_SERVER_PORT=8080 --name my-app my-python-app`. However, you could also give a default value to this environment variable inside the Dockerfile. You could then override the default port 9090, when the container is started without specifying a value for the `FLASK_SERVER_PORT` variable.
+This particular python app, is configured to respond on port 9090. However you could override this port via an environment variable. You could do this when running the container: `docker run --rm -d -p 9090:8080 -e FLASK_SERVER_PORT=8080 my-python-app`. However, you could also give a default value to this environment variable inside the Dockerfile. You could then override the default port 9090, when the container is started without specifying a value for the `FLASK_SERVER_PORT` variable.
 Modify the `Dockerfile` to use port 8080 by default.
 
 #### ARG
