@@ -50,7 +50,7 @@ Modify the `Dockerfile` to use port 8080 by default.
 Sometimes it is useful to parametrize certain values in your `Dockerfile`. For example we may want to build two versions of the image, one for Python 3.9 and another one for Python 3.8. In order no to have two dockerfiles, we can parametrize the image version.
 
 1. At the top of your `Dockerfile` add a new instruction `ARG VERSION=3-alpine3.9`. Notice how we are able to give it a default value.
-1. In the `FROM` instruction now replace the tag with the variable `${VERSION}`.
+1. In the `FROM` instruction now replace the tag with the variable `$VERSION`.
 1. If you build the image normally it will use the argument's default value. In order to override it you can pass it in the build command.
    ```bash
    docker build -t my-python-app --build-arg VERSION=3-alpine3.8 .
