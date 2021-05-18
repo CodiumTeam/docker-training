@@ -2,7 +2,7 @@
 
 ## 5.1 Building a Dockerfile
 
-For this exercise, you are given a very simple Python application, which runs a small flask web server. You are going to create an image to package this application, so it can run by doing `docker run`.
+For this exercise, you are given a very simple Python application, which runs a small flask web server. You are going to create an image to package this application, so it can run executed with Docker.
 
 ### A very simple application
 
