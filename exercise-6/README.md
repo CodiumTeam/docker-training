@@ -20,8 +20,8 @@ In this exercise we are going to analyze the optimization of an existing dockeri
 
 In many languages the requirements to build the application are different to those needed to run it. Multi-stage builds are particularly suited to help reduce the size and complexity of the final image by splitting the build process into separate steps run in different base images.
 
-In this example with `php`, in order to build the application it requires `composer`. Instead of installing it on the final image, we are going to leverage an existing image that already has it installed.
+In this example with `php`, in order to build the application it requires `composer` (the `php` dependency manager). Instead of installing it on the final image, we are going to leverage an existing image that already has it installed.
 
-Try building and running the second version `Dockerfile.2`. Notice that, instead of installing `composer` (the `php` dependency manager) manually, it uses an existing image with it installed. However, this image does not contain `apache` which is required to run the application. Hence why the file then has a second `FROM` to load a different image. In line 19, it copies, using the `--from` parameter, the artifacts from the first stage of the build, which was done in the `composer` image, onto the final `php:apache` one.
+Try building and running the second version `Dockerfile.2`. Notice that, instead of installing `composer` manually, it uses an existing image with it installed. However, this image does not contain `apache` which is required to run the application. Hence, why the file then has a second `FROM` to load a different image. In line 19, it copies, using the `--from` parameter, the artifacts from the first stage of the build, which was done in the `composer` image, onto the final `php:apache` one.
 
 Can you see what are the differences with the final version `Dockerfile.3`? Why is it better?
