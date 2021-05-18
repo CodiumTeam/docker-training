@@ -24,4 +24,4 @@ In this example with `php`, in order to build the application it requires `compo
 
 Try building and running the second version `Dockerfile.2`. Notice that, instead of installing `composer` manually, it uses an existing image with it installed. However, this image does not contain `apache` which is required to run the application. Hence, why the file then has a second `FROM` to load a different image. In line 19, it copies, using the `--from` parameter, the artifacts from the first stage of the build, which was done in the `composer` image, onto the final `php:apache` one.
 
-Can you see what are the differences with the final version `Dockerfile.3`? Why is it better?
+Build the different Dockerfiles and use `docker history` to examine the resulting images, can you spot the differences?
