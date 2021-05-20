@@ -1,19 +1,10 @@
-FROM php:7.2-apache as backend
-
-WORKDIR /root
-
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends git zip
-RUN curl --silent https://getcomposer.org/installer | php
-RUN pecl install xdebug-2.6.0 \
-    && docker-php-ext-enable xdebug \
-    && docker-php-ext-install pdo pdo_mysql
+FROM composer:2 as backend
 
 WORKDIR /var/www/html
 
 COPY . .
 
-RUN php /root/composer.phar install  \
+RUN composer install  \
     --ignore-platform-reqs \
     --no-ansi \
     --no-dev \
@@ -21,9 +12,11 @@ RUN php /root/composer.phar install  \
     --no-scripts
 
 FROM php:7.2-apache
+
 RUN docker-php-ext-install pdo pdo_mysql
 
-COPY --from=backend /var/www/html/ /var/www/html/
 WORKDIR /var/www/html
 
 COPY php.ini /usr/local/etc/php/php.ini
+
+COPY --from=backend /var/www/html/ /var/www/html/

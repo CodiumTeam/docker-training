@@ -1,13 +1,9 @@
 FROM php:7.2-apache
 
 WORKDIR /root
-
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends git zip 
+RUN apt-get update && apt-get install -y --no-install-recommends git zip
 RUN curl --silent https://getcomposer.org/installer | php
-RUN pecl install xdebug-2.6.0 \
-    && docker-php-ext-enable xdebug \
-    && docker-php-ext-install pdo pdo_mysql
+RUN docker-php-ext-install pdo pdo_mysql
 
 WORKDIR /var/www/html
 
