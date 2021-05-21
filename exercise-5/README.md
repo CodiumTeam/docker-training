@@ -53,7 +53,7 @@ Sometimes it is useful to parametrize certain values in your `Dockerfile`. For e
 1. In the `FROM` instruction now replace the tag with the variable `$VERSION`.
 1. If you build the image normally it will use the argument's default value. In order to override it you can pass it in the build command.
    ```bash
-   docker build -t my-python-app --build-arg VERSION=3-alpine3.8 .
+   docker build -t my-python-app --build-arg VERSION=3.8-alpine .
    ```
 
    > Notice that we put the `ARG` instruction at the top of the file, before `FROM`, as we wanted to use it as part of the `FROM`. `ARG` is one of the few commands that can go above `FROM`. 
