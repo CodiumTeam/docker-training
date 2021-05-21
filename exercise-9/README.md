@@ -52,7 +52,7 @@ Try to practise these commands with any of the previous containers. If you have 
   - This would happen when trying to run a container in a port already in use. Either use another port or you can find out what process is using it in order to free it.
 - `If you intended to pass a host directory, use absolute path`
   - You would get that error message when trying to mount a volume using a relative path, e.g. `docker run --rm -d -v ./FOOBAR:/foobar nginx`
-  - You need to use an absolute path, e.g. `docker run --rm -d -v ${PWD}/FOOBAR:/foobar nginx`
+  - You need to use an absolute path, e.g. `docker run --rm -d -v $PWD/FOOBAR:/foobar nginx`
 
 ## Bonus track
 
