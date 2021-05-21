@@ -89,7 +89,7 @@ The goal of this exercise is to define a `docker-compose.yml` that would allow u
 - WORDPRESS_DB_NAME=wordpress_db
 - WORDPRESS_TABLE_PREFIX=wp_
 
-  Notice how we use the name of the database service as defined in the docker-compose file to indicate the host name of the database to the wordpress service.
+  > Notice how we use the name of the database service as defined in the docker-compose file to indicate the host name of the database to the wordpress service. Services in docker-compose can reach each other using the service name as hostname for the destination, this is called DNS service discovery, it will only work for services using the same network, if no network is defined, docker-compose will create a default one and connect all services to it. 
 
 3. Finally, you should add `depends_on` as an extra key to the `wordpress` service to express the dependency, since `wordpress` now requires the `db` service to function correctly.
 4. Invoke `docker-compose up -d` again.
