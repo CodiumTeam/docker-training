@@ -96,6 +96,12 @@ The goal of this exercise is to define a `docker-compose.yml` that would allow u
 5. Execute `docker-compose logs -f db` to check the database is starting correctly with the new configuration. This process can take a few seconds.
 6. Verify that the site is still displaying correctly in your browser.
 
+If you get the error `Error establishing a database connection` it can be due two reasons:
+ * The database is still starting, check for the message `ready for connections` in the logs, if the database is ready and the problem persists go to the next point.
+ * Try running `docker-compose down` and bring it up again. This happens because you tried to set up a database connection from the web interface in the previous step and the docker container for wordpress created a config file with wrong credentials.
+   When you brought up the database, the wordpress container was not recreated because its definition did not change, but we need it to start from a clean state, that's why we want to delete it and start a new one.
+
+
 ### Add persistence to avoid losing data
 
 If you run `docker-compose down` and `up` again, the data would be lost. In order to keep it, you would need to define a volume to persist the data.
