@@ -160,7 +160,7 @@ As seen above, docker-compose allows to start multiple containers in a very easy
   ```
 - Run a Wordpress server using the previous database
   ```bash
-  docker run -d -p 80:80 --network wp-app-network -e NGINX_PORT=8080 -e WORDPRESS_DB_HOST=db -e WORDPRESS_DB_USER=wordpress -e WORDPRESS_DB_PASSWORD=wordpress wordpress
+  docker run -d -p 80:80 --network wp-app-network -e NGINX_PORT=8080 -e WORDPRESS_DB_HOST=db -e WORDPRESS_DB_USER=wordpress -e WORDPRESS_DB_PASSWORD=wordpress wordpress:5.7.1-apache
   ```
 - Access http://localhost:80 and check that it works.
 - As you have just experienced, using Docker Compose is much easier and provides a much better experience.
