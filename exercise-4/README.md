@@ -39,6 +39,11 @@ Notice how this only lists the containers defined in that docker-compose.
    docker-compose logs web
    ```
 
+   You can also keep the logs open to follow future changes:
+   ```bash
+   docker-compose logs -f web
+   ```
+
 1. Many of the commands we explored in the earlier module also work here. For example you can do
    ```
    docker-compose exec my-mongo mongo --eval "db.users.insertOne({name: 'jonas'})"
