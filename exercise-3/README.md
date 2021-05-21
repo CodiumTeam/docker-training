@@ -115,7 +115,7 @@ As you can see the `docker run` command is getting quite verbose. In the next mo
   
 - Now let's run the python script from a specific folder:
   ```bash
-  docker run -v $PWD:/home/codium -w /home/codium python python hello.py
+  docker run -v $PWD:/home/codium -w /home/codium python:alpine python hello.py
   ```
   What is happening?
 
