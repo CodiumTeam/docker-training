@@ -10,7 +10,7 @@ In this exercise we are going to publish our own image into a Registry running i
    ```bash
    docker-compose up -d
    ```
-1. Access the Registry UI in http://localhost, using `registry` as username and `ui` as password. You will see that there are no images.
+1. Access the Registry UI in [http://localhost:80](http://localhost:80), using `registry` as username and `ui` as password. You will see that there are no images.
 1. Build your own image from the Dockerfile under `/exercise-7`:
    ```bash
    docker build -t my-alpine-cat .
@@ -33,7 +33,7 @@ In this exercise we are going to publish our own image into a Registry running i
    ```bash
    docker push localhost:5000/my-alpine-cat:v1
    ```
-   If you access http://localhost you will see your image with the corresponding tag.
+   If you access [http://localhost:80](http://localhost:80) you will see your image with the corresponding tag.
 1. Notice that you have locally the built image `localhost:5000/my-alpine-cat:v1`
    ```bash
    docker images
