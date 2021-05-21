@@ -46,7 +46,7 @@ Notice how this only lists the containers defined in that docker-compose.
 
 1. Many of the commands we explored in the earlier module also work here. For example you can do
    ```
-   docker-compose exec my-mongo mongo --eval "db.users.insertOne({name: 'jonas'})"
+   docker-compose exec mongo mongo --eval "db.users.insertOne({name: 'jonas'})"
    ```
 
 1. To remove everything use the `docker-compose down` command.
