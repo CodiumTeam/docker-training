@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 logging.basicConfig(level=logging.DEBUG)
 
-client = MongoClient("my-mongo:27017")
+client = MongoClient("mongo:27017")
 
 @app.route('/')
 def todo():
