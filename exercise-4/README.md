@@ -139,7 +139,7 @@ If you run `docker-compose down` and `up` again, the data would be lost. In orde
 - Please, transform the next docker run into a docker-compose.yml and verify that it works as expected:
   ```console
   $ cd nginx
-  $ docker run --rm -p 8888:8080 -e NGINX_PORT=8080 -v $PWD/index.html:/usr/share/nginx/html/index.html -v ${PWD}/conf:/etc/nginx/templates nginx
+  $ docker run --rm -p 8888:8080 -e NGINX_PORT=8080 -v ${PWD}/index.html:/usr/share/nginx/html/index.html -v ${PWD}/conf:/etc/nginx/templates nginx
   ```
 
 ### Example of the exercise without docker-compose

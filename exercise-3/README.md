@@ -11,9 +11,9 @@ Be default the `alpine` does not have a `/codium` folder.
 
 Now run it mapping a volume:
 ```bash
-docker run --rm -v $PWD:/codium alpine ls /codium
+docker run --rm -v ${PWD}:/codium alpine ls /codium
 ```
-> If you are using Windows DOS shell use `%cd%` instead of `$PWD` i.e. `docker run --rm -v %cd%:/codium alpine ls /codium`
+> If you are using Windows DOS shell use `%cd%` instead of `${PWD}` i.e. `docker run --rm -v %cd%:/codium alpine ls /codium`
 
 Why is this working?
 
@@ -44,9 +44,9 @@ Running an `nginx` server is useful, but ideally you want to serve your own HTML
 
 ```bash
 cd ./exercise-3
-docker run --rm -d -p 8888:80 -v $PWD/index.html:/usr/share/nginx/html/index.html nginx
+docker run --rm -d -p 8888:80 -v ${PWD}/index.html:/usr/share/nginx/html/index.html nginx
 ```
-> Remember under Windows DOS you need to use `%cd%` instead of `$PWD`
+> Remember under Windows DOS you need to use `%cd%` instead of `${PWD}`
 1. Navigate to [http://localhost:8888](http://localhost:8888) and see the content of the `index.html` file.
 1. Modify the index.html file in the host
 1. Refresh the browser and observe the changes. 
@@ -92,7 +92,7 @@ In other cases you can also mount files to modify the configuration. In the foll
 
 ```bash
 cd ./exercise-3
-docker run --rm -p 8888:8080 -e NGINX_PORT=8080 -v $PWD/index.html:/usr/share/nginx/html/index.html -v $PWD/conf:/etc/nginx/templates nginx
+docker run --rm -p 8888:8080 -e NGINX_PORT=8080 -v ${PWD}/index.html:/usr/share/nginx/html/index.html -v ${PWD}/conf:/etc/nginx/templates nginx
 ```
 
 Verify the nginx server is up and running and showing our index.html on http://localhost:8888/
@@ -103,19 +103,19 @@ As you can see the `docker run` command is getting quite verbose. In the next mo
 
 - From inside the folder `exercise-3`, try and run the next command:
   ```bash
-  docker run -v $PWD:/home/codium python:alpine python hello.py
+  docker run -v ${PWD}:/home/codium python:alpine python hello.py
   ```
   What happened? Why didn't it work?
 
 - Now run:
   ```bash
-  docker run -v $PWD:/home/codium python:alpine python /home/codium/hello.py
+  docker run -v ${PWD}:/home/codium python:alpine python /home/codium/hello.py
   ```
   Why did it work?
   
 - Now let's run the python script from a specific folder:
   ```bash
-  docker run -v $PWD:/home/codium -w /home/codium python:alpine python hello.py
+  docker run -v ${PWD}:/home/codium -w /home/codium python:alpine python hello.py
   ```
   What is happening?
 
