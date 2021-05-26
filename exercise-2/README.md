@@ -149,6 +149,9 @@ In this exercise we will try to use the `mongo CLI` tool which is installed insi
    ```bash
    docker logs -n 3 my-mongo
    ```
+
+   > In older versions of docker this shorthand was not present and you have tu use the long version `docker logs --tail 3 my-mongo`
+
 7. Stop and remove the running container
    ```bash
    docker rm -f my-mongo
