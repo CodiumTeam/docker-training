@@ -17,7 +17,7 @@ docker run --rm -v ${PWD}:/codium alpine ls /codium
 
 Why is this working?
 
-You have mapped a folder from the local computer into the `/codium` folder inside the image. As it is a bind mount volume, any changes to your local files are immediately available inside the container (like a soft link). Notice you need to specify an absolute path, hence why we are using the `$PWD` variable.
+You have mapped a folder from the local computer into the `/codium` folder inside the container. As it is a bind mount volume, any changes to your local files are immediately available inside the container (like a soft link). Notice you need to specify an absolute path, hence why we are using the `$PWD` variable.
 
 ## 3.2 Exposing network ports
 
