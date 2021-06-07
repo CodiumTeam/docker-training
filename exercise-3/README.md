@@ -7,7 +7,7 @@ Run the following command. It should fail. Why?
   docker run --rm alpine ls /codium
   ```
 
-Be default the `alpine` does not have a `/codium` folder.
+By default the `alpine` does not have a `/codium` folder.
 
 Now run it mapping a volume:
 ```bash
