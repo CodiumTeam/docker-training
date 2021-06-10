@@ -31,8 +31,9 @@ You need Docker and Docker Compose. For that, you have several options:
 - [Exercise 5: build your own image](exercise-5)
 - [Exercise 6: multistage build](exercise-6)
 - [Exercise 7: publish your own image](exercise-7)
-- [Exercise 8: clean up the system](exercise-8)
-- [Exercise 9: troubleshooting](exercise-9)
+- [Exercise 8: troubleshooting](exercise-8)
+- [Exercise 9: clean up the system](exercise-9)
+
 
 ## Interesting resources
 

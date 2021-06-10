@@ -1,8 +1,8 @@
-# Exercise 9: troubleshooting
+# Exercise 8: troubleshooting
 
 Try to practise these commands with any of the previous containers. If you have executed all the prune commands in the previous exercise, you may have to first build some new images.
 
-## 9.1 Docker built-in tools
+## 8.1 Docker built-in tools
 
 - Show low-level information on any Docker object
   ```bash
@@ -37,14 +37,14 @@ Try to practise these commands with any of the previous containers. If you have 
   docker-compose exec [your-service] [command]
   ```
 
-## 9.2 Using external tools
+## 8.2 Using external tools
 
 - Top-like interface for container metrics: [ctop](https://github.com/bcicen/ctop)
 - A simple terminal UI for both docker and docker-compose: [lazydocker](https://github.com/jesseduffield/lazydocker)
 - With both previous tools you can even execute a shell (if the image allows it)
 - Some IDEs, like VS Code or IntelliJ, offer extensions that you can use to interact and inspect your Docker resources
 
-## 9.3 Common errors
+## 8.3 Common errors
 
 - `running out of disk space`
   - You could run `docker system df` to check what resources are taking space.

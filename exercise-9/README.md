@@ -1,4 +1,4 @@
-# Exercise 8: Clean up the system
+# Exercise 9: Clean up the system
 
 In these exercises we will see how to free space and check what specific Docker resources are using that space.
 
