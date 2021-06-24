@@ -25,3 +25,19 @@ In this example with `php`, in order to build the application it requires `compo
 Try building and running the second version `Dockerfile.2`. Notice that, instead of installing `composer` manually, it uses an existing image with it installed. However, this image does not contain `apache` which is required to run the application. Hence, why the file then has a second `FROM` to load a different image. In line 19, it copies, using the `--from` parameter, the artifacts from the first stage of the build, which was done in the `composer` image, onto the final `php:apache` one.
 
 Build the different Dockerfiles and use `docker history` to examine the resulting images, can you spot the differences?
+
+## Bonus track
+
+### Build and deploy an Angular application
+
+In the folder `exercise-6/sample-angular-app` you will find a minimal sample Angular application. Try to build and deploy it in a Docker container so it is served from an `nginx` web server. Some pointers:
+- The build process requires `node`. You can use the `node:14-alpine` image.
+- The dependencies are installed running `npm install`. This requires the `package.json` file to be present.
+- The application is built using `npm run build`. This requires
+  - all the files from the `src` folder
+  - `angular.json`, both `tsconfig` files and `.browserslistrc`
+- To serve the application you can use the `nginx.alpine` image.
+
+Once you have created the `Dockerfile`, build the image and run it. Verify you can see the sample app in your browser.
+
+
