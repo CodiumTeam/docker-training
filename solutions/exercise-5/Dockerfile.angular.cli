@@ -1,0 +1,14 @@
+FROM node:14-alpine
+
+RUN apk --update add \
+        git \
+        less \
+        openssh \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm /var/cache/apk/*
+
+RUN npm install --global @angular/cli@12.0.5
+
+ENTRYPOINT [ "ng" ]
+
+# alias ng='docker run -v ${PWD}:/app -w /app -ti --rm -v ${HOME}/.gitconfig:/home/node/.gitconfig:ro ng'
