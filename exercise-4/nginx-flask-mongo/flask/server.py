@@ -8,17 +8,18 @@ app = Flask(__name__)
 
 logging.basicConfig(level=logging.DEBUG)
 
-client = MongoClient(os.environ.get("MONGO_DSN"))
+client = MongoClient(os.environ.get("MONGO_DSN"), serverSelectionTimeoutMS=1000)
 
 @app.route('/')
 def todo():
     try:
         app.logger.info('Processing request...')
-        client.admin.command('ismaster')
+        db = client.test
+        count = db.users.find().count()
+        return f"Connected to Mongo!<br/><br/>There are {count} records in the users collection\n"
     except Exception as ex:
         app.logger.error(ex)
         return "Server not available"
-    return "Hello from the MongoDB client!\n"
 
 
 if __name__ == "__main__":
