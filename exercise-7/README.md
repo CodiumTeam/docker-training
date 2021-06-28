@@ -10,6 +10,9 @@ In this exercise we are going to publish our own image into a Registry running i
    ```bash
    docker-compose up -d
    ```
+
+> If you already have port 80 in use in your machine and you get a conflict, you can modify the port for the `ui` service in the docker-compose.yml. You will then need to also use the port when tagging the images to push to the repository, e.g. `localhost:8080/my-alpine-cat:v1`
+
 1. Access the Registry UI in [http://localhost:80](http://localhost:80), using `registry` as username and `ui` as password. You will see that there are no images.
 1. Build your own image from the Dockerfile under `/exercise-7`:
    ```bash
