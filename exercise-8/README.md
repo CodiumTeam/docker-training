@@ -10,7 +10,7 @@ Try to practise these commands with any of the previous containers. If you have 
   ```
 - Show low-level information for a specific object type. This is useful when there is more than one resource with the same name. E.g. for volumes:
   ```bash
-  docker volume inspect registry_data
+  docker volume inspect exercise-7_registry_data
   ```
 - Display a live stream of container(s) resource usage statistics
   ```bash
