@@ -1,0 +1,17 @@
+FROM alpine as compile
+
+RUN apk add g++
+
+WORKDIR /src
+
+COPY program.cpp ./
+
+RUN g++ program.cpp -o prime && chmod +x prime
+
+FROM alpine
+
+RUN apk add libstdc++
+
+COPY --from=compile /src/prime /
+
+ENTRYPOINT [ "/prime" ]
