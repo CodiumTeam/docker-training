@@ -70,30 +70,6 @@ docker run --rm -d -P my-python-app
 ```
 you will see despite using `-P` no ports have been exposed locally. This is because the `-P` option automatically exposes any ports as long as they have been **declared** in the `Dockerfile`. Try modifying the `Dockerfile` to expose the port of the python application automatically when using `-P`.
 
-## Bonus track
-
-### ENTRYPOINT vs CMD
-
-The binary to be executed when the container starts is defined by the concatenation of both `ENTRYPOINT` and `CMD` properties. When you execute the `docker run` command you are able to change the value of the `CMD` part. 
-1. Switch to the `entrypoint-cmd` folder.
-1. Build the sample `Dockerfile`:
-   ```bash
-   docker build -t entrypoint-cmd-example .
-   ```
-1. Start the container:
-   ```bash
-   docker run entrypoint-cmd-example
-   ```
-   Notice how `CMD` is the argument passed to the binary command defined as `ENTRYPOINT` in this case is executing `/bin/cat /etc/os-release`.
-1. You can override the command adding an extra argument:
-   ```bash
-   docker run entrypoint-cmd-example /etc/passwd
-   ```
-1. You can also override the entrypoint in the following way:
-   ```bash
-   docker run --entrypoint ls entrypoint-cmd-example /etc/passwd
-   ```
-
 ### Using Docker to run the Angular CLI
 
 As we have established, we use a container to run a process in an isolated manner. This process could be a long-lived application like a web server or a database, or short-lived like invoking a command in a CLI.
@@ -140,7 +116,7 @@ docker run --rm --user node -v ${PWD}:/app -w /app -t -i -v ${HOME}/.gitconfig:/
 
 As an alternative to this, we could add a `USER node` directive at the end of the `Dockerfile`. You would need to rebuild the image and try running the `run` command without the `--user` parameter.
 
-> Note, usually the default user in Linux has the id 1000 which is the same as the one given to the _node_ user inside of the `node` container. Since the ids match, the files are owned by your default account in the host OS. If your user account in the host has a different id, you would need to use a different 
+> Note, usually the default user in Linux has the id 1000 which is the same as the one given to the _node_ user inside of the `node` container. Since the ids match, the files are owned by your default account in the host OS. If your user account in the host has a different id, you would need to use a different id
 
 #### Alias
 
@@ -151,13 +127,36 @@ In Linux bash:
 alias ng='docker run --user node -v ${PWD}:/app -w /app -ti --rm -v ${HOME}/.gitconfig:/home/node/.gitconfig:ro ng:12'
 ```
 
-Or in (Windows) Powershell you need to can create a function
+Or in (Windows) Powershell you can create a function
 ```
 function ng () { docker run --user node -v ${PWD}:/app -w /app -ti --rm -v ${HOME}/.gitconfig:/home/node/.gitconfig:ro ng:12 @Args }
 ```
 
 This allows you to invoke the Angular CLI as if it was installed locally, e.g. `ng version` or `ng new project --skip-install`
 
+## Bonus track
+
+### ENTRYPOINT vs CMD
+
+The binary to be executed when the container starts is defined by the concatenation of both `ENTRYPOINT` and `CMD` properties. When you execute the `docker run` command you are able to change the value of the `CMD` part. 
+1. Switch to the `entrypoint-cmd` folder.
+1. Build the sample `Dockerfile`:
+   ```bash
+   docker build -t entrypoint-cmd-example .
+   ```
+1. Start the container:
+   ```bash
+   docker run entrypoint-cmd-example
+   ```
+   Notice how `CMD` is the argument passed to the binary command defined as `ENTRYPOINT` in this case is executing `/bin/cat /etc/os-release`.
+1. You can override the command adding an extra argument:
+   ```bash
+   docker run entrypoint-cmd-example /etc/passwd
+   ```
+1. You can also override the entrypoint in the following way:
+   ```bash
+   docker run --entrypoint ls entrypoint-cmd-example /etc/passwd
+   ```
 ## Resources
 
 - https://github.com/jessfraz/dockerfiles
