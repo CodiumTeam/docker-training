@@ -26,18 +26,33 @@ Try building and running the second version `Dockerfile.2`. Notice that, instead
 
 Build the different Dockerfiles and use `docker history` to examine the resulting images, can you spot the differences?
 
-## Bonus track
+## 6.3 Dockerize an Angular application
 
-### Build and deploy an Angular application
+In this exercise you are going to use all your Docker knowledge to create an optimize `Dockerfile` to deploy an angular application inside of an nginx webserver.
 
-In the folder `exercise-6/sample-angular-app` you will find a minimal sample Angular application. Try to build and deploy it in a Docker container so it is served from an `nginx` web server. Some pointers:
-- The build process requires `node`. You can use the `node:14-alpine` image.
-- The dependencies are installed running `npm install`. This requires the `package.json` file to be present.
-- The application is built using `npm run build`. This requires
+Inside the `3-sample-angular-app` folder you will find a very simple angular application. Create a `Dockerfile` inside this folder, to distribute the app so it runs inside `nginx`.
+
+Hints:
+- Use one of the official `node` images
+- Dependencies are installed running `npm install`. This only requires access to the `package.json` file (and optionally `package-lock.json` if it exists).
+- You can build the application using the `npm run build` command. This will build it inside the `/dist/my-app/` folder. For this to work, it requires:
   - all the files from the `src` folder
   - `angular.json`, both `tsconfig` files and `.browserslistrc`
-- To serve the application you can use the `nginx.alpine` image.
+- Distribute the application inside an `nginx` server. By default it serves files it finds in the the `/usr/share/nginx/html/` folder.
 
-Once you have created the `Dockerfile`, build the image and run it. Verify you can see the sample app in your browser.
+Once you are able to build your image successfully, try running the container and opening the sample app in the browser.
 
+## Bonus track
 
+As part of the build process of the Angular app, also ensure all tests are executed. This sample app comes with [Karma](http://karma-runner.github.io/6.3/index.html) already configured and tests can be executed via `npm run test`. However, this requires for the Chrome browser to be installed. Therefore we will need to do the following:
+
+1. Ensure you are base image is `node:14`
+1. Create a new stage `test` where you will install Chrome. E.g.
+  ```Dockerfile
+  RUN apt-get update \
+    && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+    && apt install -y ./google-chrome*.deb
+  ```
+1. Set the `CHROME_BIN` environment variable to the location of chrome `/usr/bin/google-chrome`
+1. Copy the test configuration files `karma.conf.js` and `tsconfig.spec.json` into the root folder.
+1. Run the tests `npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessNoSandbox`
