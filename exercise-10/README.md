@@ -23,7 +23,10 @@ docker scan flask-app:v3 -f Dockerfile
 docker images flask-app
 ```
 
-## 10.2 Creating a non-privileged user
+## 10.2 Explore risks of priviledged users
+[Why not run as root](https://medium.com/@mccode/processes-in-containers-should-not-run-as-root-2feae3f0df3b)
+
+## 10.3 Creating a non-privileged user
 
 ```Dockerfile
 RUN addgroup -g 5000 newuser \
