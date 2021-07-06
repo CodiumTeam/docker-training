@@ -1,2 +1,47 @@
 # Exercise 7: security
 
+## 7.1 Using Docker scan
+
+LOGIN? 
+
+```bash
+docker build -t flask-app:v1 .
+docker scan flask-app:v1 -f Dockerfile
+```
+
+```bash
+docker build -t flask-app:v2 --build-arg TAG=3.7.11-slim-buster .
+docker scan flask-app:v2 -f Dockerfile
+```
+
+```bash
+docker build -t flask-app:v3 --build-arg TAG=3.7-alpine3.14 .
+docker scan flask-app:v3 -f Dockerfile
+```
+
+```bash
+docker images flask-app
+```
+
+## 7.2 Creating a non-privileged user
+
+```Dockerfile
+RUN addgroup -g 5000 newuser \
+  && adduser -G newuser -S \
+    -u 5000 -s /bin/sh newuser
+
+USER newuser
+```
+
+```bash
+  docker build -t flask-app:user --build-arg TAG=3.7-alpine3.14 .
+  docker run --rm -d -P --name flask_user flask-app:user
+
+  docker top flask_user
+  docker exec flask_user ls -l
+  docker rm -f flask_user
+```
+
+```Dockerfile
+COPY --chown=newuser:newuser requirements.txt .
+```
