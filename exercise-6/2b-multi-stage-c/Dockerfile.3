@@ -1,5 +1,6 @@
 FROM alpine as compile
 
+# Install compilation dependencies
 RUN apk add g++
 
 WORKDIR /src
@@ -10,7 +11,8 @@ RUN g++ program.cpp -o prime && chmod +x prime
 
 FROM alpine
 
-RUN apk add libstdc++
+# Install runtime dependencies
+RUN apk add libstdc++ 
 
 COPY --from=compile /src/prime /
 

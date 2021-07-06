@@ -97,12 +97,12 @@ After building the image you can try it running `docker run --rm ng:12 version`.
 
 We are now able to use our new image to create a new Angular project. How should you do it?
 ```
-docker run --rm -v ${PWD}:/app -w /app -t -i ng:12 new sample-project
+docker run --rm -v ${PWD}:/app -w /app -t -i ng:12 new sample-project --skip-install
 ```
 
 As explained earlier, the Angular CLI uses git commands to start a new repository when it creates a new project. To use the existing git settings (particularly email and name) we can simply mount the `.gitconfig` file from our home folder into the home folder of the container.
 ```
-docker run --rm -v ${PWD}:/app -w /app -t -i -v ${HOME}/.gitconfig:/root/.gitconfig ng:12 new sample-project --skip-install
+docker run --rm -v ${PWD}:/app -w /app -t -i -v ${HOME}/.gitconfig:/root/.gitconfig:ro ng:12 new sample-project --skip-install
 ```
 
 #### Changing the USER

@@ -28,4 +28,4 @@ RUN npm run build
 
 FROM nginx:alpine
 
-COPY --from=base /app/dist/my-app /usr/share/nginx/html/
+COPY --from=build /app/dist/my-app /usr/share/nginx/html/
