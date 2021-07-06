@@ -51,16 +51,16 @@ You will now explore the advantages of using a multi-stage build to remove unnec
 
 ## 6.3 Dockerize an Angular application
 
-In this exercise you are going to use all your Docker knowledge to create an optimize `Dockerfile` to deploy an angular application inside of an nginx webserver.
+In this exercise you are going to use all your Docker knowledge to create an optimize a `Dockerfile` to deploy an angular application inside of a nginx webserver.
 
 Inside the `3-sample-angular-app` folder you will find a very simple angular application. Create a `Dockerfile` inside this folder, to distribute the app so it runs inside `nginx`.
 
 Hints:
-- Use one of the official `node` images
+- Use one of the official `node` images [link](https://hub.docker.com/_/node)
 - Dependencies are installed running `npm install`. This only requires access to the `package.json` file (and optionally `package-lock.json` if it exists).
 - You can build the application using the `npm run build` command. This will build it inside the `/dist/my-app/` folder. For this to work, it requires:
   - all the files from the `src` folder
-  - `angular.json`, both `tsconfig` files and `.browserslistrc`
+  - `angular.json`, all `tsconfig` files and `.browserslistrc`
 - Distribute the application inside an `nginx` server. By default it serves files it finds in the the `/usr/share/nginx/html/` folder.
 
 Once you are able to build your image successfully, try running the container and opening the sample app in the browser.
