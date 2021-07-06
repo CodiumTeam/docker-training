@@ -10,21 +10,10 @@ In order to leverage more efficiently the caching mechanism Docker uses when bui
 1. Modify the `Dockerfile` to copy the `requirements.txt` file (but not the `server.py`), install the dependencies, and then copy the actual application code.
 1. As before, try building the image, then change the code in `server.py` and build the image again. Notice how this time, the dependencies are retrieved from cache.
 
-## 6.2 Multi-stage builds
+## 6.2 Multi-stage builds with C++
 
-In this exercise we are going to analyze the optimization of an existing dockerized application. Using the example in the `2-multi-stage-builds` folder. Build the image with the supplied file `Dockerfile.1`, and run it. Things to note:
-- By default `docker build` looks for a `Dockerfile` in the context folder. If you want to use a different name you can use the `-f` option.
-- The application is built in `php`. 
-- It runs inside an Apache web server. When requesting the root it displays a welcome message.
-- You need to expose port 80 of the container when running the container.
+The goal in this... TBD
 
-In many languages the requirements to build the application are different to those needed to run it. Multi-stage builds are particularly suited to help reduce the size and complexity of the final image by splitting the build process into separate steps run in different base images.
-
-In this example with `php`, in order to build the application it requires `composer` (the `php` dependency manager). Instead of installing it on the final image, we are going to leverage an existing image that already has it installed.
-
-Try building and running the second version `Dockerfile.2`. Notice that, instead of installing `composer` manually, it uses an existing image with it installed. However, this image does not contain `apache` which is required to run the application. Hence, why the file then has a second `FROM` to load a different image. In line 19, it copies, using the `--from` parameter, the artifacts from the first stage of the build, which was done in the `composer` image, onto the final `php:apache` one.
-
-Build the different Dockerfiles and use `docker history` to examine the resulting images, can you spot the differences?
 
 ## 6.3 Dockerize an Angular application
 
@@ -42,7 +31,9 @@ Hints:
 
 Once you are able to build your image successfully, try running the container and opening the sample app in the browser.
 
-## Bonus track
+## Bonus track 
+
+### Execute tests during the image build process
 
 As part of the build process of the Angular app, also ensure all tests are executed. This sample app comes with [Karma](http://karma-runner.github.io/6.3/index.html) already configured and tests can be executed via `npm run test`. However, this requires for the Chrome browser to be installed. Therefore we will need to do the following:
 
@@ -56,3 +47,19 @@ As part of the build process of the Angular app, also ensure all tests are execu
 1. Set the `CHROME_BIN` environment variable to the location of chrome `/usr/bin/google-chrome`
 1. Copy the test configuration files `karma.conf.js` and `tsconfig.spec.json` into the root folder.
 1. Run the tests `npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessNoSandbox`
+
+### Multi-stage builds with PHP
+
+In this exercise we are going to analyze the optimization of an existing dockerized application. Using the example in the `2-multi-stage-builds` folder. Build the image with the supplied file `Dockerfile.1`, and run it. Things to note:
+- By default `docker build` looks for a `Dockerfile` in the context folder. If you want to use a different name you can use the `-f` option.
+- The application is built in `php`.
+- It runs inside an Apache web server. When requesting the root it displays a welcome message.
+- You need to expose port 80 of the container when running the container.
+
+In many languages the requirements to build the application are different to those needed to run it. Multi-stage builds are particularly suited to help reduce the size and complexity of the final image by splitting the build process into separate steps run in different base images.
+
+In this example with `php`, in order to build the application it requires `composer` (the `php` dependency manager). Instead of installing it on the final image, we are going to leverage an existing image that already has it installed.
+
+Try building and running the second version `Dockerfile.2`. Notice that, instead of installing `composer` manually, it uses an existing image with it installed. However, this image does not contain `apache` which is required to run the application. Hence, why the file then has a second `FROM` to load a different image. In line 19, it copies, using the `--from` parameter, the artifacts from the first stage of the build, which was done in the `composer` image, onto the final `php:apache` one.
+
+Build the different Dockerfiles and use `docker history` to examine the resulting images, can you spot the differences?
