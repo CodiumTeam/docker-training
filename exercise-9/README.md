@@ -67,6 +67,17 @@ From the folder `my-nano-app`:
    ```
 1. Fix everything needed until the previous command works
 
+### Fix another failing container
+
+From the folder `my-node-app`:
+
+1. Build the image from the Dockerfile (name it `my-node-app`)
+1. Run:
+   ```bash
+   docker run --rm my-node-app
+   ```
+1. Fix everything needed until the previous commands works
+
 ## Resources
 
 - https://www.digitalocean.com/community/tutorials/how-to-debug-and-fix-common-docker-issues
