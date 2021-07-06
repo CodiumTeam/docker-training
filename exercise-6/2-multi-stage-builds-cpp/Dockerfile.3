@@ -1,4 +1,4 @@
-FROM alpine as compile
+FROM alpine:3.14.0 as compile
 
 # Install compilation dependencies
 RUN apk add g++
@@ -9,7 +9,7 @@ COPY program.cpp ./
 
 RUN g++ program.cpp -o prime && chmod +x prime
 
-FROM alpine
+FROM alpine:3.14.0 as final
 
 # Install runtime dependencies
 RUN apk add libstdc++ 

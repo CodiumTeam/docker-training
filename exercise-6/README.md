@@ -12,8 +12,42 @@ In order to leverage more efficiently the caching mechanism Docker uses when bui
 
 ## 6.2 Multi-stage builds with C++
 
-The goal in this... TBD
+You will now explore the advantages of using a multi-stage build to remove unnecessary dependencies from the final distributable image. As this is particularly relevant with languages that require compilation, the example uses a very simple C++ program which calculates whether a number is prime or not.
 
+1. Open a terminal inside the `exercise-6/2-multi-stage-builds-cpp` folder.
+1. Build the first Dockerfile supplied
+    ```bash
+    docker build -t ex6-2:v1 -f Dockerfile.1 .
+    ```
+1. Run the container to verify it all works
+    ```bash
+    docker run --rm ex6-2:v1 29
+    ```
+    You should see the message `29 is a prime number`
+1. Check the contents of the `Dockerfile.1`. Notice how it uses a base image (`gcc`) that already contains the necessary tools for compilation.
+
+1. Repeat the above steps for the second Dockerfile
+    ```bash
+    docker build -t ex6-2:v2 -f Dockerfile.2 .
+    docker run --rm ex6-2:v2 29
+    ```
+    You should observe the same result as before
+1. This `Dockerfile.2` uses a different base image `alpine`, which does not have the compilation tool, so it needs to be stored.
+1. Open `Dockerfile.3` and spot the differences with the previous one. Notice it does the same initial steps, but then it copies the compiled artefact to a brand new `alpine` image, where it only installs the runtime dependencies.
+1. Build the image. You will notice how the first steps are shown as cached, because they are exactly the same as in `Dockerfile.2`. Remember Docker cache works even across different Dockerfiles.
+    ```bash
+    docker build -t ex6-2:v3 -f Dockerfile.3 .
+    ```
+1. Lastly, let's compare the size of the images. You can do this by running:
+    ```bash
+      docker images ex6-2
+    ```
+    Unsurprisingly, the last version is the smallest, since it does not contain the very large compile dependencies, but only runtime ones.
+
+    You can also use the `docker history` command to inspect the different layers created:
+    ```bash
+    docker history ex6-2:v3
+    ```
 
 ## 6.3 Dockerize an Angular application
 
