@@ -1,4 +1,4 @@
-# Exercise 10: security
+# Exercise 10: Security
 
 ## 10.1 Using Docker scan
 
