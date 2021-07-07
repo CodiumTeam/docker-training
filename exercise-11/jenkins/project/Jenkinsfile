@@ -21,7 +21,7 @@ pipeline {
                 sh '''#!/bin/bash
                     cd exercise-11/jenkins/project
                     docker-compose up -d
-                    output=$(curl -s http://localhost:8000)
+                    output=$(curl -s http://docker:8000)
                     docker-compose down
                     echo $output
                     [ "$output" == "Hello from MongoDB client!" ] && echo 'It works!'
