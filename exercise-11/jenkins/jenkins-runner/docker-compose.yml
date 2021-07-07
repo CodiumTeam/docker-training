@@ -47,7 +47,16 @@ services:
     depends_on: 
       - registry-backend
 
+  gogs:
+    image: gogs/gogs
+    ports:
+      - "10022:22"
+      - "3000:3000"
+    volumes:
+      - gogs-data:/data
+
 volumes:
   registry_data:
   jenkins-docker-certs:
   jenkins-data:
+  gogs-data:

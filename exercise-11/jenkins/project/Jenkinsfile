@@ -10,7 +10,6 @@ pipeline {
         stage('build') {
             steps {
                 sh '''
-                    cd exercise-11/jenkins/project/flask
                     docker-compose build
                 '''
             }
@@ -18,7 +17,6 @@ pipeline {
         stage('test') {
             steps {
                 sh '''#!/bin/bash
-                    cd exercise-11/jenkins/project
                     docker-compose up -d
                     output=$(curl -s http://docker:8000)
                     docker-compose down
