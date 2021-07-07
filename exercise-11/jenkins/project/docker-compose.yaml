@@ -7,11 +7,12 @@ services:
     environment:
       - FLASK_SERVER_ADDR=backend:9091
     ports:
-      - 80:80
+      - 8000:80
     depends_on:
       - backend
 
   backend:
+    image: my-flask
     build: flask
     environment:
       - FLASK_SERVER_PORT=9091
