@@ -10,6 +10,7 @@ pipeline {
         stage('build') {
             steps {
                 sh '''
+                    env
                     cd exercise-11/jenkins/project/flask
                     docker-compose build
                 '''
@@ -20,7 +21,8 @@ pipeline {
                 sh '''#!/bin/bash
                     cd exercise-11/jenkins/project
                     docker-compose up -d
-                    [ "$(wget -O - -q http://localhost:8000)" == "Hello from MongoDB client!" ] && echo 'It works!'
+                    output=$(curl -s http://localhost:8000)
+                    [ "$output" == "Hello from MongoDB client!" ] && echo 'It works!'
                 '''
             }
         }
