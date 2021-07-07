@@ -1,23 +1,125 @@
 # Exercise 11: Pipelines
-cp solutions/exercise-6/part\ 3/Dockerfile.2 exercise-6/3-sample-angular-app/Dockerfile
-cd exercise-6/3-sample-angular-app
 
-DOCKER_BUILDKIT=1 docker build -t registry.local/my-angular:${GIT_COMMIT} -t registry.local/my-angular:latest .
+In this exercise you will configure a continuous integration pipeline. The purpose is for your code to be build an image with your code, test it, and then push it to a registry. 
 
-docker login registry.local -u $DOCKER_REGISTRY_USER -p $DOCKER_REGISTRY_PASSWORD
-docker push registry.local/my-angular:${GIT_COMMIT}
-docker push registry.local/my-angular:latest
+## Jenkins
+
+To do this you will use an automation tool for executing pipelines named [Jenkins](https://www.jenkins.io/). Since this is a Docker course we are going to run everything using Docker.
+
+### Start and configure tools
+
+Navigate to the `jenkins/jenkins-runner`. You will see there is a docker compose file; start all the services running `docker-compose up -d`. As you can see in the file this defines various services, including a Jenkins server, a Docker registry and a local Github looalike. 
+
+#### Push repository to Git
+
+1. Open Gogs in the browser on http://localhost:3000. This will open the configuration page
+1. Change the database typ to **SQLite3**
+1. Click **Install Gogs** at the bottom of the page
+1. Click the [**Need an account? Sign up now.**](http://localhost:3000/user/sign_up) link. Use the following data:
+| Field    | Data           |
+|----------|----------------|
+| Username | gogs           |
+| Email    | gogs@local.com |
+| Password | gogs1234       |
+
+1. Create the account and then use the credentials to log in.
+1. Click on the blue plus to **add a new repository**. ![New repository](jenkins/screenshots/create-repository.png)
+1. Find out the password for Jenkins, this will be inside the `executor` service inside the file `/var/jenkins_home/secrets/initialAdminPassword`
+1. Fill the *Repository Name* field as **flask-app** and click **Create Repository**
+1. Open a terminal in the `./exercise-11/jenkins/project` folder.
+1. Initialize and push the git repo. Use the credentials from before (gogs/gogs1234) when prompted:
+    ```bash
+      git init
+      git add .
+      git commit -m "first commit"
+      git remote add origin http://localhost:3000/gogs/flask-app.git
+      git push -u origin master
+    ```
+#### Configure Jenkins
+
+1. Open http://localhost:8080 in the browser.
+1. You need to retrieve the initial random password created by Jenkins. This is inside a file named `/var/jenkins_home/secrets/initialAdminPassword` inside the executor service of the docker-compose stack you have started previously. Get the contents of that file and paste it in the Administrator password field. 
+1. Click **Continue**
+1. Click on the small cross in the top right of the screen to close the *Getting Started* dialog.
+1. Click on **Start using Jenkins**
+1. Click on **New Item** to define a new automation project.
+1. Enter the name **flask-app** and select **Pipeline**
+1. Click **OK** at the bottom of the page. ![New project](jenkins/screenshots/create-jenkins-project.png)
+1. Click on **Pipeline** in the tabs or scroll down to the pipeline section. Anf fill it as follows:
+    | Field          | Value                               |
+    |----------------|-------------------------------------|
+    | Definition     | Pipeline script from SCM            |
+    | SCM            | Git                                 |
+    | Repository URL | http://gogs:3000/gogs/flask-app.git |
+    
+    ![Pipeline definition](jenkins/screenshots/configure-scm.png)
+
+1. Click **Save** at the bottom of the page
+
+    You have now configured a new project in Jenkins. This will execute the tasks defined in the `Jenkinsfile` commited to the root of the git repository. The file is currently just a placeholder which only outputs some messages but it does nothing. Nevertheless we can run the pipelin to verify it all works.
+
+1. Click **Build now**
+    You should see the new job in the pending jobs section. Alternatively you can open the blue ocean interface on [http://localhost:8080/blue/organizations/jenkins/flask-app/activity](http://localhost:8080/blue/organizations/jenkins/flask-app/activity)
+    
+1. Navigating through the web interface, explore the output of the pipeline for the different stages.
+
+### Configure a pipeline trigger
+Next you are going to configure a trigger so the pipeline is automatically executed whenever a new commit is pushed to the repository.
+
+1. Open the Gogs interface and navigate to the webhooks settings of the project on http://localhost:3000/gogs/flask-app/settings/hooks
+1. Select *Add a new webhook* of type **Gogs**
+1. In the *Payload URL* field enter **http://executor:8080/gogs-webhook/?job=flask-app** 
+1. Click the **Add Webhook** button
+1. Go to the settings of the Jenkins project at http://localhost:8080/job/flask-app/configure
+1. Under the *Build Triggers* section check the **Build when a change is pushed to Gogs** option. 
+1. Click **Save**
+
+You can now make a change to the code of the `server.py` file. Commit and push the change to the repo and verify the pipeline is executed.
 
 
+### Complete the build stage
 
-```bash
-cp solutions/exercise-6/part\ 3/Dockerfile.2 exercise-6/3-sample-angular-app/Dockerfile
-cd exercise-6/3-sample-angular-app
+Replace the echo instruction in the `Jenkinsfile` to build the flask image. 
+Commit and push the change and verify if the pipeline succesfully builds the Docker image.
 
-DOCKER_BUILDKIT=1 docker build -t registry.local/my-angular:${GIT_COMMIT} -t registry.local/my-angular:latest .
+### Complete the release stage
 
-docker login registry.local -u $DOCKER_REGISTRY_USER -p $DOCKER_REGISTRY_PASSWORD
-docker push registry.local/my-angular:${GIT_COMMIT}
-docker push registry.local/my-angular:latest
+Next you will modify the `Jenkinsfile` so the image is pushed to the registry. 
 
-```
+Hints:
+  - You may want to tag the image with the short SHA of the current commit, i.e. `` SHA=`git rev-parse --short HEAD` ``
+  - The host name for the repository is `registry.local` so prepend the image name with it, e.g. `registry.local/my-flask:latest`
+  - You need authenticate in the registry before being to able to push. The credentials are username `registry` password `ui`.
+
+### Use Jenkins credential storage
+
+Adding passwords to your `Jenkinsfile`, and therefore to source control, is certainly a terrible practice. You will now move the username and password you used for the registry out of the `Jenkinsfile`.
+
+1. In the Jenkins UI navigate to [Dashboard > Manage Jenkins > Jenkins > Global Credentials](http://localhost:8080/credentials/store/system/domain/_/).
+1. Click on **Add Credentials**
+1. Fill the Username and Password fields with the credentials (registry/ui) and in the ID field add the text `docker-registry-local`.
+1. Click **OK**
+
+1. In the `Jenkinsfile` inside the `environment` section the following:
+    ```groovy
+    environment { 
+      REGISTRY_CREDENTIALS = credentials('docker-registry-local')
+    }
+    ```
+1. This will expose two new environment variables `$REGISTRY_CREDENTIALS_USR` and `$REGISTRY_CREDENTIALS_PSW` you can use in your stage script. Replace the credentials in the `docker login` instruction for these variables. Remember variables need to be prepended with a `$` sign.
+1. Verify the pipeline still works and the password is no longer displayed in the pipeline logs.
+
+### Complete the test stage
+
+For the test stage you are going to do a very simplistic scenario. You will start the application doing a `docker-compose up` and request the page using `curl -s http://docker:8000) and verify that it returns the message *Hello from the MongoDB client!*
+
+Hints:
+- As well as doing `docker-compose up -d` you probably also want to do `docker-compose down` to clean up.
+- In the curl command we are running against `http://docker:8000` because this is running inside the docker service, but the script is running from the Jenkins server.
+- You can compare strings in a Linux sh shell doing `[ "string1" = "string1" ]`
+
+### Use environment variables
+
+You can use environment variables in your `Jenkinsfile` to avoid repetition. Define a new variable named `REGISTRY` to avoid repeating the hostname of the registry.
+
+
