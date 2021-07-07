@@ -18,7 +18,7 @@ def todo():
     except Exception as ex:
         app.logger.error(ex)
         return "Server not available"
-    return "Hello from the MongoDB client!\n"
+    return "Hello from the MongoDB client!"
 
 
 if __name__ == "__main__":

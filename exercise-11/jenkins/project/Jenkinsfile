@@ -10,7 +10,6 @@ pipeline {
         stage('build') {
             steps {
                 sh '''
-                    env
                     cd exercise-11/jenkins/project/flask
                     COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose build
                 '''
@@ -24,7 +23,7 @@ pipeline {
                     output=$(curl -s http://docker:8000)
                     docker-compose down
                     echo $output
-                    [ "$output" == "Hello from MongoDB client!" ] && echo 'It works!'
+                    [ "$output" == "Hello from the MongoDB client!" ] && echo 'It works!'
                 '''
             }
         }
