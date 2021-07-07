@@ -7,16 +7,32 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh '''#!/bin/bash
-                    
+                sh '''
                     cd exercise-11/jenkins/project/flask
-                    DOCKER_BUILDKIT=1 docker build -t $REGISTRY_URL/my-flask:${GIT_COMMIT:8} -t $REGISTRY_URL/my-flask:latest .
-
+                    DOCKER_BUILDKIT=1 docker-compose build
+                '''
+            }
+        }
+        stage('test') {
+            steps {
+                sh '''#!/bin/bash
+                    cd exercise-11/jenkins/project
+                    docker-compose up -d
+                    [ "$(wget -O - -q http://localhost:8000)" == "Hello from MongoDB client! ] && echo 'It works!'
+                '''
+            }
+        }
+        stage('release') {
+            steps {
+                sh '''#!/bin/bash
                     docker login $REGISTRY_URL -u $REGISTRY_CREDENTIALS_USR -p $REGISTRY_CREDENTIALS_PSW
-                    docker push $REGISTRY_URL/my-flask:${GIT_COMMIT:8}
+                    
+                    docker tag my-flask $REGISTRY_URL/my-flask:${GIT_COMMIT:0:8}
+                    docker tag my-flask $REGISTRY_URL/my-flask:latest
+                    
+                    docker push $REGISTRY_URL/my-flask:${GIT_COMMIT:0:8}
                     docker push $REGISTRY_URL/my-flask:latest
                 '''
-                
             }
         }
     }
