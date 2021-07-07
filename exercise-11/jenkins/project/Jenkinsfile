@@ -11,7 +11,7 @@ pipeline {
             steps {
                 sh '''
                     cd exercise-11/jenkins/project/flask
-                    COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose build
+                    docker-compose build
                 '''
             }
         }
