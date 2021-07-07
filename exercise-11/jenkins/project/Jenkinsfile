@@ -1,0 +1,15 @@
+pipeline {
+    // agent { docker { image 'python:3.5.1' } }
+    stages {
+        stage('build') {
+            steps {
+                sh '''#!/bin/bash
+                    ls
+                    cd exercise-11/jenkins/project/flask
+                    docker build -t my-flask:${GIT_COMMIT:8} .
+                '''
+                
+            }
+        }
+    }
+}
