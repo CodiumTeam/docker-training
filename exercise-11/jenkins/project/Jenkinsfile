@@ -1,12 +1,20 @@
 pipeline {
     agent any
+    environment {
+        REGISTRY_URL          = 'registry.local'
+        REGISTRY_CREDENTIALS   = credentials('docker-registry-local')
+    }
     stages {
         stage('build') {
             steps {
                 sh '''#!/bin/bash
-                    ls
+                    
                     cd exercise-11/jenkins/project/flask
-                    docker build -t my-flask:${GIT_COMMIT:8} .
+                    DOCKER_BUILDKIT=1 docker build -t $REGISTRY_URL/my-flask:${GIT_COMMIT:8} -t $REGISTRY_URL/my-flask:latest .
+
+                    docker login $REGISTRY_URL -u $REGISTRY_CREDENTIALS_USR -p $REGISTRY_CREDENTIALS_PSW
+                    docker push $REGISTRY_URL/my-flask:${GIT_COMMIT:8}
+                    docker push $REGISTRY_URL/my-flask:latest
                 '''
                 
             }
