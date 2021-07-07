@@ -1,0 +1,53 @@
+version: "3.8"
+services:
+  docker:
+    image: docker:dind
+    command: 
+      - --insecure-registry
+      - registry.local
+    privileged: true
+    environment:
+      - DOCKER_TLS_CERTDIR=/certs
+    volumes:
+      - jenkins-docker-certs:/certs/client
+      - jenkins-data:/var/jenkins_home
+
+  executor:
+    image: myjenkins-blueocean:1.1
+    build: .
+    environment:
+      - DOCKER_HOST=tcp://docker:2376
+      - DOCKER_CERT_PATH=/certs/client
+      - DOCKER_TLS_VERIFY=1
+    volumes:
+      - jenkins-data:/var/jenkins_home
+      - jenkins-docker-certs:/certs/client:ro
+    ports:
+      - 8080:8080
+      - 50000:50000 
+
+  registry-backend:
+    image: registry:2
+    volumes:
+      - registry_data:/var/lib/registry
+      - ./registry-config:/etc/docker/registry
+  registry:
+    image: joxit/docker-registry-ui:main
+    ports:
+      - 80:80
+    networks:
+      default:
+        aliases: 
+          - registry.local
+    environment: 
+      - SINGLE_REGISTRY=true
+      - NGINX_PROXY_PASS_URL=http://registry-backend:5000
+      - REGISTRY_TITLE=Local
+      - DELETE_IMAGES=true
+    depends_on: 
+      - registry-backend
+
+volumes:
+  registry_data:
+  jenkins-docker-certs:
+  jenkins-data:
