@@ -1,15 +1,17 @@
 pipeline {
     agent any
     environment {
-        REGISTRY_URL          = 'registry.local'
-        REGISTRY_CREDENTIALS   = credentials('docker-registry-local')
+        COMPOSE_DOCKER_CLI_BUILD = 1
+        DOCKER_BUILDKIT          = 1
+        REGISTRY_URL             = 'registry.local'
+        REGISTRY_CREDENTIALS     = credentials('docker-registry-local')
     }
     stages {
         stage('build') {
             steps {
                 sh '''
                     cd exercise-11/jenkins/project/flask
-                    DOCKER_BUILDKIT=1 docker-compose build
+                    docker-compose build
                 '''
             }
         }
@@ -18,7 +20,7 @@ pipeline {
                 sh '''#!/bin/bash
                     cd exercise-11/jenkins/project
                     docker-compose up -d
-                    [ "$(wget -O - -q http://localhost:8000)" == "Hello from MongoDB client! ] && echo 'It works!'
+                    [ "$(wget -O - -q http://localhost:8000)" == "Hello from MongoDB client!" ] && echo 'It works!'
                 '''
             }
         }
