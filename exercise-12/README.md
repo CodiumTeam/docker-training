@@ -1,8 +1,8 @@
-# Exercise 11: Pipelines
+# Exercise 12: Pipelines
 
 In this exercise you will configure a continuous integration pipeline. The purpose is: build an image with your code, test it, and then push it to a registry. 
 
-## 11.1 Building a Python app
+## 12.1 Building a Python app
 
 To do this you will use an automation tool for executing pipelines named [Jenkins](https://www.jenkins.io/). Since this is a Docker course we are going to run everything using Docker.
 
@@ -25,7 +25,7 @@ Navigate to the `jenkins/jenkins-runner`. You will see there is a docker compose
 1. Create the account and then use the credentials to log in.
 1. Click on the blue plus to **add a new repository**. ![New repository](jenkins/screenshots/create-repository.png)
 1. Fill the *Repository Name* field as **flask-app** and click **Create Repository**
-1. Open a terminal in the `./exercise-11/jenkins/python` folder.
+1. Open a terminal in the `./exercise-12/jenkins/python` folder.
 1. Initialize and push the git repo. Use the credentials from before (gogs/gogs1234) when prompted:
     ```bash
       git init
@@ -138,7 +138,7 @@ Finally, as well as doing `docker-compose up -d` you also want to do `docker-com
 
 You can use environment variables in your `Jenkinsfile` to avoid repetition. Define a new variable named `REGISTRY` to avoid repeating the hostname of the registry.
 
-## 11.2 Building an Angular app
+## 12.2 Building an Angular app
 
 In this exercise you will practice how to parallelize pipeline steps and execute tests by running a Docker container and uploading the results as an asset.
 
