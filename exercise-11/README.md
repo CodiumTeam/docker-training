@@ -199,7 +199,7 @@ If you commit and push again, you will notice that in the *Blue Ocean* report in
 
 ### Build and release the application
 
-Complete the guild and release stages to build the production image and upload it to the registry, just like you did earlier with the Python application.
+Complete the build and release stages to build the production image and upload it to the registry, just like you did earlier with the Python application.
 
 ### Parallelize stages
 
