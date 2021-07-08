@@ -1,10 +1,10 @@
-# Exercise 10: Security
+# Exercise 11: Security
 
-## 10.1 Using Docker scan
+## 11.1 Using Docker scan
 
 In this exercise you will use the `docker scan` functionality to get a report of the vulnerabilities found in an image.
 
-1. In the terminal, open the `exercise-10` folder.
+1. In the terminal, open the `exercise-11` folder.
 1. Execute the following:
     ```bash
     docker build -t flask-app:v1 .
@@ -28,12 +28,12 @@ Notice the difference in size between all three versions of the same container.
 docker images flask-app
 ```
 
-## 10.2 Explore risks of priviledged users
+## 11.2 Explore risks of priviledged users
 
 
 [Why not run as root](https://medium.com/@mccode/processes-in-containers-should-not-run-as-root-2feae3f0df3b)
 
-## 10.3 Creating a non-privileged user
+## 11.3 Creating a non-privileged user
 
 In this exercise you will modify the `Dockerfile` to ensure it runs as a non-priviledged user. 
 
