@@ -16,11 +16,11 @@ Navigate to the `jenkins/jenkins-runner`. You will see there is a docker compose
 1. Change the database typ to **SQLite3**
 1. Click **Install Gogs** at the bottom of the page
 1. Click the [**Need an account? Sign up now.**](http://localhost:3000/user/sign_up) link. Use the following data:
-| Field    | Data           |
-|----------|----------------|
-| Username | gogs           |
-| Email    | gogs@local.com |
-| Password | gogs1234       |
+    | Field    | Data           |
+    |----------|----------------|
+    | Username | gogs           |
+    | Email    | gogs@local.com |
+    | Password | gogs1234       |
 
 1. Create the account and then use the credentials to log in.
 1. Click on the blue plus to **add a new repository**. ![New repository](jenkins/screenshots/create-repository.png)
