@@ -14,13 +14,12 @@ FROM base as test
 
 RUN apt-get update \
   && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
-  && apt install -y ./google-chrome*.deb
+  && apt install -y ./google-chrome*.deb \
+  && rm google-chrome-stable_current_amd64.deb
 
 ENV CHROME_BIN=/usr/bin/google-chrome
 
 COPY karma.conf.js tsconfig.spec.json ./
-
-RUN npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessNoSandbox
 
 FROM base as build
 
