@@ -1,0 +1,25 @@
+version: '3.9'
+services:
+  app:
+    image: my-angular-app:dev
+    build:
+      context: .
+      target: base
+    command: [ 'npm', 'start', '--', '--host=0.0.0.0', '--disable-host-check']
+    volumes:
+      - .:/app:cached
+      - /app/node_modules
+    ports:
+      - 4200:4200
+
+  test:
+    image: my-angular-app:test
+    build:
+      context: .
+      target: test
+    command: [ "--browsers=ChromeHeadlessNoSandbox" ]
+    volumes:
+      - .:/app:cached
+      - /app/node_modules
+    ports:
+      - 9876:9876
