@@ -2,7 +2,7 @@
 
 In this exercise you will configure a continuous integration pipeline. The purpose is: build an image with your code, test it, and then push it to a registry. 
 
-## Jenkins
+## 11.1 Building a Python app
 
 To do this you will use an automation tool for executing pipelines named [Jenkins](https://www.jenkins.io/). Since this is a Docker course we are going to run everything using Docker.
 
@@ -138,4 +138,105 @@ Finally, as well as doing `docker-compose up -d` you also want to do `docker-com
 
 You can use environment variables in your `Jenkinsfile` to avoid repetition. Define a new variable named `REGISTRY` to avoid repeating the hostname of the registry.
 
+## 11.2 Building an Angular app
 
+In this exercise you will practice how to parallelize pipeline steps and execute tests by running a Docker container and uploading the results as an asset.
+
+### Set up the project
+
+You will start by adding the code to our private *Git* server and creating a new Jenkins project in the same way you did earlier with the Python app.
+
+1. In your browser, open http://localhost:3000
+1. Create a new repository named **angular-app*
+1. In the settings of the new repostiroy, add a new webhook, pointing to **http://executor:8080/gogs-webhook/?job=angular-app**
+1. In the browser, navigate to http://localhost:8080.
+1. Using the *New Item* option create a new project definition named **angular-app** and link it to the **http://gogs:3000/gogs/angular-app.git** repo. Remember to enable the build trigger so it builds whenever there is a new push to the repository.
+1. Open a terminal and navigate to the folder `jenkins/angular`.
+1. Execute: 
+    ```bash
+        git init
+        git add .
+        git commit -m 'Initial'
+        git add http://localhost:3000/gogs/angular-app.git
+        git push -u origin master
+    ```
+1. Verify the pipeline runs successfully.
+
+### Build and execute Karma tests
+
+If you inspect the `Dockerfile` in this Angular project, you will notice it follows the builder pattern with a multi-stage process. 
+It has several stages:
+1. *Base*: installs dependencies and copy source code.
+1. *Test*: adds a installation of Chrome and other files required for executing tests.
+1. *Build*: builds the angular application creating a series of javascript, css and html assets
+1. *Final*: copies the build output onto an nginx instace
+
+Notice the final output is an `nginx:alpine` image, which is therefore small, and does not contain any of the dependencies that were needed to build and test the application.
+
+You are able to build up to a particular stage using the `--target` flag of the `docker build` command. 
+
+If you want to create an image that can be used to test the application you can execute:
+```bash
+    docker build -t my-angular-app:test-latest --target test .
+```
+You can then use this image to invoke the tests:
+```bash
+    docker run --rm -v ${PWD}/karma-tests:/app/karma-tests my-angular-app:test-latest
+```
+You can try executing the tests locally running those lines in the command line. Notice how the volume mount is used to extract the test report file, which will now be avilable in the `karma-tests` folder.
+
+Modify the test stage of the Jenkins pipeline to execute the tests.
+
+Make a commit and push the changes to start the pipeline, and check all tests pass successfully.
+
+Since the tests create a `junit` format report, you could expose it in the Jenkins UI so it is easier to inspect the test results. Add an extra `step`
+```groovy
+    junit 'karma-tests/results.xml'
+```
+If you commit and push again, you will notice that in the *Blue Ocean* report in the Test tab, you can see the test results.
+
+![Test results](./jenkins/screenshots/test-results.png)
+
+### Build and release the application
+
+Complete the guild and release stages to build the production image and upload it to the registry, just like you did earlier with the Python application.
+
+### Parallelize stages
+
+In order to speed up the feedback loop, it would make sense to build the production image in parallel with the execution of the tests. We can do that using the `parallel` keyword in syntax
+Create a new stage named build and test and include the existing build and test stages inside:
+```groovy
+stages {
+    stage('build and test') {
+        parallel {
+            stage('build') {
+                steps {
+                    // ...
+                }
+            }
+            stage('test') {
+                steps {
+                    // ...
+                }
+            }
+        }
+    }
+}
+```
+
+Commit and push the changes and see if the pipeline executes in parallel.
+
+What would happen if one of the stages executing in parallel fails before the other? The pipeline would still finish the other steps. If you want the pipeline to stop the moment one stage fails you need to add an extra option, just below the `agent` instruction:
+```groovy
+options {
+    parallelsAlwaysFailFast()
+}
+```
+
+# Bonus track
+
+Add an extra step in the build stage, to execute a docker scan of the image.
+
+You will need to be logged in to *Docker Hub*, so you will need to execute a docker login statment. Do not put the credentials in the Jenkinsfile and storem them in Jenkins, just as you learnt earlier.
+
+If you have used all your free *Snyk* scans, you may need to also login to *Snyk* and add an API token.

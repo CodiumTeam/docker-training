@@ -21,10 +21,12 @@ ENV CHROME_BIN=/usr/bin/google-chrome
 
 COPY karma.conf.js tsconfig.spec.json ./
 
+ENTRYPOINT [ "npm", "run", "test", "--", "--no-watch", "--no-progress", "--browsers=ChromeHeadlessNoSandbox", "--reporters=junit" ]
+
 FROM base as build
 
 RUN npm run build
 
-FROM nginx:alpine
+FROM nginx:alpine as final
 
 COPY --from=build /app/dist/my-app /usr/share/nginx/html/
