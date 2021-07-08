@@ -13,7 +13,7 @@ client = MongoClient(os.environ.get("MONGO_DSN"))
 @app.route('/')
 def todo():
     try:
-        app.logger.info('Processing request...')
+        app.logger.info('Processing request...!')
         client.admin.command('ismaster')
     except Exception as ex:
         app.logger.error(ex)
