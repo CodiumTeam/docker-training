@@ -24,7 +24,6 @@ Navigate to the `jenkins/jenkins-runner`. You will see there is a docker compose
 
 1. Create the account and then use the credentials to log in.
 1. Click on the blue plus to **add a new repository**. ![New repository](jenkins/screenshots/create-repository.png)
-1. Find out the password for Jenkins, this will be inside the `executor` service inside the file `/var/jenkins_home/secrets/initialAdminPassword`
 1. Fill the *Repository Name* field as **flask-app** and click **Create Repository**
 1. Open a terminal in the `./exercise-11/jenkins/python` folder.
 1. Initialize and push the git repo. Use the credentials from before (gogs/gogs1234) when prompted:
