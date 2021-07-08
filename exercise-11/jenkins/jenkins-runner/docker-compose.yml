@@ -31,6 +31,7 @@ services:
     volumes:
       - registry_data:/var/lib/registry
       - ./registry-config:/etc/docker/registry
+
   registry:
     image: joxit/docker-registry-ui:main
     ports:

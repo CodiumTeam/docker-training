@@ -1,6 +1,6 @@
 # Exercise 11: Pipelines
 
-In this exercise you will configure a continuous integration pipeline. The purpose is for your code to be build an image with your code, test it, and then push it to a registry. 
+In this exercise you will configure a continuous integration pipeline. The purpose is: build an image with your code, test it, and then push it to a registry. 
 
 ## Jenkins
 
@@ -8,7 +8,7 @@ To do this you will use an automation tool for executing pipelines named [Jenkin
 
 ### Start and configure tools
 
-Navigate to the `jenkins/jenkins-runner`. You will see there is a docker compose file; start all the services running `docker-compose up -d`. As you can see in the file this defines various services, including a Jenkins server, a Docker registry and a local Github looalike. 
+Navigate to the `jenkins/jenkins-runner`. You will see there is a docker compose file; start all the services running `docker-compose up -d`. As you can see in the file this defines various services, including a Jenkins server, a Docker registry and a local Github. 
 
 #### Push repository to Git
 
@@ -36,7 +36,7 @@ Navigate to the `jenkins/jenkins-runner`. You will see there is a docker compose
     ```
 #### Configure Jenkins
 
-1. Open http://localhost:8080 in the browser.
+1. Open http://localhost:8080 in another tap of the browser.
 1. You need to retrieve the initial random password created by Jenkins. This is inside a file named `/var/jenkins_home/secrets/initialAdminPassword` inside the executor service of the docker-compose stack you have started previously. Get the contents of that file and paste it in the Administrator password field. 
 1. Click **Continue**
 1. Click on the small cross in the top right of the screen to close the *Getting Started* dialog.
@@ -79,7 +79,7 @@ You can now make a change to the code of the `server.py` file. Commit and push t
 ### Complete the build stage
 
 Replace the echo instruction in the `Jenkinsfile` to build the flask image. 
-Commit and push the change and verify if the pipeline succesfully builds the Docker image.
+Commit and push the change and verify if the pipeline successfully builds the Docker image.
 
 ### Complete the release stage
 
@@ -88,7 +88,9 @@ Next you will modify the `Jenkinsfile` so the image is pushed to the registry.
 Hints:
   - You may want to tag the image with the short SHA of the current commit, i.e. `` SHA=`git rev-parse --short HEAD` ``
   - The host name for the repository is `registry.local` so prepend the image name with it, e.g. `registry.local/my-flask:latest`
-  - You need authenticate in the registry before being to able to push. The credentials are username `registry` password `ui`.
+  - You need authenticate in the registry before being able to push the image. The credentials are username `registry` password `ui`.
+
+When you finally get the build stage to correctly push the images to the `registry.local` you can check the registry at: http://localhost/#!/taglist/my-flask
 
 ### Use Jenkins credential storage
 
@@ -99,7 +101,7 @@ Adding passwords to your `Jenkinsfile`, and therefore to source control, is cert
 1. Fill the Username and Password fields with the credentials (registry/ui) and in the ID field add the text `docker-registry-local`.
 1. Click **OK**
 
-1. In the `Jenkinsfile` inside the `environment` section the following:
+1. In the `Jenkinsfile`, inside the `stage('build')` section, add the following:
     ```groovy
     environment { 
       REGISTRY_CREDENTIALS = credentials('docker-registry-local')
@@ -110,12 +112,27 @@ Adding passwords to your `Jenkinsfile`, and therefore to source control, is cert
 
 ### Complete the test stage
 
-For the test stage you are going to do a very simplistic scenario. You will start the application doing a `docker-compose up` and request the page using `curl -s http://docker:8000) and verify that it returns the message *Hello from the MongoDB client!*
+For the test stage you are going to do a very simplistic scenario. You will start the application doing a `docker-compose up -d` and request the page using `curl -s http://docker:8000` and verify that it returns the message *Hello from the MongoDB client!*
 
 Hints:
-- As well as doing `docker-compose up -d` you probably also want to do `docker-compose down` to clean up.
 - In the curl command we are running against `http://docker:8000` because this is running inside the docker service, but the script is running from the Jenkins server.
 - You can compare strings in a Linux sh shell doing `[ "string1" = "string1" ]`
+- To execute the curl command use ` character the beggining and the end of the command.
+
+Finally, as well as doing `docker-compose up -d` you also want to do `docker-compose down` to clean up. To do this use:
+
+    ```groovy
+        stage('test') {
+            steps {
+                ...
+            }
+            post {
+                always {
+                    sh '<your command here...>'
+                }
+            }
+        }
+    ```
 
 ### Use environment variables
 
