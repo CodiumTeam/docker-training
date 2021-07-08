@@ -1,17 +1,17 @@
-# Exercise 7: How to publish your own images
+# Exercise 8: How to publish your own images
 
 Here you will practice how to publish your own images in order to share them with other people. We will show several examples: using your own local registry, Docker Hub or the GitLab registry.
 
-## 7.1 Publishing in your own Registry
+## 8.1 Publishing in your own Registry
 
 In this exercise we are going to publish our own image into a Registry running in our local machine (this way you don't need to create any account externally).
 
-1. Start a Docker container registry in your local machine (you need to be under `/exercise-7`, we have prepared a docker-compose with the needed services for that)
+1. Start a Docker container registry in your local machine (you need to be under `/exercise-8`, we have prepared a docker-compose with the needed services for that)
    ```bash
    docker-compose up -d
    ```
 1. Access the Registry UI in [http://localhost:80](http://localhost:80), using `registry` as username and `ui` as password. You will see that there are no images.
-1. Build your own image from the Dockerfile under `/exercise-7`:
+1. Build your own image from the Dockerfile under `/exercise-8`:
    ```bash
    docker build -t my-alpine-cat .
    ```
@@ -59,7 +59,7 @@ In this exercise we are going to publish our own image into a Registry running i
    docker-compose down
    ```
 
-## 7.2 How to publish an image to a public repository
+## 8.2 How to publish an image to a public repository
 
 You can use a public repository in exactly the same as the private one. You will need to create an account, login, and push the image as seen above. The prefix of the image tag (previously `localhost`) is used by Docker to locate the registry. This is the only part the needs to change according to the registry you want to use. Docker Hub is the default and most common image repository. It also hosts the _official_ images. However, there are many others, like `quay.io`; GitLab also offers an image repository linked to each git repository. 
 ### Docker Hub
