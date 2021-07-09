@@ -146,30 +146,33 @@ In this exercise you will practice how to parallelize pipeline steps and execute
 
 You will start by adding the code to our private *Git* server and creating a new Jenkins project in the same way you did earlier with the Python app.
 
+Setup Gogs:
 1. In your browser, open http://localhost:3000
-1. Create a new repository named **angular-app*
-1. In the settings of the new repostiroy, add a new webhook, pointing to **http://executor:8080/gogs-webhook/?job=angular-app**
-1. In the browser, navigate to http://localhost:8080.
-1. Using the *New Item* option create a new project definition named **angular-app** and link it to the **http://gogs:3000/gogs/angular-app.git** repo. Remember to enable the build trigger so it builds whenever there is a new push to the repository.
+1. Create a new repository named **angular-app**
+1. In the settings of the new repository (http://localhost:3000/gogs/angular-app/settings/hooks), add a new webhook, pointing the Payload URL to **http://executor:8080/gogs-webhook/?job=angular-app**
+   
+Setup Jenkins:
+1. In the browser, navigate to http://localhost:8080. If you need the admin password then search in the **executor** service logs.
+1. Using the *New Item* option create a new **Pipeline** definition named **angular-app** and link it to the **http://gogs:3000/gogs/angular-app.git** repo. Remember to enable the Build Trigger **Build when a change is pushed to Gogs** so it builds whenever there is a new push to the repository.
 1. Open a terminal and navigate to the folder `jenkins/angular`.
 1. Execute: 
     ```bash
         git init
         git add .
         git commit -m 'Initial'
-        git add http://localhost:3000/gogs/angular-app.git
+        git remote add origin http://localhost:3000/gogs/angular-app.git
         git push -u origin master
     ```
-1. Verify the pipeline runs successfully.
+1. Verify the pipeline runs successfully in Jenkins.
 
 ### Build and execute Karma tests
 
 If you inspect the `Dockerfile` in this Angular project, you will notice it follows the builder pattern with a multi-stage process. 
 It has several stages:
-1. *Base*: installs dependencies and copy source code.
-1. *Test*: adds a installation of Chrome and other files required for executing tests.
-1. *Build*: builds the angular application creating a series of javascript, css and html assets
-1. *Final*: copies the build output onto an nginx instace
+1. *Base*: installs dependencies and copies the source code.
+1. *Test*: adds an installation of Chrome and other files required for executing tests.
+1. *Build*: builds the angular application creating a series of javascript, css and html assets.
+1. *Final*: copies the build output onto an nginx instance.
 
 Notice the final output is an `nginx:alpine` image, which is therefore small, and does not contain any of the dependencies that were needed to build and test the application.
 
@@ -189,10 +192,12 @@ Modify the test stage of the Jenkins pipeline to execute the tests.
 
 Make a commit and push the changes to start the pipeline, and check all tests pass successfully.
 
-Since the tests create a `junit` format report, you could expose it in the Jenkins UI so it is easier to inspect the test results. Add an extra `step`
+Since the tests create a `junit` format report, you could expose it in the Jenkins UI so it is easier to inspect the test results. Add an extra `step`:
 ```groovy
     junit 'karma-tests/results.xml'
 ```
+Important: this last step it is not a sh command, don't write: `sh 'junit karma-tests/results.xml'`, just `junit 'karma-tests/results.xml'`.
+
 If you commit and push again, you will notice that in the *Blue Ocean* report in the Test tab, you can see the test results.
 
 ![Test results](./jenkins/screenshots/test-results.png)
