@@ -1,6 +1,6 @@
 # Exercise 7: using Docker in your development environment
 
-Traditionally, a lot of time is wasted when a new developer starts in a project and needs to configure their computer with the required tools and dependnecies. In addition, over time, you will find they are using different versions of tools, libraries, etc. creating further disparities in the way the software is run in each developer's machine.
+Traditionally, a lot of time is wasted when a new developer starts in a project and needs to configure their computer with the required tools and dependencies. In addition, over time, you will find they are using different versions of tools, libraries, etc., creating further disparities in the way the software is run in each developer's machine.
 
 The aim is always to have Docker as the **only** dependency in the developer's machine.
 
@@ -10,16 +10,16 @@ In this exercise you will add the necessary configuration to use Docker during t
 
 The purpose is to run an Angular application, with hot reload, so it shows in the browser and updates automatically when the code changes.
 
-> If you are using Windows, the recommended approach would be to install a WSL2 distribution (like Ubuntu), and do the exercise from inside the Linux terminal. This an be opened using Microsoft+R and typing `wsl`.
+> If you are using Windows, the recommended approach would be to install a WSL2 distribution (like Ubuntu), and do the exercise from inside the Linux terminal. This can be opened using Microsoft+R and typing `wsl`.
 
 Go to the `exercise-7/project` folder and create a new `docker-compose.yml` file. Add a service called `app` with the following details: 
 - builds the stage `base` of the `Dockerfile` in the root
 - overrides the command to be `[ 'npm', 'start', '--', '--host=0.0.0.0', '--disable-host-check']`
 - exposes the port 4200
 - mounts the current folder in the `/app` folder inside the container.
-- mounts a volume `/app/node_modules`. Yes, just that path, there is no `source:target` format in this case. This means it will mount the cpontents of the `/app/node_modules` folder *from the image* into the *container*. This is required because otherwise you would lose the `node_modules` folder when you mount the source of the application.
+- mounts a volume `/app/node_modules`. Yes, just that path, there is no `source:target` format in this case. This means it will mount the components of the `/app/node_modules` folder *from the image* into the *container*. This is required because otherwise you would lose the `node_modules` folder when you mount the source of the application.
 
-> Why is the `--host=0.0.0.0` flag required? By default when serving in development mode the app is only served via the localhost interface. In this case you may think that is what we are doing because you are opening `localhost` in the browser.  However, the browser is running in the host, and when it arrives to the container via port exposing, is coming through a non-local network interface. This is a common issue when working with containers in development.
+> Why is the `--host=0.0.0.0` flag required? By default, when serving in development mode the app is only served via the localhost interface. In this case you may think that is what we are doing because you are opening `localhost` in the browser.  However, the browser is running in the host, and when it arrives to the container via port exposing, is coming through a non-local network interface. This is a common issue when working with containers in development.
 
 Once the file is ready bring it up by running `docker-compose up`. After the compilation is finished, open the browser to show `http://localhost:4200`. You should see the Angular application.
 
@@ -39,7 +39,7 @@ There are many alternatives for running the tests, but in this case you are goin
   ```
 - exposes port 9876
 
-Restart the stack running `docker-compose up -d`. You can now see the tests runnig `docker-compose logs test`. Remember from earlier modules you can pass an option to the logs command to keep it open and *follow* the logs.
+Restart the stack running `docker-compose up -d`. You can now see the tests running `docker-compose logs test`. Remember from earlier modules you can pass an option to the logs command to keep it open and *follow* the logs.
 
 The tests may be failing right now because of the change you made earlier to the `src/app.component.ts` file. Undo the change to see the tests pass.
 

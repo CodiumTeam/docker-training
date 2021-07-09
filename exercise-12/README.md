@@ -4,11 +4,11 @@ In this exercise you will configure a continuous integration pipeline. The purpo
 
 ## 12.1 Building a Python app
 
-To do this you will use an automation tool for executing pipelines named [Jenkins](https://www.jenkins.io/). Since this is a Docker course we are going to run everything using Docker.
+To do this you will use an automation tool for executing pipelines named [Jenkins](https://www.jenkins.io/). Since this is a Docker course, we are going to run everything using Docker.
 
 ### Start and configure tools
 
-Navigate to the `jenkins/jenkins-runner`. You will see there is a docker compose file; start all the services running `docker-compose up -d`. As you can see in the file this defines various services, including a Jenkins server, a Docker registry and a local Github. 
+Navigate to the `jenkins/jenkins-runner`. You will see there is a docker compose file; start all the services running `docker-compose up -d`. As you can see in the file this defines various services, including a Jenkins server, a Docker registry and a local GitHub. 
 
 #### Push repository to Git
 
@@ -55,7 +55,7 @@ Navigate to the `jenkins/jenkins-runner`. You will see there is a docker compose
 
 1. Click **Save** at the bottom of the page
 
-    You have now configured a new project in Jenkins. This will execute the tasks defined in the `Jenkinsfile` commited to the root of the git repository. The file is currently just a placeholder which only outputs some messages but it does nothing. Nevertheless we can run the pipelin to verify it all works.
+    You have now configured a new project in Jenkins. This will execute the tasks defined in the `Jenkinsfile` committed to the root of the git repository. The file is currently just a placeholder which only outputs some messages, but it does nothing. Nevertheless, we can run the pipeline to verify it all works.
 
 1. Click **Build now**
     You should see the new job in the pending jobs section. Alternatively you can open the blue ocean interface on [http://localhost:8080/blue/organizations/jenkins/flask-app/activity](http://localhost:8080/blue/organizations/jenkins/flask-app/activity)
@@ -63,7 +63,7 @@ Navigate to the `jenkins/jenkins-runner`. You will see there is a docker compose
 1. Navigating through the web interface, explore the output of the pipeline for the different stages.
 
 ### Configure a pipeline trigger
-Next you are going to configure a trigger so the pipeline is automatically executed whenever a new commit is pushed to the repository.
+Next you are going to configure a trigger, so the pipeline is automatically executed whenever a new commit is pushed to the repository.
 
 1. Open the Gogs interface and navigate to the webhooks settings of the project on http://localhost:3000/gogs/flask-app/settings/hooks
 1. Select *Add a new webhook* of type **Gogs**
@@ -108,7 +108,7 @@ Adding passwords to your `Jenkinsfile`, and therefore to source control, is cert
     }
     ```
 1. This will expose two new environment variables `$REGISTRY_CREDENTIALS_USR` and `$REGISTRY_CREDENTIALS_PSW` you can use in your stage script. Replace the credentials in the `docker login` instruction for these variables. Remember variables need to be prepended with a `$` sign.
-1. Verify the pipeline still works and the password is no longer displayed in the pipeline logs.
+1. Verify the pipeline still works and, the password is no longer displayed in the pipeline logs.
 
 ### Complete the test stage
 
@@ -117,7 +117,7 @@ For the test stage you are going to do a very simplistic scenario. You will star
 Hints:
 - In the curl command we are running against `http://docker:8000` because this is running inside the docker service, but the script is running from the Jenkins server.
 - You can compare strings in a Linux sh shell doing `[ "string1" = "string1" ]`
-- To execute the curl command use ` character the beggining and the end of the command.
+- To execute the curl command use ` character the beginning and the end of the command.
 
 Finally, as well as doing `docker-compose up -d` you also want to do `docker-compose down` to clean up. To do this use:
 
@@ -153,7 +153,7 @@ Setup Gogs:
    
 Setup Jenkins:
 1. In the browser, navigate to http://localhost:8080. If you need the admin password then search in the **executor** service logs.
-1. Using the *New Item* option create a new **Pipeline** definition named **angular-app** and link it to the **http://gogs:3000/gogs/angular-app.git** repo. Remember to enable the Build Trigger **Build when a change is pushed to Gogs** so it builds whenever there is a new push to the repository.
+1. Using the *New Item* option create a new **Pipeline** definition named **angular-app** and link it to the **http://gogs:3000/gogs/angular-app.git** repo. Remember to enable the Build Trigger **Build when a change is pushed to Gogs**, so it builds whenever there is a new push to the repository.
 1. Open a terminal and navigate to the folder `jenkins/angular`.
 1. Execute: 
     ```bash
@@ -172,7 +172,7 @@ It has several stages:
 1. *Base*: installs dependencies and copies the source code.
 1. *Test*: adds an installation of Chrome and other files required for executing tests.
 1. *Build*: builds the angular application creating a series of javascript, css and html assets.
-1. *Final*: copies the build output onto an nginx instance.
+1. *Final*: copies the build output onto a nginx instance.
 
 Notice the final output is an `nginx:alpine` image, which is therefore small, and does not contain any of the dependencies that were needed to build and test the application.
 
@@ -186,13 +186,13 @@ You can then use this image to invoke the tests:
 ```bash
     docker run --rm -v ${PWD}/karma-tests:/app/karma-tests my-angular-app:test-latest
 ```
-You can try executing the tests locally running those lines in the command line. Notice how the volume mount is used to extract the test report file, which will now be avilable in the `karma-tests` folder.
+You can try executing the tests locally running those lines in the command line. Notice how the volume mount is used to extract the test report file, which will now be available in the `karma-tests` folder.
 
 Modify the test stage of the Jenkins pipeline to execute the tests.
 
 Make a commit and push the changes to start the pipeline, and check all tests pass successfully.
 
-Since the tests create a `junit` format report, you could expose it in the Jenkins UI so it is easier to inspect the test results. Add an extra `step`:
+Since the tests create a `junit` format report, you could expose it in the Jenkins UI, so it is easier to inspect the test results. Add an extra `step`:
 ```groovy
     junit 'karma-tests/results.xml'
 ```
@@ -242,6 +242,6 @@ options {
 
 Add an extra step in the build stage, to execute a docker scan of the image.
 
-You will need to be logged in to *Docker Hub*, so you will need to execute a docker login statment. Do not put the credentials in the Jenkinsfile and storem them in Jenkins, just as you learnt earlier.
+You will need to be logged in to *Docker Hub*, so you will need to execute a docker login statement. Do not put the credentials in the Jenkinsfile and store them in Jenkins, just as you learnt earlier.
 
 If you have used all your free *Snyk* scans, you may need to also login to *Snyk* and add an API token.
