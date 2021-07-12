@@ -28,12 +28,7 @@ Notice the difference in size between all three versions of the same container.
 docker images flask-app
 ```
 
-## 11.2 Explore risks of privileged users
-
-
-[Why not run as root](https://medium.com/@mccode/processes-in-containers-should-not-run-as-root-2feae3f0df3b)
-
-## 11.3 Creating a non-privileged user
+## 11.2 Creating a non-privileged user
 
 In this exercise you will modify the `Dockerfile` to ensure it runs as a non-privileged user. 
 
@@ -74,3 +69,9 @@ COPY --chown=newuser:newuser requirements.txt .
 ```
 
 Stop the container, re-build it and check the file permissions once more.
+
+### Further reading
+
+- [Why not run as root](https://medium.com/@mccode/processes-in-containers-should-not-run-as-root-2feae3f0df3b).
+- [Going rootless with Docker and Containers](https://mohitgoyal.co/2021/04/14/going-rootless-with-docker-and-containers)
+
