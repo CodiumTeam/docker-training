@@ -47,7 +47,7 @@ Alternatively you can also see the tests in the browser by opening `http://local
 
 ## Bonus track 
 
-**TO BE FINISHED OR DISCARDED**
+### Using VS Code Remote Containers extension
 
 If you are using Visual Studio Code, you can benefit from their support of Docker containers, and simplify the set up significantly.
 
@@ -55,7 +55,7 @@ If you are using Visual Studio Code, you can benefit from their support of Docke
 1. Open the `exercise-7/project` in VS Code.
 1. In left corner of the status bar of VS Code there should be a green area, click there, and in the menu select **Add Development Container Configuration Files...**
 1. Select **From a predefined container configuration definition...**
-1. Select **Node.js & Typescript**
+1. Select **Node.js**
 1. Select version **14**
 1. Uncomment the *forwardPorts* section and add 4200 to the array.
 1. Save the file.
@@ -64,7 +64,19 @@ If you are using Visual Studio Code, you can benefit from their support of Docke
 1. Open a terminal `Ctrl+J`
 1. Install dependencies executing `sudo npm install`
 1. Start the application `npm start`
-1. Open a browser to show http://localhost:4200
-1. Execute the tests typing `npm test -- --browsers=ChromeHeadlessNoSandbox`
+1. Open a browser to show http://localhost:4200 (actually VS Code will prompt you to do so, after the application is compiled)
 
-The advantage of this set up is that you could configure all the extensions, and they would work as if you are 
+### Running tests
+1. In order to execute the tests we need to modify the development image to add Chrome. Open the `.devcontainer/Dockerfile` file and add the following lines at the end of the file
+  ```Dockerfile
+    RUN apt-get update \
+      && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+      && apt install -y ./google-chrome*.deb \
+      && rm google-chrome-stable_current_amd64.deb
+    ENV CHROME_BIN=/usr/bin/google-chrome
+  ```
+  This will install Chrome so we can execute the tests. 
+1. Click on the status bar, on the green area which says `Dev Container: Node.js` and select **Rebuild Container**.
+1. Once VS Code restarts, open a new terminal and execute the tests typing `npm test -- --browsers=ChromeHeadlessNoSandbox`. Start the brwoser on http://localhost:9876.
+
+The advantage of running using the remote development features of VS Code is that all the extensions will work normally. In fact you could use the `.devcontainer/devcontainer.json` file to define extra setttings and extensions that should be enabled just for working with this particular project. This is very useful as it allows tailoring the behaviour of the IDE to the project, and also homogenize the extensions in use amongst all team members.
