@@ -3,6 +3,10 @@ pipeline {
     environment {
         COMPOSE_DOCKER_CLI_BUILD = 1
         DOCKER_BUILDKIT          = 1
+        SHORT_SHA                = """${sh(
+                                    returnStdout: true,
+                                    script: 'git rev-parse --short HEAD'
+                                )}"""
     }
     stages {
         stage('build') {
@@ -30,16 +34,10 @@ pipeline {
             }
             steps {
                 sh 'docker login $REGISTRY -u $REGISTRY_CREDENTIALS_USR -p $REGISTRY_CREDENTIALS_PSW'
-                sh '''
-                    SHA=`git rev-parse --short HEAD`
-
-                    docker tag my-flask $REGISTRY/my-flask:$SHA
-                    docker push $REGISTRY/my-flask:$SHA
-                '''
-                sh '''
-                    docker tag my-flask $REGISTRY/my-flask:latest
-                    docker push $REGISTRY/my-flask:latest
-                '''
+                sh 'docker tag my-flask $REGISTRY/my-flask:$SHORT_SHA'
+                sh 'docker push $REGISTRY/my-flask:$SHORT_SHA'
+                sh 'docker tag my-flask $REGISTRY/my-flask:latest'
+                sh 'docker push $REGISTRY/my-flask:latest'
             }
         }
     }
