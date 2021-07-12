@@ -1,0 +1,46 @@
+pipeline {
+    agent any
+    environment {
+        COMPOSE_DOCKER_CLI_BUILD = 1
+        DOCKER_BUILDKIT          = 1
+    }
+    stages {
+        stage('build') {
+            steps {
+                sh '''
+                    docker-compose build
+                '''
+            }
+        }
+        stage('test') {
+            steps {
+                sh 'docker-compose up -d'
+                sh '[ "`curl -s http://docker:8000`" = "Hello from the MongoDB client!" ] && echo "it works!"'
+            }
+            post {
+                always {
+                    sh 'docker-compose down -v'
+                }
+            }
+        }
+        stage('release') {
+            environment {
+                REGISTRY                 = "registry.local"
+                REGISTRY_CREDENTIALS     = credentials('docker-registry-local')
+            }
+            steps {
+                sh 'docker login $REGISTRY -u $REGISTRY_CREDENTIALS_USR -p $REGISTRY_CREDENTIALS_PSW'
+                sh '''
+                    SHA=`git rev-parse --short HEAD`
+
+                    docker tag my-flask $REGISTRY/my-flask:$SHA
+                    docker push $REGISTRY/my-flask:$SHA
+                '''
+                sh '''
+                    docker tag my-flask $REGISTRY/my-flask:latest
+                    docker push $REGISTRY/my-flask:latest
+                '''
+            }
+        }
+    }
+}

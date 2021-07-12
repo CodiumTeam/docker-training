@@ -1,102 +1,70 @@
-# Exercise 7: How to publish your own images
+# Exercise 7: using Docker in your development environment
 
-Here you will practice how to publish your own images in order to share them with other people. We will show several examples: using your own local registry, Docker Hub or the GitLab registry.
+Traditionally, a lot of time is wasted when a new developer starts in a project and needs to configure their computer with the required tools and dependencies. In addition, over time, you will find they are using different versions of tools, libraries, etc., creating further disparities in the way the software is run in each developer's machine.
 
-## 7.1 Publishing in your own Registry
+The aim is always to have Docker as the **only** dependency in the developer's machine.
 
-In this exercise we are going to publish our own image into a Registry running in our local machine (this way you don't need to create any account externally).
+In this exercise you will add the necessary configuration to use Docker during the development process, so nothing else needs to be installed on the developer's machine.
 
-1. Start a Docker container registry in your local machine (you need to be under `/exercise-7`, we have prepared a docker-compose with the needed services for that)
-   ```bash
-   docker-compose up -d
-   ```
+## 7.1 Running the application
 
-> If you already have port 80 in use in your machine and you get a conflict, you can modify the port for the `ui` service in the docker-compose.yml. You will then need to also use the port when tagging the images to push to the repository, e.g. `localhost:8080/my-alpine-cat:v1`
+The purpose is to run an Angular application, with hot reload, so it shows in the browser and updates automatically when the code changes.
 
-1. Access the Registry UI in [http://localhost:80](http://localhost:80), using `registry` as username and `ui` as password. You will see that there are no images.
-1. Build your own image from the Dockerfile under `/exercise-7`:
-   ```bash
-   docker build -t my-alpine-cat .
-   ```
-1. Tag your image:
-   ```bash
-   docker image tag my-alpine-cat localhost/my-alpine-cat:v1
-   ```
-1. Push your image to the registry and see how it fails
-   ```bash
-   docker push localhost/my-alpine-cat:v1
-   ```
-1. You will see that the push failed with a message `no basic auth credentials`.
+> If you are using Windows, the recommended approach would be to install a WSL2 distribution (like Ubuntu), and do the exercise from inside the Linux terminal. This can be opened using Microsoft+R and typing `wsl`.
 
-   You need to login with username `registry` and password `ui`
-   ```bash
-   docker login localhost
-   ```
-1. Now push again and see how it works
-   ```bash
-   docker push localhost/my-alpine-cat:v1
-   ```
-   If you access [http://localhost:80](http://localhost:80) you will see your image with the corresponding tag.
-1. Notice that you have locally the built image `localhost/my-alpine-cat:v1`
-   ```bash
-   docker images
-   ```
-1. Now delete it and check that it disappeared from your local images
-   ```bash
-   docker rmi localhost/my-alpine-cat:v1
-   ```
-1. Pull the image from the Registry (this is what anyone would need to do in order to use it, either like that or in the `FROM` instruction of a Dockerfile):
-   ```bash
-   docker pull localhost/my-alpine-cat:v1
-   ```
-1. Check that the image was pulled from the registry
-   ```bash
-   docker images
-   ```
-1. If you want, you can logout from the registry
-   ```bash
-   docker logout localhost
-   ```
-1. Finally stop your registry and remove all data
-   ```bash
-   docker-compose down
-   ```
+Go to the `exercise-7/project` folder and create a new `docker-compose.yml` file. Add a service called `app` with the following details: 
+- builds the stage `base` of the `Dockerfile` in the root
+- overrides the command to be `[ 'npm', 'start', '--', '--host=0.0.0.0', '--disable-host-check']`
+- exposes the port 4200
+- mounts the current folder in the `/app` folder inside the container.
+- mounts a volume `/app/node_modules`. Yes, just that path, there is no `source:target` format in this case. This means it will mount the components of the `/app/node_modules` folder *from the image* into the *container*. This is required because otherwise you would lose the `node_modules` folder when you mount the source of the application.
 
-## 7.2 How to publish an image to a public repository
+> Why is the `--host=0.0.0.0` flag required? By default, when serving in development mode the app is only served via the localhost interface. In this case you may think that is what we are doing because you are opening `localhost` in the browser.  However, the browser is running in the host, and when it arrives to the container via port exposing, is coming through a non-local network interface. This is a common issue when working with containers in development.
 
-You can use a public repository in exactly the same as the private one. You will need to create an account, login, and push the image as seen above. The prefix of the image tag (previously `localhost`) is used by Docker to locate the registry. This is the only part the needs to change according to the registry you want to use. Docker Hub is the default and most common image repository. It also hosts the _official_ images. However, there are many others, like `quay.io`; GitLab also offers an image repository linked to each git repository. 
-### Docker Hub
-Most of the steps for this exercise are similar to the previous ones.
+Once the file is ready bring it up by running `docker-compose up`. After the compilation is finished, open the browser to show `http://localhost:4200`. You should see the Angular application.
 
-1. First, you need to create a Docker Hub account: https://hub.docker.com/signup/
-1. Now, if you login without specifying a registry, it will use Docker Hub by default:
-   ```bash
-   docker login --username [your-docker-hub-username]
-   ```
-   There are several alternatives to introducing your credentials like that, but it's beyond the scope of these exercises.
-1. Build an image as you did in the previous example
-   ```bash
-   docker build -t my-alpine-cat .
-   ```
-1. Tag your image:
-   ```bash
-   docker image tag my-alpine-cat [your-docker-hub-username]/my-alpine-cat:v1
-   ```
-1. The rest of the exercise would be the same as the previous one, just changing `localhost` with `[your-docker-hub-username]`
-1. You should be able to see your images published under https://hub.docker.com/
+If you modify the title of the application in the `src/app.component.ts` file you should see it refresh in the browser straight away.
 
-### GitLab
+Bring the stack down pressing `Ctrl+C` in the terminal where you started it up.
 
-Again, all the steps would be the same except the way to login, which might be something like:
+## 7.2 Running the tests
 
-```bash
-docker login [your-gitlab-registry] -u [your-gitlab-user] -p [your-access-token-or-password]
-```
+There are many alternatives for running the tests, but in this case you are going to create another service in the docker compose named `test` configured as follows:
+- builds the stage `test` of the `Dockerfile` in the root
+- overrides the command to be `--browsers=ChromeHeadlessNoSandbox`
+- mounts two volumes 
+  ```yaml
+   - .:/app:cached
+   - /app/node_modules
+  ```
+- exposes port 9876
 
-where `[your-gitlab-registry]` could be something like `registry.gitlab.com`
+Restart the stack running `docker-compose up -d`. You can now see the tests running `docker-compose logs test`. Remember from earlier modules you can pass an option to the logs command to keep it open and *follow* the logs.
 
-## More information
+The tests may be failing right now because of the change you made earlier to the `src/app.component.ts` file. Undo the change to see the tests pass.
 
-- https://docs.docker.com/registry/
-- https://docs.docker.com/docker-hub/
-- https://docs.gitlab.com/ee/user/packages/container_registry/
+Alternatively you can also see the tests in the browser by opening `http://localhost:9876`.
+
+## Bonus track 
+
+**TO BE FINISHED OR DISCARDED**
+
+If you are using Visual Studio Code, you can benefit from their support of Docker containers, and simplify the set up significantly.
+
+1. Ensure the *Remote - Containers* (`ms-vscode-remote.remote-containers`) extension is installed in VS Code.
+1. Open the `exercise-7/project` in VS Code.
+1. In left corner of the status bar of VS Code there should be a green area, click there, and in the menu select **Add Development Container Configuration Files...**
+1. Select **From a predefined container configuration definition...**
+1. Select **Node.js & Typescript**
+1. Select version **14**
+1. Uncomment the *forwardPorts* section and add 4200 to the array.
+1. Save the file.
+1. From the green area in the status bar, click and select **Reopen in container**
+
+1. Open a terminal `Ctrl+J`
+1. Install dependencies executing `sudo npm install`
+1. Start the application `npm start`
+1. Open a browser to show http://localhost:4200
+1. Execute the tests typing `npm test -- --browsers=ChromeHeadlessNoSandbox`
+
+The advantage of this set up is that you could configure all the extensions, and they would work as if you are 

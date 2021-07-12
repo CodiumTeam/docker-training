@@ -1,0 +1,9 @@
+FROM gcc:11.1.0-bullseye
+
+WORKDIR /src
+
+COPY program.cpp ./
+
+RUN g++ program.cpp -o prime && chmod +x prime
+
+ENTRYPOINT [ "./prime" ]

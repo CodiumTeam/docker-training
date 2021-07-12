@@ -1,0 +1,19 @@
+FROM php:7.2-apache
+
+WORKDIR /root
+RUN apt-get update && apt-get install -y --no-install-recommends git zip
+RUN curl --silent https://getcomposer.org/installer | php
+RUN docker-php-ext-install pdo pdo_mysql
+
+WORKDIR /var/www/html
+
+COPY php.ini /usr/local/etc/php/php.ini
+
+COPY . .
+
+RUN php /root/composer.phar install  \
+    --ignore-platform-reqs \
+    --no-ansi \
+    --no-dev \
+    --no-interaction \
+    --no-scripts

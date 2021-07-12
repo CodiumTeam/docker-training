@@ -29,10 +29,13 @@ You need Docker and Docker Compose. For that, you have several options:
 - [Exercise 3: ports, envs and volumes](exercise-3)
 - [Exercise 4: Docker Compose](exercise-4)
 - [Exercise 5: build your own image](exercise-5)
-- [Exercise 6: multistage build](exercise-6)
-- [Exercise 7: publish your own image](exercise-7)
-- [Exercise 8: troubleshooting](exercise-8)
-- [Exercise 9: clean up the system](exercise-9)
+- [Exercise 6: building more efficient images](exercise-6)
+- [Exercise 7: using Docker in your development environment](exercise-7)
+- [Exercise 8: publish your own image](exercise-8)
+- [Exercise 9: troubleshooting](exercise-9)
+- [Exercise 10: clean up the system](exercise-10)
+- [Exercise 11: security](exercise-11)
+- [Exercise 12: pipelines](exercise-12)
 
 
 ## Interesting resources

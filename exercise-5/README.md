@@ -70,6 +70,70 @@ docker run --rm -d -P my-python-app
 ```
 you will see despite using `-P` no ports have been exposed locally. This is because the `-P` option automatically exposes any ports as long as they have been **declared** in the `Dockerfile`. Try modifying the `Dockerfile` to expose the port of the python application automatically when using `-P`.
 
+### Using Docker to run the Angular CLI
+
+As we have established, we use a container to run a process in an isolated manner. This process could be a long-lived application like a web server or a database, or short-lived like invoking a command in a CLI.
+
+In this exercise you will create a Docker image to run the [Angular](https://angular.io/) CLI. From a development perspective this means you don't have to worry about installing all the dependencies of the CLI (for example, node), and you can easily use multiple versions of the CLI at the same time.
+
+Hints:
+- Use a base image that already has node installed, e.g. `node:14-alpine`. You would prefer an `alpine` version to ensure the size of the image is quite small.
+- The angular CLI can be installed running `npm install --global @angular/cli@12.0.5`
+- Name the image `ng:12`
+- This CLI uses `git` commands in some operations. You can install git in the image too doing:
+```Dockerfile
+   RUN apk --update add \
+        git \
+        less \
+        openssh \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm /var/cache/apk/*
+```
+- Set the starting process of the image to be `ng`. Since this is a CLI you will need to add different parameters (e.g. `ng add` or `ng build`) when running the container. Should you use the `ENTRYPOINT` or `COMMAND` directive in the Dockerfile?
+
+After building the image you can try it running `docker run --rm ng:12 version`. You should see the output from the CLI.
+
+#### Creating a new project
+
+We are now able to use our new image to create a new Angular project. How should you do it?
+```
+docker run --rm -v ${PWD}:/app -w /app -t -i ng:12 new sample-project --skip-install
+```
+
+As explained earlier, the Angular CLI uses git commands to start a new repository when it creates a new project. To use the existing git settings (particularly email and name) we can simply mount the `.gitconfig` file from our home folder into the home folder of the container.
+```
+docker run --rm -v ${PWD}:/app -w /app -t -i -v ${HOME}/.gitconfig:/root/.gitconfig:ro ng:12 new sample-project --skip-install
+```
+
+#### Changing the USER
+
+If you are using Linux (either natively or inside the terminal of Windows WSL2), you may notice the Angular seed project files have been created with the wrong owner and group. You can verify it running `ls -l`. You should see the owner of the files is `root`. What has happened? By default the Docker daemon runs as root, and if we don't add some extra options to either the `run` command or the `Dockerfile`, the container will run as root.
+
+Many official images already provide a non-root user that can be used inside the container. In this case the `node` image has a `node` user. 
+```
+docker run --rm --user node -v ${PWD}:/app -w /app -t -i -v ${HOME}/.gitconfig:/home/node/.gitconfig ng:12 new sample-project --skip-install
+```
+
+As an alternative to this, we could add a `USER node` directive at the end of the `Dockerfile`. You would need to rebuild the image and try running the `run` command without the `--user` parameter.
+
+> Note, usually the default user in Linux has the id 1000 which is the same as the one given to the _node_ user inside of the `node` container. Since the ids match, the files are owned by your default account in the host OS. If your user account in the host has a different id, you would need to use a different id
+
+#### Alias
+
+Running the very long `docker run` is inconvenient, so an easier way is to create an alias:
+
+In Linux bash:
+```bash
+alias ng='docker run --user node -v ${PWD}:/app -w /app -ti --rm -v ${HOME}/.gitconfig:/home/node/.gitconfig:ro ng:12'
+```
+
+Or in (Windows) Powershell you can create a function
+```
+function ng () { docker run --user node -v ${PWD}:/app -w /app -ti --rm -v ${HOME}/.gitconfig:/home/node/.gitconfig:ro ng:12 @Args }
+```
+
+This allows you to invoke the Angular CLI as if it was installed locally, e.g. `ng version` or `ng new project --skip-install`
+
 ## Bonus track
 
 ### ENTRYPOINT vs CMD
@@ -93,7 +157,6 @@ The binary to be executed when the container starts is defined by the concatenat
    ```bash
    docker run --entrypoint ls entrypoint-cmd-example /etc/passwd
    ```
-
 ## Resources
 
 - https://github.com/jessfraz/dockerfiles
