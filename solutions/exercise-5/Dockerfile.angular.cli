@@ -11,4 +11,4 @@ RUN npm install --global @angular/cli@12.0.5
 
 ENTRYPOINT [ "ng" ]
 
-# alias ng='docker run -v ${PWD}:/app -w /app -ti --rm -v ${HOME}/.gitconfig:/home/node/.gitconfig:ro ng'
+# alias ng='docker run --user node -v ${PWD}:/app -w /app -ti --rm -v ${HOME}/.gitconfig:/home/node/.gitconfig:ro ng:12'
