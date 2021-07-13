@@ -73,11 +73,11 @@ As part of the build process of the Angular app, also ensure all tests are execu
 
 1. Ensure you are base image is `node:14`
 1. Create a new stage `test` where you will install Chrome. E.g.
-  ```Dockerfile
-  RUN apt-get update \
-    && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
-    && apt install -y ./google-chrome*.deb
-  ```
+    ```Dockerfile
+    RUN apt-get update \
+      && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+      && apt install -y ./google-chrome*.deb
+    ```
 1. Set the `CHROME_BIN` environment variable to the location of chrome `/usr/bin/google-chrome`
 1. Copy the test configuration files `karma.conf.js` and `tsconfig.spec.json` into the root folder.
 1. Run the tests `npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessNoSandbox`
