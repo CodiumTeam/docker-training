@@ -1,10 +1,10 @@
 # Exercise 5: how to build your own image
 
-## 5.1 Building a Dockerfile
+## 5.1 Building a Dockerfile: a very simple Python app
 
 For this exercise, you are given a very simple Python application, which runs a small flask web server. You are going to create an image to package this application, so it can run executed with Docker.
 
-### A very simple application
+### Steps
 
 1. Start by creating a `Dockerfile` inside the folder `flask-example` of the given Python application.
 2. Add an instruction to base your image in the official Python image for version `3.9`. Remember it is a good practice to *pin* the base image to a particular version, to avoid unexpected version changes in the future.
@@ -70,7 +70,7 @@ docker run --rm -d -P my-python-app
 ```
 you will see despite using `-P` no ports have been exposed locally. This is because the `-P` option automatically exposes any ports as long as they have been **declared** in the `Dockerfile`. Try modifying the `Dockerfile` to expose the port of the python application automatically when using `-P`.
 
-### Using Docker to run the Angular CLI
+## 5.2 Using Docker to run the Angular CLI
 
 As we have established, we use a container to run a process in an isolated manner. This process could be a long-lived application like a web server or a database, or short-lived like invoking a command in a CLI.
 
@@ -93,7 +93,7 @@ Hints:
 
 After building the image you can try it running `docker run --rm ng:12 version`. You should see the output from the CLI.
 
-#### Creating a new project
+### Creating a new project
 
 We are now able to use our new image to create a new Angular project. How should you do it?
 ```
@@ -105,7 +105,7 @@ As explained earlier, the Angular CLI uses git commands to start a new repositor
 docker run --rm -v ${PWD}:/app -w /app -t -i -v ${HOME}/.gitconfig:/root/.gitconfig:ro ng:12 new sample-project --skip-install
 ```
 
-#### Changing the USER
+### Changing the USER
 
 If you are using Linux (either natively or inside the terminal of Windows WSL2), you may notice the Angular seed project files have been created with the wrong owner and group. You can verify it running `ls -l`. You should see the owner of the files is `root`. What has happened? By default the Docker daemon runs as root, and if we don't add some extra options to either the `run` command or the `Dockerfile`, the container will run as root.
 
@@ -118,7 +118,7 @@ As an alternative to this, we could add a `USER node` directive at the end of th
 
 > Note, usually the default user in Linux has the id 1000 which is the same as the one given to the _node_ user inside of the `node` container. Since the ids match, the files are owned by your default account in the host OS. If your user account in the host has a different id, you would need to use a different id
 
-#### Alias
+### Alias
 
 Running the very long `docker run` is inconvenient, so an easier way is to create an alias:
 
