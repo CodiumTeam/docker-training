@@ -23,7 +23,8 @@ Go to the `exercise-7/project` folder and create a new `docker-compose.yml` file
 
 Once the file is ready bring it up by running `docker-compose up`. After the compilation is finished, open the browser to show `http://localhost:4200`. You should see the Angular application.
 
-If you modify the title of the application in the `src/app.component.ts` file you should see it refresh in the browser straight away.
+If you modify the title of the application in the `src/app.component.ts` file you should see it refresh in the browser straight away. 
+> If your files are in a non-Linux partition (i.e. Windows or Mac) you will need to add an extra option to the start command: `[ 'npm', 'start', '--', '--host=0.0.0.0', '--disable-host-check', '--poll', '2000']`, so it uses polling for file changes.
 
 Bring the stack down pressing `Ctrl+C` in the terminal where you started it up.
 
@@ -31,7 +32,7 @@ Bring the stack down pressing `Ctrl+C` in the terminal where you started it up.
 
 There are many alternatives for running the tests, but in this case you are going to create another service in the docker compose named `test` configured as follows:
 - builds the stage `test` of the `Dockerfile` in the root
-- overrides the command to be `--browsers=ChromeHeadlessNoSandbox`
+- overrides the command to be `[ '--browsers=ChromeHeadlessNoSandbox' ]`
 - mounts two volumes 
   ```yaml
    - .:/app:cached
@@ -42,6 +43,8 @@ There are many alternatives for running the tests, but in this case you are goin
 Restart the stack running `docker-compose up -d`. You can now see the tests running `docker-compose logs test`. Remember from earlier modules you can pass an option to the logs command to keep it open and *follow* the logs.
 
 The tests may be failing right now because of the change you made earlier to the `src/app.component.ts` file. Undo the change to see the tests pass.
+
+> If your files are in a non-Linux partition (i.e. Windows or Mac) you will need to add an extra option to the start command: `[ '--browsers=ChromeHeadlessNoSandbox', '--poll', '2000']`, so it uses polling for file changes.
 
 Alternatively you can also see the tests in the browser by opening `http://localhost:9876`.
 
