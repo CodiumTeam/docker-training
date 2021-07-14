@@ -1,8 +1,9 @@
 # base image
 FROM debian:latest
 
-# clean and update sources
-RUN apt-get clean && apt-get update
+# Official Debian and Ubuntu images automatically run apt-get clean, so explicit invocation is not required.
+# https://docs.docker.com/develop/develop-images/dockerfile_best-practices/
 
 # install basic apps
-RUN apt-get install -qy nano
+RUN apt-get update \
+    && apt-get install -qy nano
