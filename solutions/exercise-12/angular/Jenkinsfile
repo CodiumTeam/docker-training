@@ -7,6 +7,7 @@ pipeline {
         COMPOSE_DOCKER_CLI_BUILD = 1
         DOCKER_BUILDKIT          = 1
         REGISTRY                 = "registry.local"
+        SHORT_SHA                = "${GIT_COMMIT[0..6]}"
     }
     stages {
         stage('build and test'){
@@ -17,7 +18,7 @@ pipeline {
                        SNYK_TOKEN                 = credentials('snyk-token')
                     }
                     steps {
-                        sh 'docker build -t $REGISTRY/my-angular-app:latest -t $REGISTRY/my-angular-app:`git rev-parse --short HEAD` .'
+                        sh 'docker build -t $REGISTRY/my-angular-app:latest -t $REGISTRY/my-angular-app:$SHORT_SHA .'
                         sh 'docker scan --login --token $SNYK_TOKEN'
                         sh 'docker scan $REGISTRY/my-angular-app:latest -f Dockerfile'
                     }
@@ -37,7 +38,7 @@ pipeline {
             }
             steps {
                 sh 'docker login $REGISTRY -u $REGISTRY_CREDENTIALS_USR -p $REGISTRY_CREDENTIALS_PSW'
-                sh 'docker push $REGISTRY/my-angular-app:`git rev-parse --short HEAD`'
+                sh 'docker push $REGISTRY/my-angular-app:$SHORT_SHA'
                 sh 'docker push $REGISTRY/my-angular-app:latest'
             }
         }
