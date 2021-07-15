@@ -73,5 +73,6 @@ Stop the container, re-build it and check the file permissions once more.
 ### Further reading
 
 - [Why not run as root](https://medium.com/@mccode/processes-in-containers-should-not-run-as-root-2feae3f0df3b).
+- [Do not run dockerized applications as root](https://americanexpress.io/do-not-run-dockerized-applications-as-root/)
 - [Going rootless with Docker and Containers](https://mohitgoyal.co/2021/04/14/going-rootless-with-docker-and-containers)
 
