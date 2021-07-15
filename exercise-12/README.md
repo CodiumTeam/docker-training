@@ -121,18 +121,18 @@ Hints:
 
 Finally, as well as doing `docker-compose up -d` you also want to do `docker-compose down` to clean up. To do this use:
 
-    ```groovy
-        stage('test') {
-            steps {
-                ...
-            }
-            post {
-                always {
-                    sh '<your command here...>'
-                }
+```groovy
+    stage('test') {
+        steps {
+            ...
+        }
+        post {
+            always {
+                sh '<your command here...>'
             }
         }
-    ```
+    }
+```
 
 ### Use environment variables
 
