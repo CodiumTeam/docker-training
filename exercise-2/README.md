@@ -61,7 +61,7 @@ It is very useful to see what containers you have running at any one time. This 
 
 #### docker logs
 
-You can access the logs of a container while it is running, or even after it has stopped; but never after it is removed removed. The one downside of using the `--rm` flag is that if something goes wrong inside the container and it terminates unexpectedly you will not be able to see the logs and find out what happened.
+You can access the logs of a container while it is running, or even after it has stopped; but never after it is removed. The one downside of using the `--rm` flag is that if something goes wrong inside the container and it terminates unexpectedly you will not be able to see the logs and find out what happened.
 
 As an example:
 
