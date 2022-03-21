@@ -15,7 +15,7 @@ def todo():
     try:
         app.logger.info('Processing request...')
         db = client.test
-        count = db.users.find().count()
+        count = db.users.count_documents({})
         return f"Connected to Mongo!<br/><br/>There are {count} records in the users collection\n"
     except Exception as ex:
         app.logger.error(ex)
