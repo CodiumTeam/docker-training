@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import os, logging
+import os, logging, platform
 
 from flask import Flask
 
@@ -15,7 +15,7 @@ def todo():
     except Exception as ex:
         app.logger.error(ex)
         return "Server not available"
-    return "Hello from your brand new container!\n"
+    return "Hello from your brand new container running with python " + platform.python_version() + "!\n"
 
 
 if __name__ == "__main__":
