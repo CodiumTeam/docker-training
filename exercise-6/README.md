@@ -85,7 +85,7 @@ As part of the build process of the Angular app, also ensure all tests are execu
 
 ### Multi-stage builds with PHP
 
-In this exercise we are going to analyze the optimization of an existing dockerized application. Using the example in the `2-multi-stage-builds` folder. Build the image with the supplied file `Dockerfile.1`, and run it. Things to note:
+In this exercise we are going to analyze the optimization of an existing dockerized application. Using the example in the `4-multi-stage-builds-php` folder. Build the image with the supplied file `Dockerfile.1`, and run it. Things to note:
 - By default `docker build` looks for a `Dockerfile` in the context folder. If you want to use a different name you can use the `-f` option.
 - The application is built in `php`.
 - It runs inside an Apache web server. When requesting the root it displays a welcome message.
