@@ -21,7 +21,7 @@ Go to the `exercise-7/project` folder and create a new `docker-compose.yml` file
 
 > Why is the `--host=0.0.0.0` flag required? By default, when serving in development mode the app is only served via the localhost interface. In this case you may think that is what we are doing because you are opening `localhost` in the browser.  However, the browser is running in the host, and when it arrives to the container via port exposing, is coming through a non-local network interface. This is a common issue when working with containers in development.
 
-Once the file is ready bring it up by running `docker-compose up`. After the compilation is finished, open the browser to show `http://localhost:4200`. You should see the Angular application.
+Once the file is ready bring it up by running `docker-compose up`. After the compilation is finished, open the browser to show [http://localhost:4200](http://localhost:4200). You should see the Angular application.
 
 If you modify the title of the application in the `src/app.component.ts` file you should see it refresh in the browser straight away. 
 > If your files are in a non-Linux partition (i.e. Windows or Mac) you will need to add an extra option to the start command: `[ 'npm', 'start', '--', '--host=0.0.0.0', '--disable-host-check', '--poll', '2000']`, so it uses polling for file changes.
@@ -46,7 +46,7 @@ The tests may be failing right now because of the change you made earlier to the
 
 > If your files are in a non-Linux partition (i.e. Windows or Mac) you will need to add an extra option to the start command: `[ '--browsers=ChromeHeadlessNoSandbox', '--poll', '2000']`, so it uses polling for file changes.
 
-Alternatively you can also see the tests in the browser by opening `http://localhost:9876`.
+Alternatively you can also see the tests in the browser by opening [http://localhost:9876](http://localhost:9876).
 
 ## Bonus track 
 
@@ -67,7 +67,7 @@ If you are using Visual Studio Code, you can benefit from their support of Docke
 1. Open a terminal `Ctrl+J`
 1. Install dependencies executing `sudo npm install`
 1. Start the application `npm start`
-1. Open a browser to show http://localhost:4200 (actually VS Code will prompt you to do so, after the application is compiled)
+1. Open a browser to show [http://localhost:4200](http://localhost:4200) (actually VS Code will prompt you to do so, after the application is compiled)
 
 ### Running tests
 1. In order to execute the tests we need to modify the development image to add Chrome. Open the `.devcontainer/Dockerfile` file and add the following lines at the end of the file
@@ -80,6 +80,6 @@ If you are using Visual Studio Code, you can benefit from their support of Docke
   ```
   This will install Chrome so we can execute the tests. 
 1. Click on the status bar, on the green area which says `Dev Container: Node.js` and select **Rebuild Container**.
-1. Once VS Code restarts, open a new terminal and execute the tests typing `npm test -- --browsers=ChromeHeadlessNoSandbox`. Start the brwoser on http://localhost:9876.
+1. Once VS Code restarts, open a new terminal and execute the tests typing `npm test -- --browsers=ChromeHeadlessNoSandbox`. Start the brwoser on [http://localhost:9876](http://localhost:9876).
 
 The advantage of running using the remote development features of VS Code is that all the extensions will work normally. In fact you could use the `.devcontainer/devcontainer.json` file to define extra setttings and extensions that should be enabled just for working with this particular project. This is very useful as it allows tailoring the behaviour of the IDE to the project, and also homogenize the extensions in use amongst all team members.
