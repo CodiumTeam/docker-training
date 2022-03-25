@@ -70,7 +70,28 @@ docker run --rm -d -P my-python-app
 ```
 you will see despite using `-P` no ports have been exposed locally. This is because the `-P` option automatically exposes any ports as long as they have been **declared** in the `Dockerfile`. Try modifying the `Dockerfile` to expose the port of the python application automatically when using `-P`.
 
-## 5.2 Using Docker to run the Angular CLI
+## 5.2 ENTRYPOINT vs CMD
+
+The binary to be executed when the container starts is defined by the concatenation of both `ENTRYPOINT` and `CMD` properties. When you execute the `docker run` command you are able to change the value of the `CMD` part.
+1. Switch to the `entrypoint-cmd` folder.
+1. Build the sample `Dockerfile`:
+   ```bash
+   docker build -t entrypoint-cmd-example .
+   ```
+1. Start the container:
+   ```bash
+   docker run entrypoint-cmd-example
+   ```
+   Notice how `CMD` is the argument passed to the binary command defined as `ENTRYPOINT` in this case is executing `/bin/cat /etc/os-release`.
+1. You can override the command adding an extra argument:
+   ```bash
+   docker run entrypoint-cmd-example /etc/passwd
+   ```
+1. You can also override the entrypoint in the following way:
+   ```bash
+   docker run --entrypoint ls entrypoint-cmd-example /etc/passwd
+
+## 5.3 Using Docker to run the Angular CLI
 
 As we have established, we use a container to run a process in an isolated manner. This process could be a long-lived application like a web server or a database, or short-lived like invoking a command in a CLI.
 
@@ -108,6 +129,8 @@ As explained earlier, the Angular CLI uses git commands to start a new repositor
 docker run --rm -v ${PWD}:/app -w /app -t -i -v ${HOME}/.gitconfig:/root/.gitconfig:ro ng:12 new sample-project --skip-install
 ```
 
+## Bonus track
+
 ### Changing the USER
 
 If you are using Linux (either natively or inside the terminal of Windows WSL2), you may notice the Angular seed project files have been created with the wrong owner and group. You can verify it running `ls -l`. You should see the owner of the files is `root`. What has happened? By default the Docker daemon runs as root, and if we don't add some extra options to either the `run` command or the `Dockerfile`, the container will run as root.
@@ -137,28 +160,6 @@ function ng () { docker run --user node -v ${PWD}:/app -w /app -ti --rm -v ${HOM
 
 This allows you to invoke the Angular CLI as if it was installed locally, e.g. `ng version` or `ng new project --skip-install`
 
-## Bonus track
-
-### ENTRYPOINT vs CMD
-
-The binary to be executed when the container starts is defined by the concatenation of both `ENTRYPOINT` and `CMD` properties. When you execute the `docker run` command you are able to change the value of the `CMD` part. 
-1. Switch to the `entrypoint-cmd` folder.
-1. Build the sample `Dockerfile`:
-   ```bash
-   docker build -t entrypoint-cmd-example .
-   ```
-1. Start the container:
-   ```bash
-   docker run entrypoint-cmd-example
-   ```
-   Notice how `CMD` is the argument passed to the binary command defined as `ENTRYPOINT` in this case is executing `/bin/cat /etc/os-release`.
-1. You can override the command adding an extra argument:
-   ```bash
-   docker run entrypoint-cmd-example /etc/passwd
-   ```
-1. You can also override the entrypoint in the following way:
-   ```bash
-   docker run --entrypoint ls entrypoint-cmd-example /etc/passwd
    ```
 ## Resources
 
