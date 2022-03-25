@@ -101,6 +101,9 @@ docker run --rm -v ${PWD}:/app -w /app -t -i ng:12 new sample-project --skip-ins
 ```
 
 As explained earlier, the Angular CLI uses git commands to start a new repository when it creates a new project. To use the existing git settings (particularly email and name) we can simply mount the `.gitconfig` file from our home folder into the home folder of the container.
+
+> Usually the global `.gitconfig` file is located at `${HOME}/.gitconfig` but sometimes can be at `${HOME}/.config/git/config`, use the appropriate location in the following commands.
+
 ```
 docker run --rm -v ${PWD}:/app -w /app -t -i -v ${HOME}/.gitconfig:/root/.gitconfig:ro ng:12 new sample-project --skip-install
 ```
