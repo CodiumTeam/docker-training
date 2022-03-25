@@ -5,16 +5,16 @@ services:
     ports:
       - 80:80
     environment:
-      WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_USER: wordpress_user
-      WORDPRESS_DB_PASSWORD: wordpress_password
-      WORDPRESS_DB_NAME: wordpress_db
+      - WORDPRESS_DB_HOST=db
+      - WORDPRESS_DB_USER=wordpress_user
+      - WORDPRESS_DB_PASSWORD=wordpress_password
+      - WORDPRESS_DB_NAME=wordpress_db
+      - WORDPRESS_TABLE_PREFIX=wp_
     depends_on:
       - db
   db:
     image: mysql:8.0.19
     environment:
-      - MYSQL_HOST=db
       - MYSQL_ROOT_PASSWORD=somewordpress
       - MYSQL_DATABASE=wordpress_db
       - MYSQL_USER=wordpress_user
