@@ -8,7 +8,7 @@ To do this you will use an automation tool for executing pipelines named [Jenkin
 
 ### Start and configure tools
 
-Navigate to the `jenkins/jenkins-runner`. You will see there is a docker compose file; start all the services running `docker-compose up -d`. As you can see in the file this defines various services, including a Jenkins server, a Docker registry and a local GitHub. 
+Navigate to the `exercise-12/jenkins/jenkins-runner`. You will see there is a docker compose file; start all the services running `docker-compose up -d`. As you can see in the file this defines various services, including a Jenkins server, a Docker registry and a local GitHub. 
 
 #### Push repository to Git
 
@@ -23,9 +23,9 @@ Navigate to the `jenkins/jenkins-runner`. You will see there is a docker compose
     | Password | gogs1234       |
 
 1. Create the account and then use the credentials to log in.
-1. Click on the blue plus to **add a new repository**. ![New repository](jenkins/screenshots/create-repository.png)
+1. Click on the blue plus to **add a new repository**. ![New repository](screenshots/create-repository.png)
 1. Fill the *Repository Name* field as **flask-app** and click **Create Repository**
-1. Open a terminal in the `./exercise-12/jenkins/python` folder.
+1. Open a terminal in the `./exercise-12/1-python` folder.
 1. Initialize and push the git repo. Use the credentials from before (gogs/gogs1234) when prompted:
     ```bash
       git init
@@ -43,7 +43,7 @@ Navigate to the `jenkins/jenkins-runner`. You will see there is a docker compose
 1. Click on **Start using Jenkins**
 1. Click on **New Item** to define a new automation project.
 1. Enter the name **flask-app** and select **Pipeline**
-1. Click **OK** at the bottom of the page. ![New project](jenkins/screenshots/create-jenkins-project.png)
+1. Click **OK** at the bottom of the page. ![New project](screenshots/create-jenkins-project.png)
 1. Click on **Pipeline** in the tabs or scroll down to the pipeline section. Anf fill it as follows:
     | Field          | Value                               |
     |----------------|-------------------------------------|
@@ -51,7 +51,7 @@ Navigate to the `jenkins/jenkins-runner`. You will see there is a docker compose
     | SCM            | Git                                 |
     | Repository URL | http://gogs:3000/gogs/flask-app.git |
     
-    ![Pipeline definition](jenkins/screenshots/configure-scm.png)
+    ![Pipeline definition](screenshots/configure-scm.png)
 
 1. Click **Save** at the bottom of the page
 
@@ -154,7 +154,7 @@ Setup Gogs:
 Setup Jenkins:
 1. In the browser, navigate to http://localhost:8080. If you need the admin password then search in the **executor** service logs.
 1. Using the *New Item* option create a new **Pipeline** definition named **angular-app** and link it to the **http://gogs:3000/gogs/angular-app.git** repo. Remember to enable the Build Trigger **Build when a change is pushed to Gogs**, so it builds whenever there is a new push to the repository.
-1. Open a terminal and navigate to the folder `jenkins/angular`.
+1. Open a terminal and navigate to the folder `exercise-12/2-angular`.
 1. Execute: 
     ```bash
         git init
@@ -200,7 +200,7 @@ Important: this last step it is not a sh command, don't write: `sh 'junit karma-
 
 If you commit and push again, you will notice that in the *Blue Ocean* report in the Test tab, you can see the test results.
 
-![Test results](./jenkins/screenshots/test-results.png)
+![Test results](screenshots/test-results.png)
 
 ### Build and release the application
 
