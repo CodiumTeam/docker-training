@@ -22,6 +22,12 @@ You need Docker and Docker Compose. For that, you have several options:
      - To copy a file: `scp [your-filename] [your-instance-id]@direct.labs.play-with-docker.com:/root`
      - To copy a folder recursively: `scp -r [your-folder] [your-instance-id]@direct.labs.play-with-docker.com:/root`
 
+## Speed up exercises
+
+To avoid delays while doing the exercises you can prefetch all docker images running [pull-images.sh](pull-images.sh) script.
+
+If you want to pull only the images related with a specific exercise, open the script and copy and paste the required images.
+
 ## Exercises
 
 - [Exercise 1: hello world](exercise-1)
