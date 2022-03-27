@@ -39,7 +39,9 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+karma-tests
 
 # System Files
 .DS_Store
 Thumbs.db
+

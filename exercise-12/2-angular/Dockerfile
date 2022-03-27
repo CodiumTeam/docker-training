@@ -8,8 +8,6 @@ RUN npm install
 
 COPY angular.json tsconfig* .browserslistrc ./
 
-COPY src/ src/
-
 FROM base as test
 
 RUN apt-get update \
@@ -21,9 +19,13 @@ ENV CHROME_BIN=/usr/bin/google-chrome
 
 COPY karma.conf.js tsconfig.spec.json ./
 
+COPY src src/
+
 ENTRYPOINT [ "npm", "run", "test", "--", "--no-watch", "--no-progress", "--browsers=ChromeHeadlessNoSandbox", "--reporters=junit" ]
 
 FROM base as build
+
+COPY src src/
 
 RUN npm run build
 
