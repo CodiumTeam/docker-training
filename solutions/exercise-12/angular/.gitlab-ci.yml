@@ -1,0 +1,17 @@
+stages:
+  - test
+
+a_test:
+  image: docker:19.03.12
+  stage: test
+  services:
+    - docker:19.03.12-dind
+  script:
+    - docker build -t my-angular-app:test-latest --target test .
+    - docker run --rm -v ${PWD}/karma-tests:/app/karma-tests my-angular-app:test-latest
+  artifacts:
+    when: always
+    paths:
+      - karma-tests/results.xml
+    reports:
+      junit: karma-tests/results.xml
