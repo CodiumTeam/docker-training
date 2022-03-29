@@ -59,7 +59,7 @@ Hints:
 - Use one of the official `node 14` images [link](https://hub.docker.com/_/node).
 - Set a workdir like `/app` to copy and build the application.
 - Dependencies are installed running `npm install`. This only requires access to the `package.json` file (and optionally `package-lock.json` if it exists).
-- You can build the application using the `npm run build` command. This will build it inside the `/dist/my-app/` folder. For this to work, it requires:
+- You can build the application using the `npm run build` command. This will build it inside the `dist/my-app/` folder. For this to work, it requires:
   - all the files from the `src` folder
   - `angular.json`, all `tsconfig` files and `.browserslistrc`
 - Distribute the application inside an `nginx` server. By default it serves files it finds in the the `/usr/share/nginx/html/` folder.
