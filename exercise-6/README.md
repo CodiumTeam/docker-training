@@ -51,7 +51,7 @@ You will now explore the advantages of using a multi-stage build to remove unnec
 
 ## 6.3 Dockerize an Angular application
 
-In this exercise you are going to use all your Docker knowledge to create an optimized a `Dockerfile` to deploy an angular application inside of a nginx webserver.
+In this exercise you are going to use all your Docker knowledge to create an optimized `Dockerfile` to deploy an angular application inside of a nginx webserver.
 
 Inside the `3-sample-angular-app` folder you will find a very simple angular application. Create a `Dockerfile` inside this folder, to distribute the app so it runs inside `nginx`.
 
