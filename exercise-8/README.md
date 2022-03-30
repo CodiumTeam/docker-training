@@ -89,8 +89,19 @@ Again, all the steps would be the same except the way to login, which might be s
 ```bash
 docker login [your-gitlab-registry] -u [your-gitlab-user] -p [your-access-token-or-password]
 ```
-
 where `[your-gitlab-registry]` could be something like `registry.gitlab.com`
+
+You can create a Gitlab access token [here](https://gitlab.com/-/profile/personal_access_tokens).
+
+
+You will need to tag the image like:
+   ```bash
+   docker image tag my-alpine-cat [your-gitlab-registry]/[your-gitlab-username]/[repository-name]:v1
+   ```
+and push it with:
+   ```bash
+   docker push [your-gitlab-registry]/[your-gitlab-username]/[repository-name]:v1
+   ```
 
 ## More information
 
