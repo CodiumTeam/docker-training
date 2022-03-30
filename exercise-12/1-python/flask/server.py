@@ -8,13 +8,13 @@ app = Flask(__name__)
 
 logging.basicConfig(level=logging.DEBUG)
 
-# client = MongoClient(os.environ.get("MONGO_DSN"))
+client = MongoClient(os.environ.get("MONGO_DSN"))
 
 @app.route('/')
 def todo():
     try:
         app.logger.info('Processing request...!')
-#         client.admin.command('ismaster')
+        client.admin.command('ismaster')
     except Exception as ex:
         app.logger.error(ex)
         return "Server not available"

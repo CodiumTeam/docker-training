@@ -51,8 +51,14 @@ Replace the echo instruction in the `.gitlab-ci.yml` to build the flask image.
 Commit and push the change and verify if the pipeline successfully builds the Docker image.
 
 Hints:
-  - You will need to use a docker *image* like `docker:19.03.12`.
-  - You will need to define a docker-in-docker *service* like `docker:19.03.12-dind`.
+  - You will need to use an image that supports docker-compose like `docker/compose`.
+  - You will need to define a docker-in-docker *service*.
+   ``` yaml
+   services:
+     - docker:19.03.12-dind
+   ```
+
+You may want to enable docker build kit. Take a look to *DOCKER_BUILDKIT* and *COMPOSE_DOCKER_CLI_BUILD* *variables*. 
 
 #### Publish the image at build stage
 
@@ -66,13 +72,11 @@ Hints:
 
 When you finally get the build stage to correctly push the images to Gitlab you can check the registry at *Packages & Registries* - *Container Registry*
 
-### Complete the test stage
-
-TBD
-
 ### Use environment variables
 
-TBD
+You may want to add some Variables on Gitlab to avoid commit sensitive data to the repository.
+
+You can define it on *Settings* - *CI/CD* - *Variables* - *Expand* - *Add variable*.
 
 ## 12.2 Building an Angular app
 

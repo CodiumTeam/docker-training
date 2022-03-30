@@ -1,33 +1,20 @@
 stages:
   - build
-  - test
-  - release
 
 a_build:
-  image: docker:19.03.12
+  image: docker/compose
   stage: build
   services:
-    - docker:19.03.12-dind
+    - docker:20.10.13-dind
+  variables:
+    DOCKER_BUILDKIT: 1
+    COMPOSE_DOCKER_CLI_BUILD: '1'
+    DOCKER_DRIVER: overlay2
   before_script:
     - docker info
   script:
     - cd flask
     - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
-    - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA -t $CI_REGISTRY_IMAGE:latest .
+    - docker-compose build backend
+    - docker tag my-flask $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
     - docker push $CI_REGISTRY_IMAGE
-
-a_test:
-  image: docker:19.03.12
-  stage: test
-  services:
-    - name: docker:19.03.12-dind
-      alias: localhost
-  script:
-    - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
-    - docker run --rm -p 9090:9090 -d $CI_REGISTRY_IMAGE:latest
-#    - [[ $( wget -O- -nv http://localhost:9090) == 'Hello from the MongoDB client!' ]]
-
-a_release:
-  stage: release
-  script:
-    - echo "this will release"

@@ -1,19 +1,7 @@
 stages:
   - build
-  - test
-  - release
 
 a_build:
   stage: build
   script:
     - echo "this will build"
-
-a_test:
-  stage: test
-  script:
-    - echo "this will test"
-
-a_release:
-  stage: release
-  script:
-    - echo "this will release"
