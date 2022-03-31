@@ -37,9 +37,8 @@ Navigate to the `exercise-12/jenkins/jenkins-runner`. You will see there is a do
 #### Configure Jenkins
 
 1. Open http://localhost:8080 in another tap of the browser.
-1. You need to retrieve the initial random password created by Jenkins. This is inside a file named `/var/jenkins_home/secrets/initialAdminPassword` inside the executor service of the docker-compose stack you have started previously. Get the contents of that file and paste it in the Administrator password field. 
-1. Click **Continue**
-1. Click on the small cross in the top right of the screen to close the *Getting Started* dialog.
+1. You need to retrieve the initial random password created by Jenkins. This is inside a file named `/var/jenkins_home/secrets/initialAdminPassword` inside the executor service of the docker-compose stack you have started previously. Get the contents of that file and paste it in the Administrator password field and click **Continue**
+1. Do not install any plugins, and instead click on the small cross in the top right of the screen to close the *Getting Started* dialog.
 1. Click on **Start using Jenkins**
 1. Click on **New Item** to define a new automation project.
 1. Enter the name **flask-app** and select **Pipeline**
@@ -67,11 +66,12 @@ Next you are going to configure a trigger, so the pipeline is automatically exec
 
 1. Open the Gogs interface and navigate to the webhooks settings of the project on http://localhost:3000/gogs/flask-app/settings/hooks
 1. Select *Add a new webhook* of type **Gogs**
-1. In the *Payload URL* field enter **http://executor:8080/gogs-webhook/?job=flask-app** 
-1. Click the **Add Webhook** button
-1. Go to the settings of the Jenkins project at http://localhost:8080/job/flask-app/configure
-1. Under the *Build Triggers* section check the **Build when a change is pushed to Gogs** option. 
-1. Click **Save**
+1. In the *Payload URL* field enter **http://executor:8080/gogs-webhook** 
+3. Click the **Add Webhook** button
+4. Click on the pencil (or in the url for the webhook) you just created and modify the url to be **http://executor:8080/gogs-webhook/?job=flask-app** (this is a necessary hack because otherwise the url fails the validation on save).
+5. Go to the settings of the Jenkins project at http://localhost:8080/job/flask-app/configure
+6. Under the *Build Triggers* section check the **Build when a change is pushed to Gogs** option. 
+7. Click **Save**
 
 You can now make a change to the code of the `server.py` file. Commit and push the change to the repo and verify the pipeline is executed.
 
@@ -96,7 +96,7 @@ When you finally get the build stage to correctly push the images to the `regist
 
 Adding passwords to your `Jenkinsfile`, and therefore to source control, is certainly a terrible practice. You will now move the username and password you used for the registry out of the `Jenkinsfile`.
 
-1. In the Jenkins UI navigate to [Dashboard > Manage Jenkins > Jenkins > Global Credentials](http://localhost:8080/credentials/store/system/domain/_/).
+1. In the Jenkins UI navigate to [Dashboard > Manage Jenkins > Security > Manage Credentials > Jenkins > Global credentials](http://localhost:8080/credentials/store/system/domain/_/).
 1. Click on **Add Credentials**
 1. Fill the Username and Password fields with the credentials (registry/ui) and in the ID field add the text `docker-registry-local`.
 1. Click **OK**
@@ -149,7 +149,7 @@ You will start by adding the code to our private *Git* server and creating a new
 Setup Gogs:
 1. In your browser, open http://localhost:3000
 1. Create a new repository named **angular-app**
-1. In the settings of the new repository (http://localhost:3000/gogs/angular-app/settings/hooks), add a new webhook, pointing the Payload URL to **http://executor:8080/gogs-webhook/?job=angular-app**
+1. In the settings of the new repository (http://localhost:3000/gogs/angular-app/settings/hooks), add a new webhook, pointing the Payload URL to **http://executor:8080/gogs-webhook/?job=angular-app** (as before you may need to add the URL in two steps as the `/?` combination fails validation on first save)
    
 Setup Jenkins:
 1. In the browser, navigate to http://localhost:8080. If you need the admin password then search in the **executor** service logs.
