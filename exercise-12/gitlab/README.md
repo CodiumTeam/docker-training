@@ -61,15 +61,15 @@ docker run --rm -it -v gitlab-runner-config:/etc/gitlab-runner gitlab/gitlab-run
 
 Fill the questions with the data on *Settings* - *CI/CD* - *Runners - Expand* - *Set up a specific runner for a project*:
 - Enter Gitlab instance URL: https://gitlab.com/
-- Registration token: Something like GR13489418DfyyU_ANKXtBiNzSUx
+- Registration token: Something like GR13489418DfyyU_ANKXtBiNzSUx (but not this one)
 - Tags: empty
-- Notes: empty
+- Maintenance Notes: empty
 - Executor: docker
 - Default image: docker
 
 Refresh the CI/CD Runners web, and you will see the runner in the "Available specific runners".
 
-Edit it and enable *Run untagged jobs*.
+Edit new runner and enable *Run untagged jobs*.
 
 On *Shared runners* disable the option *Enable shared runners for this project*
 
