@@ -84,11 +84,10 @@ In this exercise you will practice how to parallelize pipeline steps and execute
 
 ### Set up the project
 
-`exercise-12/2-angular`
+1. Open a terminal in the `./exercise-12/2-angular` folder.
+2. Follow the instructions *Create New repository on Gitlab* and *Push code into Gitlab* like in the python exercise.
 
-TBD in 
-
-### Build and execute Karma tests
+### Build and execute Karma tests on Gitlab
 
 If you inspect the `Dockerfile` in this Angular project, you will notice it follows the builder pattern with a multi-stage process. 
 It has several stages:
@@ -119,7 +118,7 @@ Make a commit and push the changes to start the pipeline, and check all tests pa
 
 Since the tests create a `junit` format report, you could expose it in the Gitlab UI, so it is easier to inspect the test results.
 
-Extend the `test` step:
+Extend the `test` step with:
 ```yaml
    artifacts:
       when: always
@@ -131,21 +130,7 @@ Extend the `test` step:
 
 If you commit and push again, you will notice that in the *Pipeline* report in the Test tab, you can see the test results.
 
-![Test results](TBD)
-
 ### Build and release the application
 
 Complete the build and release stages to build the production image and upload it to the registry, just like you did earlier with the Python application.
 
-### Parallelize stages
-
-TBD
-
-
-# Bonus track
-
-Add an extra step in the build stage, to execute a docker scan of the image.
-
-You will need to be logged in to *Docker Hub*, so you will need to execute a docker login statement. Do not put the credentials in the `.gitlab-ci.yml` and store them in Gitlab, just as you learnt earlier.
-
-If you have used all your free *Snyk* scans, you may need to also login to *Snyk* and add an API token.

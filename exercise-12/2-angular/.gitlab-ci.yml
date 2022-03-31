@@ -1,0 +1,7 @@
+stages:
+  - build
+
+a_build:
+  stage: build
+  script:
+    - echo "this will build"
