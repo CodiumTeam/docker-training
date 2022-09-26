@@ -108,7 +108,6 @@ If you run `docker compose down` and `up` again, the data would be lost. In orde
 
 1. Declare a new volume at the end of the `docker-compose.yml`
    ```yaml
-   version: "2.4"
    services:
       ...
    volumes:
