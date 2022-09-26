@@ -13,12 +13,12 @@ Starts an environment to play with Jenkins and continuous integration pipelines.
 
 To start the stack:
 ```
-  docker-compose up -d
+  docker compose up -d
 ```
 
 You can find out the admin password for Jenkins by running:
 ```
-  docker-compose exec executor cat /var/jenkins_home/secrets/initialAdminPassword
+  docker compose exec executor cat /var/jenkins_home/secrets/initialAdminPassword
 ```
 
 

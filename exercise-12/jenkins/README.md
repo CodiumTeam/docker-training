@@ -8,7 +8,7 @@ To do this you will use an automation tool for executing pipelines named [Jenkin
 
 ### Start and configure tools
 
-Navigate to the `exercise-12/jenkins/jenkins-runner`. You will see there is a docker compose file; start all the services running `docker-compose up -d`. As you can see in the file this defines various services, including a Jenkins server, a Docker registry and a local GitHub. 
+Navigate to the `exercise-12/jenkins/jenkins-runner`. You will see there is a docker compose file; start all the services running `docker compose up -d`. As you can see in the file this defines various services, including a Jenkins server, a Docker registry and a local GitHub. 
 
 #### Push repository to Git
 
@@ -37,7 +37,7 @@ Navigate to the `exercise-12/jenkins/jenkins-runner`. You will see there is a do
 #### Configure Jenkins
 
 1. Open http://localhost:8080 in another tap of the browser.
-1. You need to retrieve the initial random password created by Jenkins. This is inside a file named `/var/jenkins_home/secrets/initialAdminPassword` inside the executor service of the docker-compose stack you have started previously. Get the contents of that file and paste it in the Administrator password field and click **Continue**
+1. You need to retrieve the initial random password created by Jenkins. This is inside a file named `/var/jenkins_home/secrets/initialAdminPassword` inside the executor service of the docker compose stack you have started previously. Get the contents of that file and paste it in the Administrator password field and click **Continue**
 1. Do not install any plugins, and instead click on the small cross in the top right of the screen to close the *Getting Started* dialog.
 1. Click on **Start using Jenkins**
 1. Click on **New Item** to define a new automation project.
@@ -112,14 +112,14 @@ Adding passwords to your `Jenkinsfile`, and therefore to source control, is cert
 
 ### Complete the test stage
 
-For the test stage you are going to do a very simplistic scenario. You will start the application doing a `docker-compose up -d` and request the page using `curl -s http://docker:8000` and verify that it returns the message *Hello from the MongoDB client!*
+For the test stage you are going to do a very simplistic scenario. You will start the application doing a `docker compose up -d` and request the page using `curl -s http://docker:8000` and verify that it returns the message *Hello from the MongoDB client!*
 
 Hints:
 - In the curl command we are running against `http://docker:8000` because this is running inside the docker service, but the script is running from the Jenkins server.
 - You can compare strings in a Linux sh shell doing `[ "string1" = "string1" ]`
 - To execute the curl command use ` character the beginning and the end of the command.
 
-Finally, as well as doing `docker-compose up -d` you also want to do `docker-compose down` to clean up. To do this use:
+Finally, as well as doing `docker compose up -d` you also want to do `docker compose down` to clean up. To do this use:
 
 ```groovy
     stage('test') {

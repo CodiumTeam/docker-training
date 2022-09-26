@@ -97,7 +97,7 @@ docker run --rm -p 8888:8080 -e NGINX_PORT=8080 -v ${PWD}/index.html:/usr/share/
 
 Verify the nginx server is up and running and showing our index.html on http://localhost:8888/
 
-As you can see the `docker run` command is getting quite verbose. In the next module we will see how it can be simplified using `docker-compose`.
+As you can see the `docker run` command is getting quite verbose. In the next module we will see how it can be simplified using `docker compose`.
 
 ### Understand the working directory
 

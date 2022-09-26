@@ -65,8 +65,8 @@ The goal of this exercise is to define a `docker-compose.yml` that would allow u
 ### Add database service
 
 1. Next add another service named `db` to run MySQL - again, use the official image `mysql:8.0.19`. You don't need to expose any ports in this case.
-2. Execute again `docker-compose up -d` to start up this new service. Notice that as you have not modified the wordpress service, it has not been recreated.
-3. Check the state of MySQL by executing `docker-compose ps`. You will see that the `db` service has exited. In order to find out why, execute `docker-compose logs db`. You should see that MySQL tried to start up but it requires some environment variables defining some initial configuration like the Admin password. Add the following variable to the docker compose:
+2. Execute again `docker compose up -d` to start up this new service. Notice that as you have not modified the wordpress service, it has not been recreated.
+3. Check the state of MySQL by executing `docker compose ps`. You will see that the `db` service has exited. In order to find out why, execute `docker compose logs db`. You should see that MySQL tried to start up but it requires some environment variables defining some initial configuration like the Admin password. Add the following variable to the docker compose:
 
 - MYSQL_ROOT_PASSWORD=someDifficultPassword
 
@@ -89,22 +89,22 @@ The goal of this exercise is to define a `docker-compose.yml` that would allow u
 - WORDPRESS_DB_NAME=wordpress_db
 - WORDPRESS_TABLE_PREFIX=wp_
 
-  > Notice how we use the name of the database service as defined in the docker-compose file to indicate the host name of the database to the wordpress service. Services in docker-compose can reach each other using the service name as hostname for the destination, this is called DNS service discovery, it will only work for services using the same network, if no network is defined, docker-compose will create a default one and connect all services to it. 
+  > Notice how we use the name of the database service as defined in the docker-compose file to indicate the host name of the database to the wordpress service. Services in docker compose can reach each other using the service name as hostname for the destination, this is called DNS service discovery, it will only work for services using the same network, if no network is defined, docker compose will create a default one and connect all services to it. 
 
 3. Finally, you should add `depends_on` as an extra key to the `wordpress` service to express the dependency, since `wordpress` now requires the `db` service to function correctly.
-4. Invoke `docker-compose up -d` again.
-5. Execute `docker-compose logs -f db` to check the database is starting correctly with the new configuration. This process can take a few seconds.
+4. Invoke `docker compose up -d` again.
+5. Execute `docker compose logs -f db` to check the database is starting correctly with the new configuration. This process can take a few seconds.
 6. Verify that the site is still displaying correctly in your browser.
 
 If you get the error `Error establishing a database connection` it can be due two reasons:
  * The database is still starting, check for the message `ready for connections` in the logs, if the database is ready and the problem persists go to the next point.
- * Try running `docker-compose down` and bring it up again. This happens because you tried to set up a database connection from the web interface in the previous step and the docker container for wordpress created a config file with wrong credentials.
+ * Try running `docker compose down` and bring it up again. This happens because you tried to set up a database connection from the web interface in the previous step and the docker container for wordpress created a config file with wrong credentials.
    When you brought up the database, the wordpress container was not recreated because its definition did not change, but we need it to start from a clean state, that's why we want to delete it and start a new one.
 
 
 ### Add persistence to avoid losing data
 
-If you run `docker-compose down` and `up` again, the data would be lost. In order to keep it, you would need to define a volume to persist the data.
+If you run `docker compose down` and `up` again, the data would be lost. In order to keep it, you would need to define a volume to persist the data.
 
 1. Declare a new volume at the end of the `docker-compose.yml`
    ```yaml
@@ -123,8 +123,8 @@ If you run `docker-compose down` and `up` again, the data would be lost. In orde
        volumes:
          - db_data:/var/lib/mysql
    ```
-3. Restart the application with `docker-compose up -d`
-4. This volume will not be removed when doing `docker-compose down` hence your application data is persisted. If you wish to delete it you can run `docker-compose down -v`.
+3. Restart the application with `docker compose up -d`
+4. This volume will not be removed when doing `docker compose down` hence your application data is persisted. If you wish to delete it you can run `docker compose down -v`.
 
 ## Bonus track
 
@@ -142,9 +142,9 @@ If you run `docker-compose down` and `up` again, the data would be lost. In orde
   $ docker run --rm -p 8888:8080 -e NGINX_PORT=8080 -v ${PWD}/index.html:/usr/share/nginx/html/index.html -v ${PWD}/conf:/etc/nginx/templates nginx
   ```
 
-### Example of the exercise without docker-compose
+### Example of the exercise without docker compose
 
-As seen above, docker-compose allows to start multiple containers in a very easy fashion. However the same functionality could be achieved using independent Docker commands. As an example, you could run Wordpress and MySQL doing the following:
+As seen above, docker compose allows to start multiple containers in a very easy fashion. However the same functionality could be achieved using independent Docker commands. As an example, you could run Wordpress and MySQL doing the following:
 
 - Create a volume (it will be used by the database for persisting the data)
   ```bash

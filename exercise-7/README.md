@@ -21,7 +21,7 @@ Go to the `exercise-7/project` folder and create a new `docker-compose.yml` file
 
 > Why is the `--host=0.0.0.0` flag required? By default, when serving in development mode the app is only served via the localhost interface. In this case you may think that is what we are doing because you are opening `localhost` in the browser.  However, the browser is running in the host, and when it arrives to the container via port exposing, is coming through a non-local network interface. This is a common issue when working with containers in development.
 
-Once the file is ready bring it up by running `docker-compose up`. After the compilation is finished, open the browser to show [http://localhost:4200](http://localhost:4200). You should see the Angular application.
+Once the file is ready bring it up by running `docker compose up`. After the compilation is finished, open the browser to show [http://localhost:4200](http://localhost:4200). You should see the Angular application.
 
 If you modify the title of the application in the `src/app.component.ts` file you should see it refresh in the browser straight away. 
 > If your files are in a non-Linux partition (i.e. Windows or Mac) you will need to add an extra option to the start command: `[ 'npm', 'start', '--', '--host=0.0.0.0', '--disable-host-check', '--poll', '2000']`, so it uses polling for file changes.
@@ -40,7 +40,7 @@ There are many alternatives for running the tests, but in this case you are goin
   ```
 - exposes port 9876
 
-Restart the stack running `docker-compose up -d`. You can now see the tests running `docker-compose logs test`. Remember from earlier modules you can pass an option to the logs command to keep it open and *follow* the logs.
+Restart the stack running `docker compose up -d`. You can now see the tests running `docker compose logs test`. Remember from earlier modules you can pass an option to the logs command to keep it open and *follow* the logs.
 
 The tests may be failing right now because of the change you made earlier to the `src/app.component.ts` file. Undo the change to see the tests pass.
 
