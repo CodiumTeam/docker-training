@@ -8,7 +8,7 @@ In this first exercise we will use a provided `docker-compose` to start and stop
 1. To start the application all we need to do is
 
 ```bash
-docker-compose up
+docker compose up
 ```
 
 The application runs in the foreground, so we see the logs of all the different containers.
@@ -22,7 +22,7 @@ docker ps
 1. Ensure you are in the same folder where the `docker-compose` file is, and run
 
 ```bash
-docker-compose ps
+docker compose ps
 ```
 
 Notice how this only lists the containers defined in that docker-compose.
@@ -31,25 +31,25 @@ Notice how this only lists the containers defined in that docker-compose.
 1. Go back to the original terminal and press `Ctrl+C` to stop.
 1. Usually it is preferable to start in detached mode:
    ```bash
-   docker-compose up -d
+   docker compose up -d
    ```
 
 1. You can still see the logs of the containers:
    ```bash
-   docker-compose logs web
+   docker compose logs web
    ```
 
    You can also keep the logs open to follow future changes:
    ```bash
-   docker-compose logs -f web
+   docker compose logs -f web
    ```
 
 1. Many of the commands we explored in the earlier module also work here. For example you can do
    ```
-   docker-compose exec mongo mongo --eval "db.users.insertOne({name: 'jonas'})"
+   docker compose exec mongo mongo --eval "db.users.insertOne({name: 'jonas'})"
    ```
 
-1. To remove everything use the `docker-compose down` command.
+1. To remove everything use the `docker compose down` command.
 
 ## 4.2 Create your own docker-compose.yml to run two docker services
 
@@ -59,8 +59,8 @@ The goal of this exercise is to define a `docker-compose.yml` that would allow u
 
 1. In a new folder, let's start by creating a `docker-compose.yml` file which defines a single service for wordpress. You can use the official image `wordpress:5.7.1-apache`. By default this image runs wordpress in port 80; expose it to a local port in your machine so you can browse to it with your own browser.
 
-2. You can verify the syntax of your docker-compose by running `docker-compose config`. If all is well, it should output a copy of your docker-compose.
-3. You can then use `docker-compose up -d` to start up the service. You should be able to open wordpress in your browser.
+2. You can verify the syntax of your docker-compose by running `docker compose config`. If all is well, it should output a copy of your docker-compose.
+3. You can then use `docker compose up -d` to start up the service. You should be able to open wordpress in your browser.
 
 ### Add database service
 

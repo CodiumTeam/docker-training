@@ -18,7 +18,7 @@ Try to practise these commands with any of the previous containers. If you have 
   ```
 - Display the running processes for the docker compose services
   ```bash
-  docker-compose top
+  docker compose top
   ```
 - Fetch the logs of a container
   ```bash
@@ -34,13 +34,13 @@ Try to practise these commands with any of the previous containers. If you have 
   where the command could be something like `sh` or `bash` (it depends on what is available inside the container)
 - In the context of a docker compose, you could run:
   ```bash
-  docker-compose exec [your-service] [command]
+  docker compose exec [your-service] [command]
   ```
 
 ## 9.2 Using external tools
 
 - Top-like interface for container metrics: [ctop](https://github.com/bcicen/ctop)
-- A simple terminal UI for both docker and docker-compose: [lazydocker](https://github.com/jesseduffield/lazydocker)
+- A simple terminal UI for both docker and docker compose: [lazydocker](https://github.com/jesseduffield/lazydocker)
 - With both previous tools you can even execute a shell (if the image allows it)
 - Some IDEs, like VS Code or IntelliJ, offer extensions that you can use to interact and inspect your Docker resources
 
