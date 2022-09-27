@@ -121,21 +121,21 @@ In this exercise we will try to use the `mongo CLI` tool which is installed insi
    ```bash
    docker run -d --rm --name my-mongo mongo
    ```
-2. Execute the command `mongo --help` on the running container
+2. Execute the command `mongosh --help` on the running container
    ```bash
-   docker exec my-mongo mongo --help
+   docker exec my-mongo mongosh --help
    ```
 3. Insert a new document inside a new `users` collection
    ```bash
-   docker exec my-mongo mongo --eval "db.users.insertOne({name: 'jonas'})"
+   docker exec my-mongo mongosh --eval "db.users.insertOne({name: 'jonas'})"
    ```
 4. Show all the existing documents inside the `users` collection
    ```bash
-   docker exec my-mongo mongo --eval "db.users.find()"
+   docker exec my-mongo mongosh --eval "db.users.find()"
    ```
 5. Connect to the Mongo container in an interactive way
    ```bash
-   docker exec -ti my-mongo mongo
+   docker exec -ti my-mongo mongosh
    ```
    5.1. Inside the container, show all the existing documents
    ```bash
