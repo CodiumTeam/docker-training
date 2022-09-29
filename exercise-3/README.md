@@ -14,6 +14,7 @@ Now run it mapping a volume:
 docker run --rm -v ${PWD}:/codium alpine ls /codium
 ```
 > If you are using Windows DOS shell use `%cd%` instead of `${PWD}` i.e. `docker run --rm -v %cd%:/codium alpine ls /codium`
+> If your current directory has spaces you need to use quotes around the volume path i.e. `docker run --rm -v "${PWD}:/codium" alpine ls /codium`
 
 Why is this working?
 
