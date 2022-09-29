@@ -66,7 +66,7 @@ If you are using Visual Studio Code, you can benefit from their support of Docke
 
 1. Open a terminal `Ctrl+J`
 1. Install dependencies executing `sudo npm install`
-1. Start the application `npm start`
+1. Start the application `sudo npm start`
 1. Open a browser to show [http://localhost:4200](http://localhost:4200) (actually VS Code will prompt you to do so, after the application is compiled)
 
 ### Running tests
