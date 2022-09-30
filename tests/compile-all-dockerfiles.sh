@@ -43,3 +43,5 @@ for dockerfile in "${dockerfiles[@]}"; do
   cd "`dirname "$dockerfile"`"
   docker build -t docker-training-test-compile -f `basename "$dockerfile"` .
 done
+
+cd $basedir/exercise-12/jenkins/jenkins-runner && docker-compose build
