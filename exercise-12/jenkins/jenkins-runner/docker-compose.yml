@@ -54,6 +54,7 @@ services:
       - "3000:3000"
     volumes:
       - gogs-data:/data
+      - ./gogs/app.ini:/data/gogs/conf/app.ini
 
 volumes:
   registry_data:
