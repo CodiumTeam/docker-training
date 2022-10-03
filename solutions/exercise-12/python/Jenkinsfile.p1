@@ -1,0 +1,28 @@
+pipeline {
+    agent any
+    environment {
+        COMPOSE_DOCKER_CLI_BUILD = 1
+        DOCKER_BUILDKIT          = 1
+    }
+    stages {
+        stage('build') {
+            steps {
+                sh 'docker build -t my_flask_app flask'
+            }
+        }
+        stage('test') {
+            steps {
+                sh '''
+                    echo "this will test"
+                '''
+            }
+        }
+        stage('release') {
+            steps {
+                sh '''
+                    echo "this will release"
+                '''
+            }
+        }
+    }
+}
