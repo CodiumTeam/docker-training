@@ -48,7 +48,7 @@ services:
       - registry-backend
 
   gogs:
-    image: gogs/gogs
+    image: gogs/gogs:0.12.10
     ports:
       - "10022:22"
       - "3000:3000"
