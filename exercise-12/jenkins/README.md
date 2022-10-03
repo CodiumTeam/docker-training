@@ -66,12 +66,11 @@ Next you are going to configure a trigger, so the pipeline is automatically exec
 
 1. Open the Gogs interface and navigate to the webhooks settings of the project on http://localhost:3000/gogs/flask-app/settings/hooks
 1. Select *Add a new webhook* of type **Gogs**
-1. In the *Payload URL* field enter **http://executor:8080/gogs-webhook** 
+1. In the *Payload URL* field enter **http://executor:8080/gogs-webhook/?job=flask-app** 
 3. Click the **Add Webhook** button
-4. Click on the pencil (or in the url for the webhook) you just created and modify the url to be **http://executor:8080/gogs-webhook/?job=flask-app** (this is a necessary hack because otherwise the url fails the validation on save).
-5. Go to the settings of the Jenkins project at http://localhost:8080/job/flask-app/configure
-6. Under the *Build Triggers* section check the **Build when a change is pushed to Gogs** option. 
-7. Click **Save**
+4. Go to the settings of the Jenkins project at http://localhost:8080/job/flask-app/configure
+5. Under the *Build Triggers* section check the **Build when a change is pushed to Gogs** option. 
+6. Click **Save**
 
 You can now make a change to the code of the `server.py` file. Commit and push the change to the repo and verify the pipeline is executed.
 
@@ -86,6 +85,7 @@ Commit and push the change and verify if the pipeline successfully builds the Do
 Next you will modify the `Jenkinsfile` so the image is pushed to the registry. 
 
 Hints:
+  - You can have a multi-line script using a triple quote.
   - You may want to tag the image with the short SHA of the current commit, i.e. `` SHA=`git rev-parse --short HEAD` ``
   - The host name for the repository is `registry.local` so prepend the image name with it, e.g. `registry.local/my-flask:latest`
   - You need authenticate in the registry before being able to push the image. The credentials are username `registry` password `ui`.
@@ -96,7 +96,7 @@ When you finally get the build stage to correctly push the images to the `regist
 
 Adding passwords to your `Jenkinsfile`, and therefore to source control, is certainly a terrible practice. You will now move the username and password you used for the registry out of the `Jenkinsfile`.
 
-1. In the Jenkins UI navigate to [Dashboard > Manage Jenkins > Security > Manage Credentials > Jenkins > Global credentials](http://localhost:8080/credentials/store/system/domain/_/).
+1. In the Jenkins UI navigate to [Dashboard > Manage Jenkins > Security > Manage Credentials > System > Global credentials](http://localhost:8080/credentials/store/system/domain/_/).
 1. Click on **Add Credentials**
 1. Fill the Username and Password fields with the credentials (registry/ui) and in the ID field add the text `docker-registry-local`.
 1. Click **OK**
@@ -118,8 +118,8 @@ Hints:
 - In the curl command we are running against `http://docker:8000` because this is running inside the docker service, but the script is running from the Jenkins server.
 - You can compare strings in a Linux sh shell doing `[ "string1" = "string1" ]`
 - To execute the curl command use ` character the beginning and the end of the command.
-
-Finally, as well as doing `docker compose up -d` you also want to do `docker compose down` to clean up. To do this use:
+- You need to wait for the stack to be available, so you must use the `--wait` flag whend oing `docker compose up`
+- You also want to do `docker compose down` to clean up, regardless of whether the test failed or passed. To do this use:
 
 ```groovy
     stage('test') {

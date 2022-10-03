@@ -12,12 +12,16 @@ pipeline {
         }
         stage('test') {
             steps {
-                sh 'echo "this will test"'
+                sh '''
+                    echo "this will test"
+                '''
             }
         }
         stage('release') {
             steps {
-                sh 'echo "this will release"'
+                sh '''
+                    echo "this will release"
+                '''
             }
         }
     }
