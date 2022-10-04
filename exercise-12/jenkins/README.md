@@ -149,7 +149,7 @@ You will start by adding the code to our private *Git* server and creating a new
 Setup Gogs:
 1. In your browser, open http://localhost:3000
 1. Create a new repository named **angular-app**
-1. In the settings of the new repository (http://localhost:3000/gogs/angular-app/settings/hooks), add a new webhook, pointing the Payload URL to **http://executor:8080/gogs-webhook/?job=angular-app** (as before you may need to add the URL in two steps as the `/?` combination fails validation on first save)
+1. In the settings of the new repository (http://localhost:3000/gogs/angular-app/settings/hooks), add a new webhook, pointing the Payload URL to **http://executor:8080/gogs-webhook/?job=angular-app**.
    
 Setup Jenkins:
 1. In the browser, navigate to http://localhost:8080. If you need the admin password then search in the **executor** service logs.
