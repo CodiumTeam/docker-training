@@ -1,0 +1,40 @@
+pipeline {
+    agent any
+    environment {
+        COMPOSE_DOCKER_CLI_BUILD = 1
+        DOCKER_BUILDKIT          = 1
+        REGISTRY		         = 'registry.local'
+    }
+    stages {
+        stage('build') {
+            steps {
+                sh '''
+                    docker build -t $REGISTRY/my-angular-app:latest .
+                '''
+            }
+        }
+        stage('test') {
+            steps {
+                sh '''
+                    docker build -t my-angular-app:test-latest --target test .
+                    docker run --rm -v ${PWD}/karma-tests:/app/karma-tests my-angular-app:test-latest
+                '''
+                junit 'karma-tests/results.xml'
+            }
+        }
+        stage('release') {
+            environment {
+                REGISTRY_CREDENTIALS = credentials('docker-registry-local')
+                COMMIT_SHORT_SHA     = sh('git rev-parse --short HEAD')
+            }
+            steps {
+                sh '''
+                    docker login -u $REGISTRY_CREDENTIALS_USR -p $REGISTRY_CREDENTIALS_PSW $REGISTRY
+                    docker tag $REGISTRY/my_flask_app $REGISTRY/my_flask_app:$COMMIT_SHORT_SHA
+                    docker push $REGISTRY/my_flask_app:$COMMIT_SHORT_SHA
+                    docker push $REGISTRY/my_flask_app
+                '''
+            }
+        }
+    }
+}

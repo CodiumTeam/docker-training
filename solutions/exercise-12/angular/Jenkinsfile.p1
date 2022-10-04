@@ -1,0 +1,28 @@
+pipeline {
+    agent any
+    environment {
+        COMPOSE_DOCKER_CLI_BUILD = 1
+        DOCKER_BUILDKIT          = 1
+    }
+    stages {
+        stage('build') {
+            steps {
+                sh 'echo "this will build"'
+            }
+        }
+        stage('test') {
+            steps {
+                sh '''
+                    docker build -t my-angular-app:test-latest --target test .
+                    docker run --rm -v ${PWD}/karma-tests:/app/karma-tests my-angular-app:test-latest
+                '''
+                junit 'karma-tests/results.xml'
+            }
+        }
+        stage('release') {
+            steps {
+                sh 'echo "this will release"'
+            }
+        }
+    }
+}
