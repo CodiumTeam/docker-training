@@ -12,8 +12,7 @@ services:
       - jenkins-data:/var/jenkins_home
 
   executor:
-    image: myjenkins-blueocean:1.1
-    build: .
+    build: jenkins
     environment:
       - DOCKER_HOST=tcp://docker:2376
       - DOCKER_CERT_PATH=/certs/client
@@ -48,13 +47,12 @@ services:
       - registry-backend
 
   gogs:
-    image: gogs/gogs:0.12.10
+    build: gogs
     ports:
       - "10022:22"
       - "3000:3000"
     volumes:
       - gogs-data:/data
-      - ./gogs/app.ini:/data/gogs/conf/app.ini
 
 volumes:
   registry_data:
