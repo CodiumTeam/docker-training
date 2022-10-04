@@ -3,11 +3,12 @@ pipeline {
     environment {
         COMPOSE_DOCKER_CLI_BUILD = 1
         DOCKER_BUILDKIT          = 1
+        REGISTRY		         = 'registry.local'
     }
     stages {
         stage('build') {
             steps {
-                sh 'docker build -t registry.local/my_flask_app flask'
+                sh 'docker build -t $REGISTRY/my_flask_app flask'
             }
         }
         stage('test') {
@@ -27,7 +28,6 @@ pipeline {
         stage('release') {
             environment {
                 REGISTRY_CREDENTIALS = credentials('docker-registry-local')
-        	    REGISTRY		     = 'registry.local'
             }
             steps {
                 sh '''
