@@ -16,12 +16,13 @@ pipeline {
                        SNYK_TOKEN  = credentials('snyk-token')
                     }
                     steps {
-                        sh 'docker build -t $REGISTRY/my-angular-app:latest .'
+                        sh '''
+                            curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s --
+                            docker login -u $REGISTRY_CREDENTIALS_USR -p $REGISTRY_CREDENTIALS_PSW $REGISTRY
+                            docker build -t $REGISTRY/my-angular-app:latest .
+                        '''
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh '''
-                                docker scan --login --token $SNYK_TOKEN --accept-license
-                                docker scan $REGISTRY/my-angular-app:latest -f Dockerfile
-                            '''
+                            sh 'docker scout quickview $REGISTRY/my-angular-app:latest'
                         }
                     }
                 }

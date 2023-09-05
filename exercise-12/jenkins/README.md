@@ -240,7 +240,7 @@ options {
 
 # Bonus track
 
-Add an extra step in the build stage, to execute a docker scan of the image.
+Add an extra step in the build stage, to execute a docker security scanning of the image.
 
 You will need to be logged in to *Docker Hub*, so you will need to execute a docker login statement. Do not put the credentials in the Jenkinsfile and store them in Jenkins, just as you learnt earlier.
 
