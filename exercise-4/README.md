@@ -131,6 +131,26 @@ If you run `docker compose down` and `up` again, the data would be lost. In orde
   - Notice that although you didn't create them manually, several networks are shown: they are automatically created for each docker-compose by default, so that their services can communicate.
 - Check the existing volumes: `docker volume ls`
 
+### Add a healthcheck
+It is good practice to add healthcheck to your container - this will allow Docker to react and restart  a container when it is still running but it is not functioning correctly (for example stuck in a infinite loop).
+In general the healthcheck is a command that will run inside the container; its exit code inidicates whether the conatiner is healthy or not.
+
+For MySQL, we can use the `msyqladmin ping` command to verify if it can accept connections.
+
+Add the following inisde the `db` service:
+```yaml
+    healthcheck:
+        test: ["CMD-SHELL", "mysqladmin ping --user $$MYSQL_USER --password=$$MYSQL_PASSWORD | grep --silent alive"]
+        interval: 3s
+        timeout: 1s
+        retries: 3
+```
+
+> Notice how we need to pass the user and password. The double dollar `$$` is required to escape it inside the docker comopse file. Also the `grep` command is required because `mysqladmin` returns exit code 0 when supplying a bad password, which could lead to false positives.
+If you need to debug health checks you can inspect their output using the command `docker inspect --format "{{json .State.Health }}" <container name> | jq`
+
+Now you can change the `depends_on` to wait for the database service to be healthy, not just ready, before starting the Wordpress container.
+
 ### Create your own docker-compose.yml to run a single service
 
 - The goal of this exercise is to convert the `docker run` for nginx that we used in the [exercise-3](../exercise-3#33-combining-volumes-and-ports) to a simple docker-compose.
