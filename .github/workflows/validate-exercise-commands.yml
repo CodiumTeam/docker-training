@@ -71,4 +71,4 @@ jobs:
         run: |
           cd exercise-11
           docker build -t flask-app:v1 .
-          docker scan flask-app:v1 -f Dockerfile
+          docker scout quickview flask-app:v1
