@@ -1,0 +1,74 @@
+name: Test exercises
+on:
+  push: ~
+  schedule:
+    - cron: '30 10 * * 1'
+jobs:
+  Test-exercise-1-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - run: docker run hello-world
+      - run: docker run python:alpine python --version
+      - run: docker run ubuntu ls
+      - name: Validate mongo:latest still exists
+        run: curl --silent -f --head -lL https://hub.docker.com/v2/repositories/library/mongo/tags/latest/
+
+  Test-exercise-2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: alpine:latest still has sh shell
+        run: docker run alpine sh -c "pwd; ls"
+
+  Test-exercise-3:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Start nginx with custom port, config and templates
+        run: docker run -d --rm -p 8888:8080 -e NGINX_PORT=8080 -v ${PWD}/exercise-3/index.html:/usr/share/nginx/html/index.html -v ${PWD}/exercise-3/conf:/etc/nginx/templates nginx
+      - name: Wait for nginx port to be ready
+        timeout-minutes: 1
+        run: |
+          until timeout 2 bash -c "</dev/tcp/localhost/8888"; do
+            echo .
+            sleep 1
+          done
+      - name: Check serves custom index.html file
+        run: curl --silent http://localhost:8888 | grep --silent "My First Heading"
+
+  Test-exercise-4:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Test docker-compose interfaces
+        run: |
+          cd exercise-4/nginx-flask-mongo
+          docker compose up -d
+          docker compose logs web
+          docker compose exec mongo mongosh --eval "db.users.insertOne({name: 'jonas'})"
+          docker compose down
+
+  Test-exercise-5:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Test docker build
+        run: |
+          cd solutions/exercise-5
+          docker build -t my-python-app -f Dockerfile.6 .
+          docker run -d -p 9091:9091 my-python-app
+      - name: Wait for server to start and be ready
+        # use static sleep because testing port availability will pass before the
+        # server is actually ready to reply with the expected response
+        run: sleep 3
+      - name: Check server response
+        run: curl --silent http://localhost:9091 | grep --silent "Hello from your brand new container"
+
+  Test-exercise-11:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Test docker scan
+        run: |
+          cd exercise-11
+          docker build -t flask-app:v1 .
+          docker scan flask-app:v1 -f Dockerfile
