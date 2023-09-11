@@ -57,7 +57,7 @@ Very often you need to configure the behaviour of the executable program running
 
 As an example, let's see use a `postgres` container.
 
-1. Run a container with the `postgres` image
+1. Run a container with the `postgres` image and see how it fails.
    ```bash
    docker run --rm postgres
    ```
@@ -102,7 +102,7 @@ As you can see the `docker run` command is getting quite verbose. In the next mo
 
 ### Understand the working directory
 
-- From inside the folder `exercise-3`, try and run the next command:
+- From inside the folder `exercise-3`, run the next command and see it fail:
   ```bash
   docker run -v ${PWD}:/home/codium python:alpine python hello.py
   ```
