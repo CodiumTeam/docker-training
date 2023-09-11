@@ -30,7 +30,7 @@ The filesystem inside a container is ephemeral, any changes to the files are los
 
 1. Let's try to create a new file inside a container. 
    ```bash
-   docker run --rm alpine sh -c "touch hola.txt && ls"
+   docker run --rm alpine sh -c "touch hola.txt; ls"
    ```
    Remember that the container will terminate when the command exits, in this case after creating `hola.txt` and listing the files.
 
