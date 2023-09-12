@@ -124,3 +124,19 @@ jobs:
           cd exercise-11
           docker build -t flask-app:v1 .
           docker scout quickview flask-app:v1
+
+  Test-exercise-12:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Test sample projects
+        run: |
+          cd exercise-12/1-python
+          docker compose up -d
+          sleep 4
+          curl --silent http://localhost:8000 | grep --silent "Hello from the MongoDB client"
+          docker compose down
+
+          cd ../2-angular
+          docker build -t my-angular-app:test-latest --target test .
+          docker run -d -v ${PWD}/karma-tests:/app/karma-tests my-angular-app:test-latest
