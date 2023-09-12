@@ -6,7 +6,7 @@ services:
     environment:
       EXTERNAL_URL: 'http://localhost'
       GITLAB_ROOT_EMAIL: 'root@local'
-      GITLAB_ROOT_PASSWORD: 'root'
+      GITLAB_ROOT_PASSWORD: 'supersecret'
       GITLAB_SHARED_RUNNERS_REGISTRATION_TOKEN: ''
       ENABLE_BOOTSNAP: ''
       # Add any other gitlab.rb configuration here, each on its own line
