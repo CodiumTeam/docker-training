@@ -32,7 +32,7 @@ You will now explore the advantages of using a multi-stage build to remove unnec
     docker run --rm ex6-2:v2 29
     ```
     You should observe the same result as before
-1. This `Dockerfile.2` uses a different base image `alpine`, which does not have the compilation tool, so it needs to be stored.
+1. This `Dockerfile.2` uses a different base image `alpine`, which does not have the compilation tool, so it needs to be installed.
 1. Open `Dockerfile.3` and spot the differences with the previous one. Notice it does the same initial steps, but then it copies the compiled artefact to a brand new `alpine` image, where it only installs the runtime dependencies.
 1. Build the image. You will notice how the first steps are shown as cached, because they are exactly the same as in `Dockerfile.2`. Remember Docker cache works even across different Dockerfiles.
     ```bash
@@ -62,7 +62,7 @@ Hints:
 - You can build the application using the `npm run build` command. This will build it inside the `dist/my-app/` folder. For this to work, it requires:
   - all the files from the `src` folder
   - `angular.json`, all `tsconfig` files and `.browserslistrc`
-- Distribute the application inside an `nginx` server. By default it serves files it finds in the the `/usr/share/nginx/html/` folder.
+- Distribute the application inside an `nginx` server. By default, it serves files it finds in the `/usr/share/nginx/html/` folder.
 
 Once you are able to build your image successfully, try running the container and opening the sample app in the browser.
 
