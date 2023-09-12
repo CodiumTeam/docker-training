@@ -6,8 +6,8 @@ In order to leverage more efficiently the caching mechanism Docker uses when bui
 1. Build the image once.
 1. Build the image again, notice that the second time it was very quick and it was saying `---> Using cache` or `CACHED` in each instruction.
 1. Now modify the `server.py` file. Simply change one of the strings.
-1. Build the image once more. Notice that it had to install the requirements again, even though they had not changed. This step of installing dependencies can be time consuming and typically changes much less frequently than your code. That is why best practice dictates that you should install dependencies first before copying your actual source code.
-1. Modify the `Dockerfile` to copy the `requirements.txt` file (but not the `server.py`), install the dependencies, and then copy the actual application code.
+1. Build the image once more. Notice that it had to install the requirements again, even though they had not changed. This step of installing dependencies can be time-consuming and typically changes much less frequently than your code. That is why best practice dictates that you should install dependencies first before copying your actual source code.
+1. Modify the `Dockerfile` to copy the `requirements.txt` file (but not the `server.py`), install the dependencies, and then copy the actual application code (the `server.py` file).
 1. As before, try building the image, then change the code in `server.py` and build the image again. Notice how this time, the dependencies are retrieved from cache.
 
 ## 6.2 Multi-stage builds with C++
