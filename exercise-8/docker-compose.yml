@@ -6,7 +6,7 @@ services:
         - ./registry-config/credentials.yml:/etc/docker/registry/config.yml
         - ./registry-config/htpasswd:/etc/docker/registry/htpasswd
     ui:
-      image: joxit/docker-registry-ui:main
+      image: joxit/docker-registry-ui:2.5.2
       ports:
         - 80:80
       environment: 

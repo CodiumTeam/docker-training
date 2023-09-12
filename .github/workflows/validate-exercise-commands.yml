@@ -92,7 +92,12 @@ jobs:
       - name: Test docker build
         run: |
           cd exercise-8
+          docker compose up -d
           docker build -t my-alpine-cat .
+          docker image tag my-alpine-cat localhost/my-alpine-cat:v1
+          docker login -u registry -p ui localhost
+          docker push localhost/my-alpine-cat:v1
+          docker compose down
 
   Test-exercise-11:
     runs-on: ubuntu-latest
