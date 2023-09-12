@@ -1,6 +1,6 @@
 services:
   web:
-    image: nginx
+    image: nginx:1.25
     volumes:
       - ./nginx:/etc/nginx/templates/
     environment:
@@ -20,7 +20,7 @@ services:
       - mongo
 
   mongo:
-    image: mongo
+    image: mongo:7.0.1
     volumes: 
       - db_data:/data/db
 
