@@ -76,6 +76,24 @@ jobs:
           docker build -t ex6-2:v2 -f 2-multi-stage-builds-cpp/Dockerfile.2 2-multi-stage-builds-cpp
           docker build -t ex6-2:v3 -f 2-multi-stage-builds-cpp/Dockerfile.3 2-multi-stage-builds-cpp
 
+  Test-exercise-7:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Test docker build
+        run: |
+          cd exercise-7
+          docker build -t ex7 project/
+
+  Test-exercise-8:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Test docker build
+        run: |
+          cd exercise-8
+          docker build -t my-alpine-cat .
+
   Test-exercise-11:
     runs-on: ubuntu-latest
     steps:
