@@ -64,6 +64,18 @@ jobs:
       - name: Check server response
         run: curl --silent http://localhost:9091 | grep --silent "Hello from your brand new container"
 
+  Test-exercise-6:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Test docker build
+        run: |
+          cd solutions/exercise-6
+          docker build -t ex6-1 1-caching/
+          docker build -t ex6-2:v1 -f 2-multi-stage-builds-cpp/Dockerfile.1 2-multi-stage-builds-cpp
+          docker build -t ex6-2:v2 -f 2-multi-stage-builds-cpp/Dockerfile.2 2-multi-stage-builds-cpp
+          docker build -t ex6-2:v3 -f 2-multi-stage-builds-cpp/Dockerfile.3 2-multi-stage-builds-cpp
+
   Test-exercise-11:
     runs-on: ubuntu-latest
     steps:
