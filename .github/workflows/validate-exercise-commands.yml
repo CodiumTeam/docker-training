@@ -44,6 +44,7 @@ jobs:
           cd exercise-4/nginx-flask-mongo
           docker compose up -d
           docker compose logs web
+          sleep 5
           docker compose exec mongo mongosh --eval "db.users.insertOne({name: 'jonas'})"
           docker compose down
 
