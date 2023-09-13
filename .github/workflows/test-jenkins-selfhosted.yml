@@ -1,0 +1,21 @@
+name: Test Jenkins infra
+on:
+  push:
+    paths:
+      - 'exercise-12/jenkins/jenkins-runner/*'
+      - 'exercise-12/jenkins/jenkins-runner/**'
+      - '.github/workflows/test-jenkins-selfhosted.yml'
+  schedule:
+    - cron: '30 10 * * 1'
+
+jobs:
+  Test-run-jenkins-runner:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start jenkins runner
+        timeout-minutes: 10
+        run: |
+          cd ${GITHUB_WORKSPACE}/exercise-12/jenkins/jenkins-runner
+          #sed -i 's/22:22/2222:22/' docker-compose.yml
+          docker compose up -d --wait
+          docker compose down

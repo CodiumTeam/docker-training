@@ -10,6 +10,11 @@ services:
     volumes:
       - jenkins-docker-certs:/certs/client
       - jenkins-data:/var/jenkins_home
+    healthcheck:
+        test: ["CMD-SHELL", "docker ps"]
+        interval: 10s
+        timeout: 1s
+        retries: 3
 
   executor:
     build: jenkins
@@ -22,13 +27,23 @@ services:
       - jenkins-docker-certs:/certs/client:ro
     ports:
       - 8080:8080
-      - 50000:50000 
+      - 50000:50000
+    healthcheck:
+        test: ["CMD-SHELL", "curl -si http://localhost:8080"]
+        interval: 10s
+        timeout: 1s
+        retries: 3
 
   registry-backend:
     image: registry:2
     volumes:
       - registry_data:/var/lib/registry
       - ./registry-config:/etc/docker/registry
+    healthcheck:
+        test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://127.0.0.1:3456/debug/health"]
+        interval: 10s
+        timeout: 1s
+        retries: 3
 
   registry:
     image: joxit/docker-registry-ui:main
@@ -45,6 +60,11 @@ services:
       - DELETE_IMAGES=true
     depends_on: 
       - registry-backend
+    healthcheck:
+        test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:80"]
+        interval: 10s
+        timeout: 1s
+        retries: 3
 
   gogs:
     build: gogs
@@ -53,6 +73,11 @@ services:
       - "3000:3000"
     volumes:
       - gogs-data:/data
+    healthcheck:
+        test: ["CMD-SHELL", "curl -si http://localhost:3000"]
+        interval: 10s
+        timeout: 1s
+        retries: 3
 
 volumes:
   registry_data:
