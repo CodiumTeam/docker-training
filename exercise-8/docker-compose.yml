@@ -5,6 +5,12 @@ services:
         - registry_data:/var/lib/registry
         - ./registry-config/credentials.yml:/etc/docker/registry/config.yml
         - ./registry-config/htpasswd:/etc/docker/registry/htpasswd
+      healthcheck:
+          test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://127.0.0.1:3456/debug/health"]
+          interval: 5s
+          timeout: 1s
+          retries: 3
+
     ui:
       image: joxit/docker-registry-ui:2.5.2
       ports:
@@ -16,6 +22,11 @@ services:
         - DELETE_IMAGES=true
       depends_on: 
         - registry
+      healthcheck:
+          test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:80"]
+          interval: 5s
+          timeout: 1s
+          retries: 3
 
 volumes: 
   registry_data:

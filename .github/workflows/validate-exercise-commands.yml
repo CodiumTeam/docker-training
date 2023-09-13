@@ -92,7 +92,7 @@ jobs:
       - name: Test docker build
         run: |
           cd exercise-8
-          docker compose up -d
+          docker compose up -d --wait
           docker build -t my-alpine-cat .
           docker image tag my-alpine-cat localhost/my-alpine-cat:v1
           docker login -u registry -p ui localhost
