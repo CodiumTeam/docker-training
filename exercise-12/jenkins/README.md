@@ -35,9 +35,10 @@ Navigate to the `exercise-12/jenkins/jenkins-runner`. You will see there is a do
 
 1. Open http://localhost:8080 in another tap of the browser.
 1. You need to retrieve the initial random password created by Jenkins. This is inside a file named `/var/jenkins_home/secrets/initialAdminPassword` inside the executor service of the docker compose stack you have started previously. Get the contents of that file and paste it in the Administrator password field and click **Continue**
+    <details><summary>View snippet</summary><code>docker compose exec executor cat /var/jenkins_home/secrets/initialAdminPassword</code></details> 
 1. Do not install any plugins, and instead click on the small cross in the top right of the screen to close the *Getting Started* dialog.
 1. Click on **Start using Jenkins**
-1. Click on **New Item** to define a new automation project.
+1. Click on [**New Item**](http://localhost:8080/view/all/newJob) to define a new automation project.
 1. Enter the name **flask-app** and select **Pipeline**
 1. Click **OK** at the bottom of the page. ![New project](screenshots/create-jenkins-project.png)
 1. Click on **Pipeline** in the tabs or scroll down to the pipeline section. Anf fill it as follows:
