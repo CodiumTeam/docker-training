@@ -67,12 +67,13 @@ services:
         retries: 3
 
   gogs:
-    build: gogs
+    image: gogs/gogs:0.12.10
     ports:
       - "10022:22"
       - "3000:3000"
     volumes:
-      - gogs-data:/data
+      - ./gogs/app.ini:/data/gogs/conf/app.ini
+      - ./gogs/gogs.db:/data/gogs/data/gogs.db
     healthcheck:
         test: ["CMD-SHELL", "curl -si http://localhost:3000"]
         interval: 10s

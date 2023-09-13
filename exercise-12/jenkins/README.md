@@ -12,18 +12,15 @@ Navigate to the `exercise-12/jenkins/jenkins-runner`. You will see there is a do
 
 #### Push repository to Git
 
-1. Open Gogs in the browser on http://localhost:3000. This will open the configuration page
-1. Change the database typ to **SQLite3**
-1. Click **Install Gogs** at the bottom of the page
-1. Click the [**Need an account? Sign up now.**](http://localhost:3000/user/sign_up) link. Use the following data:
+1. Open Gogs in the browser on http://localhost:3000.
+1. Click the [**Login**](http://localhost:3000/user/login?redirect_to=) link. Use the following data:
+
     | Field    | Data           |
     |----------|----------------|
     | Username | gogs           |
-    | Email    | gogs@local.com |
     | Password | gogs1234       |
 
-1. Create the account and then use the credentials to log in.
-1. Click on the blue plus to **add a new repository**. ![New repository](screenshots/create-repository.png)
+1. Click on the blue plus to [**add a new repository**](http://localhost:3000/repo/create). ![New repository](screenshots/create-repository.png)
 1. Fill the *Repository Name* field as **flask-app** and click **Create Repository**
 1. Open a terminal in the `./exercise-12/1-python` folder.
 1. Initialize and push the git repo. Use the credentials from before (gogs/gogs1234) when prompted:
@@ -44,6 +41,7 @@ Navigate to the `exercise-12/jenkins/jenkins-runner`. You will see there is a do
 1. Enter the name **flask-app** and select **Pipeline**
 1. Click **OK** at the bottom of the page. ![New project](screenshots/create-jenkins-project.png)
 1. Click on **Pipeline** in the tabs or scroll down to the pipeline section. Anf fill it as follows:
+
     | Field          | Value                               |
     |----------------|-------------------------------------|
     | Definition     | Pipeline script from SCM            |
