@@ -1,0 +1,20 @@
+name: Test Gitlab infra
+on:
+  push:
+    paths:
+      - 'exercise-12/gitlab/docker-compose.yml'
+      - '.github/workflows/test-gitlab-selfhosted.yml'
+  schedule:
+    - cron: '30 10 * * 1'
+
+jobs:
+  Test-run-gitlab-instance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start gitlab instance
+        timeout-minutes: 10
+        run: |
+          cd ${GITHUB_WORKSPACE}/exercise-12/gitlab
+          sed -i 's/22:22/2222:22/' docker-compose.yml
+          docker compose up -d --wait
+          docker compose down
