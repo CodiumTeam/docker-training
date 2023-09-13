@@ -12,6 +12,7 @@ jobs:
   Test-run-jenkins-runner:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - name: Start jenkins runner
         timeout-minutes: 10
         run: |
