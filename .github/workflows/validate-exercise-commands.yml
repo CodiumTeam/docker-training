@@ -123,7 +123,13 @@ jobs:
         run: |
           cd exercise-11
           docker build -t flask-app:v1 .
-          docker scout quickview flask-app:v1
+      - uses: nick-fields/retry@v2
+        with:
+          max_attempts: 3
+          retry_on: error
+          timeout_minutes: 4
+          command: |
+            docker scout quickview flask-app:v1
 
   Test-exercise-12:
     runs-on: ubuntu-latest
