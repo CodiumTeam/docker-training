@@ -13,7 +13,7 @@ Starts an environment to play with Jenkins and continuous integration pipelines.
 
 To start the stack:
 ```
-  docker compose up -d
+  docker compose up -d --wait
 ```
 
 You can find out the admin password for Jenkins by running:

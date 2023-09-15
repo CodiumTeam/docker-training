@@ -2,8 +2,8 @@ name: Test Jenkins infra
 on:
   push:
     paths:
-      - 'exercise-12/jenkins/jenkins-runner/*'
-      - 'exercise-12/jenkins/jenkins-runner/**'
+      - 'exercise-12/*'
+      - 'exercise-12/**'
       - '.github/workflows/test-jenkins-selfhosted.yml'
   schedule:
     - cron: '30 10 * * 1'
@@ -13,10 +13,79 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Start jenkins runner
-        timeout-minutes: 10
+      - name: Start jenkins stack
         run: |
           cd ${GITHUB_WORKSPACE}/exercise-12/jenkins/jenkins-runner
-          #sed -i 's/22:22/2222:22/' docker-compose.yml
           docker compose up -d --wait
-          docker compose down
+
+      - name: Setup git
+        run: |
+          git config --global user.email "testbot@codium.team"
+          git config --global user.name "Test Bot"
+
+      - name: Create Gogs project
+        run: |                             
+          GOGS_API_TOKEN="31712847ca9d1a1db67a713d256b8700991e4592"
+          curl -s -X POST http://localhost:3000/api/v1/admin/users/gogs/repos \
+            -H "Authorization: token $GOGS_API_TOKEN" \
+            -H 'Content-Type: application/json' \
+            -d '{"name": "flask-app", "private": false}'
+
+      - name: Push code to gogs repo
+        run: |
+          cd ${GITHUB_WORKSPACE}/exercise-12/1-python
+          git init .
+          git add .
+          git commit -m "first commit"
+          git remote add origin http://gogs:gogs1234@localhost:3000/gogs/flask-app.git
+          git push -u origin master
+
+      - name: Create Jenkins pipeline
+        run: |
+          cd ${GITHUB_WORKSPACE}/exercise-12/jenkins/jenkins-runner
+          . jenkins/jenkins_helpers.sh
+          wait_for_jenkins_to_be_ready
+          initialize
+          create_pipeline
+          wait_for_pipeline_job_created
+
+      - name: Check first pipeline status
+        timeout-minutes: 5
+        run: |
+          cd ${GITHUB_WORKSPACE}/exercise-12/jenkins/jenkins-runner
+          . jenkins/jenkins_helpers.sh
+          initialize
+          wait_for_pipeline_job_completion
+          
+          [ $(get_last_pipeline | jq -r ".id") = "1" ]
+          [ $(get_last_pipeline | jq -r ".result") = "SUCCESS" ]
+
+      - name: Create Gogs webhook
+        run: |
+          GOGS_API_TOKEN="31712847ca9d1a1db67a713d256b8700991e4592"
+          curl -s -X POST http://localhost:3000/api/v1/repos/gogs/flask-app/hooks \
+            -H "Authorization: token $GOGS_API_TOKEN" \
+            -H 'Content-Type: application/json' \
+            -d '{"type": "gogs", "active": true, "events": ["push"], "config": {"url":"http://executor:8080/gogs-webhook/?job=flask-app", "content_type":"json"}}'          
+
+      - name: Push changes to Git repo
+        run: |
+          cd ${GITHUB_WORKSPACE}/exercise-12/1-python
+          git commit -m "second commit" --allow-empty
+          git push -u origin master
+
+      - name: Check new pipeline was created
+        timeout-minutes: 2
+        run: |
+          cd ${GITHUB_WORKSPACE}/exercise-12/jenkins/jenkins-runner
+          . jenkins/jenkins_helpers.sh
+          initialize
+          
+          until [ $(get_last_pipeline | jq -r ".id") = "2" ]
+          do
+            echo "Waiting for new pipeline to be created by webhook ..."
+            sleep 3
+          done
+          
+          wait_for_pipeline_job_completion
+          [ $(get_last_pipeline | jq -r ".result") = "SUCCESS" ]

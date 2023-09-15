@@ -1,4 +1,0 @@
-# to avoid comitting any changes to the state of the initial DB
-# if you change the initial DB image you can still add it with
-# git add -f
-gogs.db
