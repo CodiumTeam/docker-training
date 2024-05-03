@@ -3,30 +3,33 @@ volumes:
   gitlab-logs: ~
   gitlab-data: ~
   runner-conf: ~
+
 services:
   web:
-    image: 'gitlab/gitlab-ee:latest'
+    image: 'gitlab/gitlab-ee:16.10.4-ee.0'
     restart: always
     hostname: 'gitlab.example.com'
     environment:
-      EXTERNAL_URL: 'http://localhost'
-      GITLAB_ROOT_EMAIL: 'root@local'
-      GITLAB_ROOT_PASSWORD: 'supersecret'
-      GITLAB_SHARED_RUNNERS_REGISTRATION_TOKEN: ''
-      ENABLE_BOOTSNAP: ''
-      # Add any other gitlab.rb configuration here, each on its own line
+      ENABLE_BOOTSNAP: "1"
+      GITLAB_SHARED_RUNNERS_REGISTRATION_TOKEN:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://localhost:8929'
+        gitlab_rails['gitlab_shell_ssh_port'] = 2424
+        gitlab_rails['initial_root_password'] = "supersecret"
     ports:
-      - '80:80'
-      - '443:443'
-      - '22:22'
+      - '8929:8929'
+      - '2424:2424'
     volumes:
       - 'gitlab-conf:/etc/gitlab'
       - 'gitlab-logs:/var/log/gitlab'
       - 'gitlab-data:/var/opt/gitlab'
+      - ./fixtures/25_api_personal_access_token.rb:/opt/gitlab/embedded/service/gitlab-rails/ee/db/fixtures/production/025_api_personal_access_token.rb
+      - ./fixtures/26_runner_token.rb:/opt/gitlab/embedded/service/gitlab-rails/ee/db/fixtures/production/026_runner_token.rb
     shm_size: '256m'
+
   runner:
-    image:  gitlab/gitlab-runner:latest
+    image:  gitlab/gitlab-runner:ubuntu-v16.10.0
     volumes:
-      - runner-conf:/etc/gitlab-runner
+      - ./runner-conf:/etc/gitlab-runner
       - /var/run/docker.sock:/var/run/docker.sock
     restart: always
