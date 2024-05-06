@@ -26,6 +26,7 @@ function create_ssh_key() {
 }
 
 function push_code() {
+  chmod 0600 ${GITHUB_WORKSPACE}/exercise-12/gitlab/fixtures/id_ed25519
   export GIT_SSH_COMMAND="ssh -i ${GITHUB_WORKSPACE}/exercise-12/gitlab/fixtures/id_ed25519 -o 'UserKnownHostsFile=/dev/null' -o 'StrictHostKeyChecking=no'"
   cd ${GITHUB_WORKSPACE}/exercise-12/1-python
   git remote add gitlab ssh://git@localhost:2424/root/exercise-12.git
