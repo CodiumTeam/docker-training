@@ -14,20 +14,24 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Start gitlab instance
-        timeout-minutes: 10
+        timeout-minutes: 5
         run: |
           cd ${GITHUB_WORKSPACE}/exercise-12/gitlab
-          docker compose up -d --wait --wait-timeout=600
+          docker compose up -d
       - name: Setup git
         run: |
           git config --global user.email "testbot@codium.team"
-          git config --global user.name "Test Bot"          
+          git config --global user.name "Test Bot"
+      - name: Wait for gitlab healthy
+        timeout-minutes: 10
+        run: |
+          . gitlab_helper.sh
+          wait_for_gitlab_to_be_ready
       - name: Create Jenkins pipeline
         timeout-minutes: 3
         run: |
           export EXERCISE_PATH=${GITHUB_WORKSPACE}/exercise-12
           cd ${EXERCISE_PATH}/gitlab
-          
           . gitlab_helper.sh
           
           wait_for_gitlab_to_be_ready
