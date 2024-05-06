@@ -3,7 +3,7 @@ name: Test Gitlab infra
 on:
   push:
     paths:
-      - 'exercise-12/*'
+      - 'exercise-12/**'
       - '.github/workflows/test-gitlab-selfhosted.yml'
   schedule:
     - cron: '30 10 * * 1'
