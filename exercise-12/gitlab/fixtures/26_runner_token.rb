@@ -12,6 +12,4 @@ Gitlab::Seeder.quiet do
     runner.registration_type = 'authenticated_user'
     runner.creator_id = 1
     runner.save
-
-    print 'OK'
 end

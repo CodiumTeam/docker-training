@@ -3,7 +3,7 @@ name: Test Gitlab infra
 on:
   push:
     paths:
-      - 'exercise-12/gitlab/docker-compose.yml'
+      - 'exercise-12/*'
       - '.github/workflows/test-gitlab-selfhosted.yml'
   schedule:
     - cron: '30 10 * * 1'
@@ -17,6 +17,21 @@ jobs:
         timeout-minutes: 10
         run: |
           cd ${GITHUB_WORKSPACE}/exercise-12/gitlab
-          sed -i 's/22:22/2222:22/' docker-compose.yml
-          docker compose up -d --wait
-          docker compose down
+          docker compose up -d --wait --wait-timeout=600
+      - name: Setup git
+        run: |
+          git config --global user.email "testbot@codium.team"
+          git config --global user.name "Test Bot"          
+      - name: Create Jenkins pipeline
+        timeout-minutes: 3
+        run: |
+          export EXERCISE_PATH=${GITHUB_WORKSPACE}/exercise-12
+          cd ${EXERCISE_PATH}/gitlab
+          
+          . gitlab_helper.sh
+          
+          wait_for_gitlab_to_be_ready
+          create_project
+          create_ssh_key
+          push_code
+          wait_for_pipeline_job_created

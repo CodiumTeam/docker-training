@@ -14,18 +14,23 @@ services:
       GITLAB_SHARED_RUNNERS_REGISTRATION_TOKEN:
       GITLAB_OMNIBUS_CONFIG: |
         external_url 'http://localhost:8929'
-        gitlab_rails['gitlab_shell_ssh_port'] = 2424
+        gitlab_rails['gitlab_shell_ssh_port'] = 2424  # this only changes the port visible in gitlab UI, not the actual listen port of SSH
         gitlab_rails['initial_root_password'] = "supersecret"
     ports:
       - '8929:8929'
-      - '2424:2424'
+      - '2424:22'  # ssh will run in port 22 unless changed in /asssets/sshd_config
     volumes:
       - 'gitlab-conf:/etc/gitlab'
       - 'gitlab-logs:/var/log/gitlab'
       - 'gitlab-data:/var/opt/gitlab'
       - ./fixtures/25_api_personal_access_token.rb:/opt/gitlab/embedded/service/gitlab-rails/ee/db/fixtures/production/025_api_personal_access_token.rb
       - ./fixtures/26_runner_token.rb:/opt/gitlab/embedded/service/gitlab-rails/ee/db/fixtures/production/026_runner_token.rb
-    shm_size: '256m'
+    shm_size: '512m'
+    healthcheck:
+        test: ["CMD-SHELL", "curl --fail -si http://localhost:8929"]
+        interval: 5s
+        timeout: 1s
+        retries: 3
 
   runner:
     image:  gitlab/gitlab-runner:ubuntu-v16.10.0
