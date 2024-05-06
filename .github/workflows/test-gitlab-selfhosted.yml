@@ -25,13 +25,13 @@ jobs:
       - name: Wait for gitlab healthy
         timeout-minutes: 10
         run: |
+          cd ${GITHUB_WORKSPACE}/exercise-12/gitlab
           . gitlab_helper.sh
           wait_for_gitlab_to_be_ready
       - name: Create Jenkins pipeline
         timeout-minutes: 3
         run: |
-          export EXERCISE_PATH=${GITHUB_WORKSPACE}/exercise-12
-          cd ${EXERCISE_PATH}/gitlab
+          cd ${GITHUB_WORKSPACE}/exercise-12/gitlab
           . gitlab_helper.sh
           
           wait_for_gitlab_to_be_ready
