@@ -42,37 +42,6 @@ You can either use a gitlab cloud service or try the self-hosted option.
 2. Open a Pipeline by clicking on status *passed*  
 3. Open each job to see what happens
 
-Maybe you need to add local runners. Please follow next section.
-
-#### Add local runners
-```
-docker volume create gitlab-runner-config
-
-docker run -d --name gitlab-runner --restart always \
-    -v /var/run/docker.sock:/var/run/docker.sock \
-    -v gitlab-runner-config:/etc/gitlab-runner \
-    gitlab/gitlab-runner:latest
-    
-docker run --rm -it -v gitlab-runner-config:/etc/gitlab-runner gitlab/gitlab-runner:latest register
-```
-
-Fill the questions with the data on *Settings* - *CI/CD* - *Runners - Expand* - *Set up a specific runner for a project*:
-- Enter Gitlab instance URL: https://gitlab.com/
-- Registration token: Something like GR13489418DfyyU_ANKXtBiNzSUx (but not this one)
-- Tags: empty
-- Maintenance Notes: empty
-- Executor: docker
-- Default image: docker
-
-Refresh the CI/CD Runners web, and you will see the runner in the "Available specific runners".
-
-Edit new runner and enable *Run untagged jobs*.
-
-On *Shared runners* disable the option *Enable shared runners for this project*
-
-
-More info at: https://docs.gitlab.com/runner/install/docker.html
-
 #### Build the image at build stage
 
 Replace the echo instruction in the `.gitlab-ci.yml` to build the flask image. 
