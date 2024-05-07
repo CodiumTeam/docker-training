@@ -29,14 +29,14 @@ jobs:
         timeout-minutes: 10
         run: |
           cd ${GITHUB_WORKSPACE}/exercise-12/gitlab
-          . gitlab_helper.sh
+          . ./gitlab_helper.sh
           wait_for_gitlab_to_be_ready
 
       - name: Configure project and keys
         timeout-minutes: 2
         run: |
           cd ${GITHUB_WORKSPACE}/exercise-12/gitlab
-          . gitlab_helper.sh
+          . ./gitlab_helper.sh
           wait_for_gitlab_to_be_ready  # wait again, as gitlab seems to restart the web server after first startup to reconfigure things
           create_ssh_key
           create_project
@@ -46,6 +46,6 @@ jobs:
         timeout-minutes: 3
         run: |
           cd ${GITHUB_WORKSPACE}/exercise-12/gitlab
-          . gitlab_helper.sh
+          . ./gitlab_helper.sh
           push_code
           wait_for_pipeline_job_created
