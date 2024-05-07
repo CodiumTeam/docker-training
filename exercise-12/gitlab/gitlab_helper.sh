@@ -2,14 +2,6 @@ GITLAB_URL="http://localhost:8929"
 GITLAB_TOKEN="ypCa3Dzb23o5nvsixwPA"
 PIPELINE_NAME="flask-app"
 
-function wait_for_gitlab_to_be_ready() {
-  until curl -s --fail "${GITLAB_URL}/users/sign_in" > /dev/null
-  do
-    echo "Waiting for Gitlab server to be ready ..."
-    sleep 4
-  done
-}
-
 
 function create_project() {
   curl --request POST --header "PRIVATE-TOKEN: $GITLAB_TOKEN" \
