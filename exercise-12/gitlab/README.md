@@ -8,13 +8,10 @@ To do this you will use an automation tool for executing pipelines named [Gitlab
 
 ### Create a new Repository on Gitlab
 
-#### Sign in or create an account
-[Sign in](https://gitlab.com/users/sign_in) (or [sign up](https://gitlab.com/users/sign_up) if you don't have a gitlab account).
+You can either use a gitlab cloud service or try the self-hosted option.
 
-If you see *Start your Free Ultimate Trial* click "Skip Trial" on the bottom of the page.
-
-If you have created a new account using a third party authentication system you will need to [add an SSH Key](https://gitlab.com/-/profile/keys) or [set a password](https://gitlab.com/-/profile/password/reset)
-
+ - [Use gitlab cloud](./CLOUD.md)
+ - [Use gitlab self-hosted](./SELFHOSTED.md)
 
 #### Create New repository on Gitlab
 
