@@ -25,12 +25,9 @@ function create_ssh_key() {
   curl -X POST -F "private_token=${GITLAB_TOKEN}" -F "title=root-ssh-key" -F "key=${sshKey}" "${GITLAB_URL}/api/v4/user/keys"
 }
 
-function push_code() {
+function configure_gitlab_git_ssh_command() {
   chmod 0600 ${GITHUB_WORKSPACE}/exercise-12/gitlab/fixtures/id_ed25519
   export GIT_SSH_COMMAND="ssh -i ${GITHUB_WORKSPACE}/exercise-12/gitlab/fixtures/id_ed25519 -o 'UserKnownHostsFile=/dev/null' -o 'StrictHostKeyChecking=no'"
-  cd ${GITHUB_WORKSPACE}/exercise-12/1-python
-  git remote add gitlab ssh://git@localhost:2424/root/exercise-12.git
-  git push gitlab
 }
 
 function get_last_pipeline() {
