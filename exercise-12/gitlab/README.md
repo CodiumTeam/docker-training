@@ -10,8 +10,20 @@ To do this you will use an automation tool for executing pipelines named [Gitlab
 
 You can either use a gitlab cloud service or try the self-hosted option.
 
- - [Use gitlab cloud](./CLOUD.md)
- - [Use gitlab self-hosted](./SELFHOSTED.md)
+#### Run self-hosted
+
+For self-hosted just run `./start-gitlab.sh` and follow instructions on screen.
+
+Skip to "Create New repository on Gitlab" 
+
+#### Register into gitlab cloud
+
+[Sign in](https://gitlab.com/users/sign_in) (or [sign up](https://gitlab.com/users/sign_up) if you don't have a gitlab account).
+
+If you see *Start your Free Ultimate Trial* click "Skip Trial" on the bottom of the page.
+
+If you have created a new account using a third party authentication system you will need to [add an SSH Key](https://gitlab.com/-/profile/keys) or [set a password](https://gitlab.com/-/profile/password/reset)
+
 
 #### Create New repository on Gitlab
 
