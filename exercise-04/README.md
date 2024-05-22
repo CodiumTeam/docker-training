@@ -4,7 +4,7 @@
 
 In this first exercise we will use a provided `docker-compose` to start and stop a collection of containers (services). In this case it is a python container that is exposed in an nginx server and talks to a mongo database. It is important to realise how you can compose complex applications using individual simple components, containers, which fulfill a single function.
 
-1. Go to the folder `exercise-4` move into the folder `nginx-flask-mongo`
+1. Go to the folder `exercise-04` move into the folder `nginx-flask-mongo`
 1. To start the application all we need to do is
 
 ```bash
@@ -153,7 +153,7 @@ Now you can change the `depends_on` to wait for the database service to be healt
 
 ### Create your own docker-compose.yml to run a single service
 
-- The goal of this exercise is to convert the `docker run` for nginx that we used in the [exercise-3](../exercise-3#33-combining-volumes-and-ports) to a simple docker-compose.
+- The goal of this exercise is to convert the `docker run` for nginx that we used in the [exercise-03](../exercise-03#33-combining-volumes-and-ports) to a simple docker-compose.
 > We usually use docker-compose.yml for defining applications with 2 or more services (not just one like this example). This exercise with a single service docker-compose.yml is intended for pedagogical goals. However, even for a single service, the clearer syntax of the docker-compose.yml can be beneficial. Another advantage is that the file could be committed to source control.
 - Please, transform the next docker run into a docker-compose.yml and verify that it works as expected:
   ```console

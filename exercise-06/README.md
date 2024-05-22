@@ -14,7 +14,7 @@ In order to leverage more efficiently the caching mechanism Docker uses when bui
 
 You will now explore the advantages of using a multi-stage build to remove unnecessary dependencies from the final distributable image. As this is particularly relevant with languages that require compilation, the example uses a very simple C++ program which calculates whether a number is prime or not.
 
-1. Open a terminal inside the `exercise-6/2-multi-stage-builds-cpp` folder.
+1. Open a terminal inside the `exercise-06/2-multi-stage-builds-cpp` folder.
 1. Build the first Dockerfile supplied
     ```bash
     docker build -t ex6-2:v1 -f Dockerfile.1 .

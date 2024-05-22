@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Start nginx with custom port, config and templates
-        run: docker run -d --rm -p 8888:8080 -e NGINX_PORT=8080 -v ${PWD}/exercise-3/index.html:/usr/share/nginx/html/index.html -v ${PWD}/exercise-3/conf:/etc/nginx/templates nginx
+        run: docker run -d --rm -p 8888:8080 -e NGINX_PORT=8080 -v ${PWD}/exercise-03/index.html:/usr/share/nginx/html/index.html -v ${PWD}/exercise-03/conf:/etc/nginx/templates nginx
       - name: Wait for nginx port to be ready
         timeout-minutes: 1
         run: |
@@ -42,7 +42,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Test docker-compose interfaces
         run: |
-          cd exercise-4/nginx-flask-mongo
+          cd exercise-04/nginx-flask-mongo
           docker compose up -d
           docker compose logs web
           sleep 5
@@ -55,7 +55,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Test docker build
         run: |
-          cd solutions/exercise-5
+          cd solutions/exercise-05
           docker build -t my-python-app -f Dockerfile.6 .
           docker run -d -p 9091:9091 my-python-app
       - name: Wait for server to start and be ready
@@ -71,7 +71,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Test docker build
         run: |
-          cd exercise-6
+          cd exercise-06
           docker build -t ex6-1 1-caching/
           docker build -t ex6-2:v1 -f 2-multi-stage-builds-cpp/Dockerfile.1 2-multi-stage-builds-cpp
           docker build -t ex6-2:v2 -f 2-multi-stage-builds-cpp/Dockerfile.2 2-multi-stage-builds-cpp
@@ -83,7 +83,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Test docker build
         run: |
-          cd exercise-7
+          cd exercise-07
           docker build -t ex7 project/
 
   Test-exercise-8:
@@ -92,7 +92,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Test docker build
         run: |
-          cd exercise-8
+          cd exercise-08
           docker compose up -d --wait
           docker build -t my-alpine-cat .
           docker image tag my-alpine-cat localhost/my-alpine-cat:v1
@@ -106,8 +106,8 @@ jobs:
       - uses: actions/checkout@v3
       - name: Test docker build
         run: |
-          docker build -t nano-app -f solutions/exercise-9/my-nano-app/Dockerfile exercise-9/my-nano-app
-          docker build -t node-app -f solutions/exercise-9/my-node-app/Dockerfile exercise-9/my-node-app
+          docker build -t nano-app -f solutions/exercise-09/my-nano-app/Dockerfile exercise-09/my-nano-app
+          docker build -t node-app -f solutions/exercise-09/my-node-app/Dockerfile exercise-09/my-node-app
 
   Test-exercise-11:
     runs-on: ubuntu-latest

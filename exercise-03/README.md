@@ -44,7 +44,7 @@ As an example let's start a container running [NGINX](https://www.nginx.com/) th
 Running an `nginx` server is useful, but ideally you want to serve your own HTML file. One way to do this would be to use a bind volume as shown earlier:
 
 ```bash
-cd ./exercise-3
+cd ./exercise-03
 docker run --rm -d -p 8888:80 -v ${PWD}/index.html:/usr/share/nginx/html/index.html nginx
 ```
 > Remember under Windows DOS you need to use `%cd%` instead of `${PWD}`
@@ -92,7 +92,7 @@ As an example, let's see use a `postgres` container.
 In other cases you can also mount files to modify the configuration. In the following example we use a configuration file to modify the default port of NGINX. In this particular case this configuration file is also referring to an environment variable we are passing through the `docker run` command:
 
 ```bash
-cd ./exercise-3
+cd ./exercise-03
 docker run --rm -p 8888:8080 -e NGINX_PORT=8080 -v ${PWD}/index.html:/usr/share/nginx/html/index.html -v ${PWD}/conf:/etc/nginx/templates nginx
 ```
 
@@ -102,7 +102,7 @@ As you can see the `docker run` command is getting quite verbose. In the next mo
 
 ### Understand the working directory
 
-- From inside the folder `exercise-3`, run the next command and see it fail:
+- From inside the folder `exercise-03`, run the next command and see it fail:
   ```bash
   docker run -v ${PWD}:/home/codium python:alpine python hello.py
   ```

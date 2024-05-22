@@ -12,7 +12,7 @@ The purpose is to run an Angular application, with hot reload, so it shows in th
 
 > If you are using Windows, the recommended approach would be to install a WSL2 distribution (like Ubuntu), and do the exercise from inside the Linux terminal. This can be opened using Microsoft+R and typing `wsl`.
 
-Go to the `exercise-7/project` folder and create a new `docker-compose.yml` file. Add a service called `app` with the following details: 
+Go to the `exercise-07/project` folder and create a new `docker-compose.yml` file. Add a service called `app` with the following details: 
 - builds the stage `base` of the `Dockerfile` in the root
 - overrides the command to be `[ 'npm', 'start', '--', '--host=0.0.0.0', '--disable-host-check']`
 - exposes the port 4200
@@ -55,7 +55,7 @@ Alternatively you can also see the tests in the browser by opening [http://local
 If you are using Visual Studio Code, you can benefit from their support of Docker containers, and simplify the set up significantly.
 
 1. Ensure the *Remote - Containers* (`ms-vscode-remote.remote-containers`) extension is installed in VS Code.
-1. Open the `exercise-7/project` in VS Code.
+1. Open the `exercise-07/project` in VS Code.
 1. In left corner of the status bar of VS Code there should be a green area, click there, and in the menu select **Add Development Container Configuration Files...**
 1. Select **From a predefined container configuration definition...**
 1. Select **Node.js**

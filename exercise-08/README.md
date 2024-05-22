@@ -6,12 +6,12 @@ Here you will practice how to publish your own images in order to share them wit
 
 In this exercise we are going to publish our own image into a Registry running in our local machine (this way you don't need to create any account externally).
 
-1. Start a Docker container registry in your local machine (you need to be under `/exercise-8`, we have prepared a docker-compose file with the needed services for that)
+1. Start a Docker container registry in your local machine (you need to be under `/exercise-08`, we have prepared a docker-compose file with the needed services for that)
    ```bash
    docker compose up -d
    ```
 1. Access the Registry UI in [http://localhost:80](http://localhost:80), using `registry` as username and `ui` as password. You will see that there are no images.
-1. Build your own image from the Dockerfile under `/exercise-8`:
+1. Build your own image from the Dockerfile under `/exercise-08`:
    ```bash
    docker build -t my-alpine-cat .
    ```
