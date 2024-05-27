@@ -49,6 +49,7 @@ docker run --rm -d -p 8888:80 -v ${PWD}/index.html:/usr/share/nginx/html/index.h
 ```
 > Remember under Windows DOS you need to use `%cd%` instead of `${PWD}`
 1. Navigate to [http://localhost:8888](http://localhost:8888) and see the content of the `index.html` file.
+   2. If you get a permission error, try making the file readable to other users with `chmod o+r index.html`
 1. Modify the index.html file in the host
 1. Refresh the browser and observe the changes. 
 
