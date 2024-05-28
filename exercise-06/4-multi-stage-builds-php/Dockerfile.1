@@ -17,3 +17,5 @@ RUN php /root/composer.phar install  \
     --no-dev \
     --no-interaction \
     --no-scripts
+
+RUN chmod -R 0777 /var/www/html/
