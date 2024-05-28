@@ -1,4 +1,4 @@
-FROM node:14 as base
+FROM node:20 as base
 
 WORKDIR /app
 
@@ -6,9 +6,7 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY angular.json tsconfig* .browserslistrc ./
-
-COPY src/ src/
+COPY . .
 
 FROM base as test
 
@@ -19,10 +17,8 @@ RUN apt-get update \
 
 ENV CHROME_BIN=/usr/bin/google-chrome
 
-COPY karma.conf.js tsconfig.spec.json ./
-
 ENTRYPOINT [ "npm", "run", "test",  "--" ]
-CMD [ "--no-watch", "--no-progress", "--browsers=ChromeHeadlessNoSandbox", "--reporters=junit" ]
+CMD [ "--no-watch", "--no-progress", "--browsers=ChromeHeadlessNoSandbox"]
 
 FROM base as build
 
@@ -30,4 +26,4 @@ RUN npm run build
 
 FROM nginx:alpine as final
 
-COPY --from=build /app/dist/my-app /usr/share/nginx/html/
+COPY --from=build /app/dist/project/browser/ /usr/share/nginx/html/
