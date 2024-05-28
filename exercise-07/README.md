@@ -56,17 +56,19 @@ If you are using Visual Studio Code, you can benefit from their support of Docke
 
 1. Ensure the *Remote - Containers* (`ms-vscode-remote.remote-containers`) extension is installed in VS Code.
 1. Open the `exercise-07/project` in VS Code.
-1. In left corner of the status bar of VS Code there should be a green area, click there, and in the menu select **Add Development Container Configuration Files...**
+1. In left corner of the status bar of VS Code there should be a blue squared area, click there, and in the menu select **Add Dev Container Configuration Files...**
+1. Select **Add configuration to workspace** 
 1. Select **From a predefined container configuration definition...**
-1. Select **Node.js**
-1. Select version **14**
+1. Select **Node.js & Typescript** (if asked to trust the autor say yes)
+1. Select version **20-bookworm**
+1. Skip the selection of additional features to install, just press the blue OK button 
 1. Uncomment the *forwardPorts* section and add 4200 to the array.
 1. Save the file.
-1. From the green area in the status bar, click and select **Reopen in container**
+1. From the blue area in the status bar, click and select **Reopen in container**
 
 1. Open a terminal `Ctrl+J`
 1. Install dependencies executing `sudo npm install`
-1. Start the application `sudo npm start`
+1. Start the application `sudo npm start -- --host=0.0.0.0`
 1. Open a browser to show [http://localhost:4200](http://localhost:4200) (actually VS Code will prompt you to do so, after the application is compiled)
 
 ### Running tests
