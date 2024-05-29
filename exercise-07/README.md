@@ -23,7 +23,7 @@ Go to the `exercise-07/project` folder and create a new `docker-compose.yml` fil
 
 Once the file is ready bring it up by running `docker compose up`. After the compilation is finished, open the browser to show [http://localhost:4200](http://localhost:4200). You should see the Angular application.
 
-If you modify the title of the application in the `src/app.component.ts` file you should see it refresh in the browser straight away. 
+If you modify the title of the application in the `src/app/app.component.html` file you should see it refresh in the browser straight away. 
 > If your files are in a non-Linux partition (i.e. Windows or Mac) you will need to add an extra option to the start command: `[ 'npm', 'start', '--', '--host=0.0.0.0', '--disable-host-check', '--poll', '2000']`, so it uses polling for file changes.
 
 Bring the stack down pressing `Ctrl+C` in the terminal where you started it up.
