@@ -18,12 +18,12 @@ In this exercise you will use the `docker scout` functionality to get a report o
 
 1. Since the `Dockerfile` accepts a build argument `TAG` to change the image tag, execute the previous commands with a different image and notice the difference in vulnerabilities:
     ```bash
-    docker build -t flask-app:v2 --build-arg TAG=3.7.11-slim-buster .
+    docker build -t flask-app:v2 --build-arg TAG=3.12.3-slim-bullseye .
     docker scout quickview flask-app:v2
     ```
 By using a smaller image the number of issues has been massively reduced. Try using another image `3.7-alpine3.14` and notice how the vulnerabilities are reduced even further. Why did `docker scout` not recommend this tag?
   ```bash
-  docker build -t flask-app:v3 --build-arg TAG=3.7-alpine3.14 .
+  docker build -t flask-app:v3 --build-arg TAG=3.12.3-alpine3.19 .
   docker scout quickview flask-app:v3
   ```
 
@@ -36,7 +36,7 @@ docker images flask-app
 
 In this exercise you will modify the `Dockerfile` to ensure it runs as a non-privileged user. 
 
-> NOTE: Use the alpine base image, i.e. `--build-arg TAG=3.7-alpine3.14` when building the image.
+> NOTE: Use the alpine base image, i.e. `--build-arg TAG=3.12.3-alpine3.19` when building the image.
 
 Hints
 - When using `alpine` a new user and group is created as follows:
@@ -49,7 +49,7 @@ Hints
 
 
 ```bash
-  docker build -t flask-app:user --build-arg TAG=3.7-alpine3.14 .
+  docker build -t flask-app:user --build-arg TAG=3.12.3-alpine3.19 .
   docker run --rm -d -P --name flask_user flask-app:user
 ```
 

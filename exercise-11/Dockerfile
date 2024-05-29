@@ -1,4 +1,4 @@
-ARG TAG=3.7
+ARG TAG=3.12.3
 
 FROM python:${TAG}
 
