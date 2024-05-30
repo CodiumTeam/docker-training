@@ -39,7 +39,7 @@ In this exercise you will modify the `Dockerfile` to ensure it runs as a non-pri
 > NOTE: Use the alpine base image, i.e. `--build-arg TAG=3.12.3-alpine3.19` when building the image.
 
 Hints
-- When using `alpine` a new user and group is created as follows:
+- When using `alpine` a new user and group can be created as follows:
   ```bash
     addgroup -g 5000 newuser
     adduser -G newuser -S -u 5000 -s /bin/sh newuser
