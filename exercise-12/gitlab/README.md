@@ -14,6 +14,15 @@ You can either use a gitlab cloud service or try the self-hosted option.
 
 For self-hosted just run `./start-gitlab.sh` and follow instructions on screen.
 
+Access to gitlab in http://localhost:8929/
+
+
+    | Field    | Data           |
+    |----------|----------------|
+    | Username | root           |
+    | Password | supersecret    |
+
+
 Skip to "Create New repository on Gitlab" 
 
 #### Register into gitlab cloud
