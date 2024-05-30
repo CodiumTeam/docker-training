@@ -3,6 +3,8 @@ volumes:
   gitlab-logs: ~
   gitlab-data: ~
   runner-conf: ~
+  registry_data: ~
+
 
 services:
   web:
@@ -38,3 +40,35 @@ services:
       - ./runner-conf:/etc/gitlab-runner
       - /var/run/docker.sock:/var/run/docker.sock
     restart: always
+
+  registry-backend:
+    image: registry:2
+    volumes:
+      - registry_data:/var/lib/registry
+      - ./registry-config:/etc/docker/registry
+    healthcheck:
+        test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://127.0.0.1:3456/debug/health"]
+        interval: 10s
+        timeout: 1s
+        retries: 3
+
+  registry:
+    image: joxit/docker-registry-ui:main
+    ports:
+      - 80:80
+    networks:
+      default:
+        aliases:
+          - registry.local
+    environment:
+      - SINGLE_REGISTRY=true
+      - NGINX_PROXY_PASS_URL=http://registry-backend:5000
+      - REGISTRY_TITLE=Local
+      - DELETE_IMAGES=true
+    depends_on:
+      - registry-backend
+    healthcheck:
+        test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:80"]
+        interval: 10s
+        timeout: 1s
+        retries: 3
