@@ -51,9 +51,9 @@ docker pull node:14-alpine
 # Exercise 10
 
 # Exercise 11
-docker pull python:3.7
-docker pull python:3.7.11-slim-buster
-docker pull python:3.7-alpine3.14
+docker pull python:3.12.3
+docker pull python:3.12.3-slim-bullseye
+docker pull python:3.12.3-alpine3.19
 
 # Exercise 12
 docker pull nginx
@@ -67,3 +67,6 @@ docker pull jenkins/jenkins:2.289.2-lts-jdk11
 docker pull registry:2
 docker pull joxit/docker-registry-ui:main
 docker pull gogs/gogs
+# 12 with Gitlab
+docker pull gitlab/gitlab-ee:16.10.4-ee.0
+docker pull gitlab/gitlab-runner:ubuntu-v16.10.0
