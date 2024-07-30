@@ -34,7 +34,7 @@ jobs:
             sleep 1
           done
       - name: Check serves custom index.html file
-        run: curl --silent http://localhost:8888 | grep --silent "My First Heading"
+        run: curl --silent http://127.0.0.1:8888 | grep --silent "My First Heading"
 
   Test-exercise-4:
     runs-on: ubuntu-latest
@@ -63,7 +63,7 @@ jobs:
         # server is actually ready to reply with the expected response
         run: sleep 3
       - name: Check server response
-        run: curl --silent http://localhost:9091 | grep --silent "Hello from your brand new container"
+        run: curl --silent http://127.0.0.1:9091 | grep --silent "Hello from your brand new container"
 
   Test-exercise-6:
     runs-on: ubuntu-latest
@@ -141,7 +141,7 @@ jobs:
           cd exercise-12/1-python
           docker compose up -d
           sleep 4
-          curl --silent http://localhost:8000 | grep --silent "Hello from the MongoDB client"
+          curl --silent http://127.0.0.1:8000 | grep --silent "Hello from the MongoDB client"
           docker compose down
 
           cd ../2-angular

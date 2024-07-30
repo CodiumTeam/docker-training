@@ -29,7 +29,7 @@ services:
       - 8080:8080
       - 50000:50000
     healthcheck:
-        test: ["CMD-SHELL", "curl -si http://localhost:8080"]
+        test: ["CMD-SHELL", "curl -si http://127.0.0.1:8080"]
         interval: 10s
         timeout: 1s
         retries: 3
@@ -61,7 +61,7 @@ services:
     depends_on: 
       - registry-backend
     healthcheck:
-        test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:80"]
+        test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://127.0.0.1:80"]
         interval: 10s
         timeout: 1s
         retries: 3
@@ -75,7 +75,7 @@ services:
       - ./gogs/app.ini:/data/gogs/conf/app.ini
       - ./gogs/gogs.db:/data/gogs/data/gogs.db
     healthcheck:
-        test: ["CMD-SHELL", "curl -si http://localhost:3000"]
+        test: ["CMD-SHELL", "curl -si http://127.0.0.1:3000"]
         interval: 10s
         timeout: 1s
         retries: 3

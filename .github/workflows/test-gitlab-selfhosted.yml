@@ -43,7 +43,7 @@ jobs:
           git init .
           git add .
           git commit -m "first commit"
-          git remote add origin ssh://git@localhost:2424/root/exercise-12.git
+          git remote add origin ssh://git@127.0.0.1:2424/root/exercise-12.git
           git push -u origin master
           
           wait_for_pipeline_job_created

@@ -27,7 +27,7 @@ jobs:
       - name: Create Gogs project
         run: |                             
           GOGS_API_TOKEN="31712847ca9d1a1db67a713d256b8700991e4592"
-          curl -s -X POST http://localhost:3000/api/v1/admin/users/gogs/repos \
+          curl -s -X POST http://127.0.0.1:3000/api/v1/admin/users/gogs/repos \
             -H "Authorization: token $GOGS_API_TOKEN" \
             -H 'Content-Type: application/json' \
             -d '{"name": "flask-app", "private": false}'
@@ -38,7 +38,7 @@ jobs:
           git init .
           git add .
           git commit -m "first commit"
-          git remote add origin http://gogs:gogs1234@localhost:3000/gogs/flask-app.git
+          git remote add origin http://gogs:gogs1234@127.0.0.1:3000/gogs/flask-app.git
           git push -u origin master
 
       - name: Create Jenkins pipeline
@@ -64,7 +64,7 @@ jobs:
       - name: Create Gogs webhook
         run: |
           GOGS_API_TOKEN="31712847ca9d1a1db67a713d256b8700991e4592"
-          curl -s -X POST http://localhost:3000/api/v1/repos/gogs/flask-app/hooks \
+          curl -s -X POST http://127.0.0.1:3000/api/v1/repos/gogs/flask-app/hooks \
             -H "Authorization: token $GOGS_API_TOKEN" \
             -H 'Content-Type: application/json' \
             -d '{"type": "gogs", "active": true, "events": ["push"], "config": {"url":"http://executor:8080/gogs-webhook/?job=flask-app", "content_type":"json"}}'          
