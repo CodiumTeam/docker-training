@@ -17,7 +17,7 @@ jobs:
       - name: Start jenkins stack
         run: |
           cd ${GITHUB_WORKSPACE}/exercise-12/jenkins/jenkins-runner
-          docker compose up -d --wait
+          docker compose up -d --wait || (docker compose logs && exit 1)
 
       - name: Setup git
         run: |
