@@ -32,7 +32,7 @@ pipeline {
                             docker build -t my-angular-app:test-latest --target test .
                             docker run --rm -v ${PWD}/karma-tests:/app/karma-tests my-angular-app:test-latest
                         '''
-                        junit 'karma-tests/results.xml'
+                        junit 'test-results.xml'
                     }
                 }
             }

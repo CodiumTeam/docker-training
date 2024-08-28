@@ -146,4 +146,5 @@ jobs:
 
           cd ../2-angular
           docker build -t my-angular-app:test-latest --target test .
-          docker run -d -v ${PWD}/karma-tests:/app/karma-tests my-angular-app:test-latest
+          docker run -v ${PWD}:/app my-angular-app:test-latest
+          test -f test-results.xml

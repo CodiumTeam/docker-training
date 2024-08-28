@@ -12,6 +12,6 @@ a_test:
   artifacts:
     when: always
     paths:
-      - karma-tests/results.xml
+      - test-results.xml
     reports:
-      junit: karma-tests/results.xml
+      junit: test-results.xml

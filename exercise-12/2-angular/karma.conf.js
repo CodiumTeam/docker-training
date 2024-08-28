@@ -35,14 +35,9 @@ module.exports = function (config) {
     },
     reporters: ['progress', 'kjhtml', 'junit'],
     junitReporter: {
-      outputDir: 'karma-tests',
-      outputFile: 'results.xml',
+      outputFile: 'test-results.xml',
       useBrowserName: false,
     },
-    port: 9876,
-    colors: true,
-    logLevel: config.LOG_INFO,
-    autoWatch: true,
     browsers: ['Chrome','ChromeHeadlessNoSandbox'],
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
@@ -50,7 +45,6 @@ module.exports = function (config) {
         flags: ['--no-sandbox']
       }
     },
-    singleRun: false,
     restartOnFileChange: true
   });
 };

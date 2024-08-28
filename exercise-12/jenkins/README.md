@@ -195,7 +195,7 @@ Since the tests create a `junit` format report, you could expose it in the Jenki
 ```groovy
     junit 'karma-tests/results.xml'
 ```
-Important: this last step it is not a sh command, don't write: `sh 'junit karma-tests/results.xml'`, just `junit 'karma-tests/results.xml'`.
+Important: this last step it is not a sh command, don't write: `sh 'junit test-results.xml'`, just `junit 'test-results.xml'`.
 
 If you commit and push again, you will notice that in the *Blue Ocean* report in the Test tab, you can see the test results.
 
